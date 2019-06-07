@@ -1,0 +1,851 @@
+.goldcontainer {
+  overflow: scroll;
+}
+
+/* 取 */
+.send {
+  margin-top: 10rpx;
+  margin-left: 5rpx;
+  height: 240rpx;
+  display: flex;
+
+  font-size: 30rpx;
+  font-weight: 100;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5;
+}
+
+.send .left {
+  width: 10rpx;
+  height: 100%;
+  background-color:#ED666C;
+}
+
+.send .right {
+  flex: 1;
+  margin-left: 10rpx;
+  height: 240rpx;
+  display: flex;
+  flex-direction: column
+}
+
+.send .right .addrtypecontainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+} 
+
+.send .right .addrtypecontainer .addrtypecontainerchild {
+  width: 100%;
+  height: 70rpx;
+  display: flex;
+}
+
+.send .right .addrtypecontainer .slidingcontainer {
+  flex: 10rpx;
+  width: 100%;
+} 
+
+
+.send .right .addrtypecontainer .addrtypecontainerchild .item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.send .right .addrtypecontainer .addrtypecontainerchild .item .content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  height: 85%;
+  color: #07233F;
+  font-size: 30rpx;
+}
+
+.send .right .addrtypecontainer .addrtypecontainerchild .item .on {
+  font-size: 35rpx;
+}
+
+
+.send .right .addrtypecontainer .slidingcontainer .sliding {
+  background-color: #ED666C;
+  width: 15rpx;
+  height: 15rpx;
+  border-radius: 30%;
+}
+
+.sendaddrinfo_hotel {
+  transform: translate(112rpx, 0);
+  -webkit-transform: translate(112rpx, 0);
+  transition-duration:0.4s
+}
+
+.sendaddrinfo_residence {
+  transform: translate(357rpx, 0);
+  -webkit-transform: translate(357rpx, 0);
+  transition-duration:0.4s
+}
+
+.sendaddrinfo_airport {
+  transform: translate(602rpx, 0);
+  -webkit-transform: translate(602rpx, 0);
+  transition-duration:0.4s
+}
+
+.verticalleft {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  height: 50%;
+  border-left: 1rpx solid #E8E8E7;
+  padding-left: 10rpx;
+}
+
+
+
+.send .right .addrdetailcontainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.send .right .addrdetailcontainer .addrcontainer {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.send .right .addrdetailcontainer .addr {
+  width: 98%;
+}
+
+.send .right .addrdetailcontainer .doornumcontainer {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+ 
+
+.send .timecontainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+}
+
+
+/* 送 */
+.take {
+  margin-top: 25rpx;
+  margin-left: 5rpx;
+  height: 240rpx;
+  display: flex;
+
+  font-size: 30rpx;
+  font-weight: 100;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+}
+
+.take .left {
+  width: 10rpx;
+  height: 100%;
+  background-color:#005B66;
+}
+
+.take .right {
+  flex: 1;
+  margin-left: 10rpx;
+  height: 240rpx;
+  display: flex;
+  flex-direction: column
+} 
+
+.take .right .addrtypecontainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+} 
+
+.take .right .addrtypecontainer .addrtypecontainerchild {
+  width: 100%;
+  height: 70rpx;
+  display: flex;
+}
+
+.take .right .addrtypecontainer .slidingcontainer .sliding {
+  background-color: #005B66;
+  width: 15rpx;
+  height: 15rpx;
+  border-radius: 30%;
+}
+
+.takeaddrinfo_hotel {
+  transform: translate(112rpx, 0);
+  -webkit-transform: translate(112rpx, 0);
+  transition-duration:0.4s
+}
+
+.takeaddrinfo_residence {
+  transform: translate(357rpx, 0);
+  -webkit-transform: translate(357rpx, 0);
+  transition-duration:0.4s
+}
+
+.takeaddrinfo_airport {
+  transform: translate(602rpx, 0);
+  -webkit-transform: translate(602rpx, 0);
+  transition-duration:0.4s
+}
+
+.take .right .addrtypecontainer .addrtypecontainerchild .item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.take .right .addrtypecontainer .addrtypecontainerchild .item .content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  height: 85%;
+  color: #07233F;
+  
+  font-size: 30rpx;
+}
+
+.take .right .addrtypecontainer .addrtypecontainerchild .item .on {
+  font-size: 35rpx;
+}
+
+.take .right .addrdetailcontainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.take .right .timecontainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.take .right .addrdetailcontainer .addrcontainer {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.take .right .addrdetailcontainer .addr {
+  width: 98%;
+}
+
+.take .right .addrdetailcontainer .doornumcontainer {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.take input {
+  text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
+}
+
+ /* 是否加急 */
+.isurgent {
+  margin-top: 25rpx;
+  margin-left: 5rpx;
+  height: 80rpx;
+  display: flex;
+
+  font-size: 30rpx;
+  font-weight: 100;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+}
+
+.isurgent .left {
+  width: 10rpx;
+  height: 100%;
+  background-color:#1CDBB0;
+}
+
+.isurgent .right {
+  flex: 1;
+  margin-left: 10rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+} 
+
+.isurgent .right .lable {
+  margin-left: 10rpx;
+  width: 160rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.isurgent .right .no_urgent {
+  
+  width: 80rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #07233F;
+  color: #07233F;
+  box-sizing: border-box;
+}
+
+.isurgent .right .yes_urgent {
+  width: 80rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #07233F;
+  color: #07233F;
+  box-sizing: border-box;
+}
+
+.isurgent .right .on {
+  background-color: #07233F;
+  color: #FCFBF8;
+}
+
+
+/* 客户信息 */
+.cusinfo {
+  margin-top: 25rpx;
+  margin-left: 5rpx;
+  height: 240rpx;
+  display: flex;
+
+  font-size: 30rpx;
+  font-weight: 100;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+}
+
+.cusinfo .left {
+  width: 10rpx;
+  height: 100%;
+  background-color:#75B591 
+}
+
+.cusinfo .right {
+  flex: 1;
+  margin-left: 10rpx;
+  height: 240rpx;
+  display: flex;
+  flex-direction: column
+} 
+
+.cusinfo .right .item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
+
+/* 保价 */
+.insured {
+  margin-top: 25rpx;
+  margin-left: 5rpx;
+  height: 80rpx;
+  display: flex;
+
+  font-size: 30rpx;
+  font-weight: 100;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+}
+
+.insured .left {
+  width: 10rpx;
+  height: 100%;
+  background-color:#9F68AC;
+}
+
+.insured .right {
+  flex: 1;
+  margin-left: 10rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+} 
+
+.insured .right .no_insured {
+  width: 100rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #9F68AC;
+  color: #9F68AC;
+  box-sizing: border-box;
+}
+
+.insured .right .yes_insured {
+  width: 80rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #9F68AC;
+  color: #9F68AC;
+  box-sizing: border-box;
+}
+
+.insured .right .cancle_insured {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80rpx;
+  height: 60rpx;
+  color: #FCFBF8;
+  background-color: #9F68AC;
+}
+
+.insured .right .on {
+  background-color: #9F68AC;
+  color: #FCFBF8;
+}
+
+.insuredbody {
+  width: 100%;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+}
+
+.lugvalue {
+  width: 50%;
+}
+
+.lugvalue input {
+  width: 100%;
+}
+
+.premvalue {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ED666C;
+  font-weight: bold;
+}
+
+.calcubut {
+  width: 30%;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #9F68AC;
+  box-sizing: border-box;
+  background-color: #9F68AC;
+  color: #FCFBF8;
+  font-size: 30rpx;
+  font-weight: 100;
+}
+
+/* 行李数 */
+.lugnum {
+  margin-top: 25rpx;
+  margin-left: 5rpx;
+  height: 80rpx;
+  display: flex;
+
+  font-size: 30rpx;
+  font-weight: 100;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+}
+
+.lugnum .left {
+  width: 10rpx;
+  height: 100%;
+  background-color:#EAB4BA;
+}
+
+.lugnum .right {
+  flex: 1;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+} 
+
+.lugnum .right .bodyleft {
+  margin-left: 10rpx;
+  width: 70%;
+  display: flex;
+  align-items: center;
+}
+
+.lugnum .right .bodyright {
+  width: 30%;
+}
+
+.lugnum .right .reduce {
+  width: 50rpx;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #EAB4BA;
+  color: #EAB4BA;
+  box-sizing: border-box;
+}
+
+.lugnum .right .lugnum_ {
+  width: 50rpx;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #EAB4BA;
+}
+
+.lugnum .right .add {
+  width: 50rpx;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #EAB4BA;
+  color: #EAB4BA;
+  box-sizing: border-box;
+}
+
+.lugnum .right .qrbody {
+  flex: 1;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+}
+
+.lugnum .right .qrbody .space {
+  width: 10rpx;
+  height: 50rpx;
+}
+
+.lugnum .right .qrbody .scanqrbut {
+  flex: 1;
+  height: 50rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FCFBF8;
+  background-color: #EAB4BA;
+}
+
+
+
+.lugnum .right .qrbody .viewbrbut {
+  flex: 1;
+  height: 50rpx;
+  position: relative;
+}
+
+.lugnum .right .qrbody .viewbrbut .lable{ 
+  position: absolute;
+  bottom: 0rpx;
+  left: 0;
+  width: 100%;
+  height: 50rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FCFBF8;
+  background-color: #EAB4BA;
+  
+}
+
+.lugnum .right .qrbody .viewbrbut .nosee {
+  z-index: -200;
+  visibility: hidden;
+}
+
+.lugnum .right .qrbody .viewbrbut .see {
+  z-index: 200;
+  transition-duration: 1s;
+}
+
+.lugnum .right .qrbody .viewbrbut .qrlist {
+  position: absolute;
+  bottom: 70rpx;
+  left: 0;
+  width: 100%;
+  border: 1rpx solid #EAB4BA;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.lugnum .right .qrbody .viewbrbut .qrlist .list {
+  width: 100%;
+  font-size: 25rpx;
+  display: flex;
+  align-items: center;
+  background-color: #EAB4BA;
+}
+
+.lugnum .right .qrbody .viewbrbut .qrlist .list .br {
+  flex: 1;
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.lugnum .right .qrbody .viewbrbut .qrlist .list .deletebr {
+    width: 30rpx;
+    height: 80rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1rpx solid #FCFBF8;
+    box-sizing: border-box;
+    color: #FCFBF8;
+    font-weight: bold;
+}
+
+.lugnum .right .qrbody .viewbrbut .nonsome {
+  width: 100%;
+  height: 50rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FCFBF8;
+  background-color: #EAB4BA;
+}
+
+.lugnum .right .qrbody .viewbrbut .cancleviewbr {
+  position: absolute;
+  bottom: 0rpx;
+  width: 100%;
+  height: 50rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #EAB4BA;
+  color: #FCFBF8;
+}
+
+
+/* .lugnum .right .qrbody .viewbr {
+  flex: 1;
+  display: flex;
+  height: 50rpx;
+  overflow-x: scroll;
+  width: 100rpx;
+  position: relative;
+}
+
+.br_this {
+  display: flex;
+}
+
+.br_this .deletebr {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+} */
+
+/* 备注 */
+.remark {
+  margin-top: 25rpx;
+  margin-left: 5rpx;
+  height: 80rpx;
+  display: flex;
+
+  font-size: 30rpx;
+  font-weight: 100;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+}
+
+.remark .left {
+  width: 10rpx;
+  height: 100%;
+  background-color:#FF9D6C;
+}
+
+.remark .right {
+  flex: 1;
+  margin-left: 10rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+} 
+
+.remark .right .remark_ {
+  width: 100%;
+}
+
+/* 行李照片 */
+.lugphoto {
+  margin-top: 25rpx;
+  margin-left: 5rpx;
+  height: 100rpx;
+  display: flex;
+
+  font-size: 30rpx;
+  font-weight: 100;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+}
+
+.lugphoto .left {
+  width: 10rpx;
+  height: 100%;
+  background-color:#07233F;
+}
+
+.lugphoto .right {
+  flex: 1;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+} 
+
+.imageslist {
+  margin-left: 10rpx;
+  display: flex;
+
+}
+
+.lugphonelist {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lugphonelist .item {
+  width: 100%;
+  height: 100%;
+}
+
+.photocontainer {
+  width: 80rpx;
+  height: 80rpx;
+  margin-right: 20rpx;
+  position: relative;
+}
+
+.floatcancal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 25rpx;
+  height: 25rpx;
+  border-radius: 50%;
+  background-color: #07233F;
+  color: #FCFBF8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20rpx;
+  font-weight: bold;
+}
+
+.lugphoneaddbody {
+  width: 80rpx;
+  height: 80rpx;
+  border: 1rpx solid #07233F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lugphoneadd {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.lugphoto .right .remark_ {
+  width: 100%;
+}
+
+.pay_bottom {
+  height: 120rpx;
+  position: fixed;
+  bottom: 0;
+  z-index: 996;
+  display: flex;
+  box-shadow: 1px -2px 4px #E5E5E5;
+}
+
+.pay_bottom .pay_temp {
+  width: 25rpx;
+  height: 100%;
+}
+
+.pay_bottom .paybody {
+  flex: 1;
+  display: flex;
+}
+
+
+.pay_bottom .totalmoney {
+  display: flex;
+  align-items: center;
+  color: #EE656C;
+  font-size: 35rpx;
+  font-weight: bold;
+  width: 20%;
+}
+
+.pay_bottom .pricedetailbut {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.totalmoneyimg {
+  width: 50rpx;
+  height: 50rpx;
+  margin-left: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pricedown {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.pay_bottom .sure_ceaterorder {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FCFBF8;
+  background-color: #ED666C;
+  font-weight: bold;
+}
+
+
+
+
+@import "../pricedetail/pricedetail.wxss";
+@import "../addrselect/addrselect.wxss";

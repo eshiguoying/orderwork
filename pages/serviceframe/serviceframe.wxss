@@ -1,0 +1,139 @@
+
+
+.nav_head {
+  width: 100%;
+}
+
+.nav{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5;
+}
+
+.nav_imagecontainer {
+  display: flex;
+  align-items: center;
+  width: 140rpx;
+  height: 80%;
+}
+
+.nav .back{
+  width: 20px;
+  height: 20px;
+  margin-left: 20rpx;
+}
+
+.nav-title{
+  margin-left: 20rpx;
+  font-size:30rpx;
+  font-weight: 100;
+}
+
+.contentbody {
+  display: flex;
+  flex-direction: column;
+}
+
+.listbar {
+  width: 200rpx;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5;
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+}
+
+.listbar .listbar_second_level {
+  margin-top: 10px;
+  width: 100rpx;
+  height: 350rpx;
+  display: flex;
+}
+
+.listbar .listbar_second_level .scroll_signs {
+  width: 10rpx;
+  height: 350rpx;
+}
+
+.action_block {
+  width: 10rpx;
+  height: 35rpx;
+  background-color: #EE656C;
+}
+
+.listbar .listbar_second_level .signs {
+  height: 350rpx;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10rpx;
+  margin-bottom: 40rpx;
+}
+
+.listbar .listbar_second_level .signs .item {
+  flex: 1;
+  font-size: 30rpx;
+  font-weight: 100;
+  display: flex;
+  align-items: center;
+}
+
+
+.c-state1 {
+  transform: translate(5rpx, 0%);
+  -webkit-transform: translate(5rpx, 0%);
+  transition-duration:0.4s
+}
+
+.c-state2{
+  transform: translate(-206rpx, 0%);
+  -webkit-transform: translate(-206rpx, 0%);
+  transition-duration: 0.4s
+}
+
+.shadebar {
+  width: 100%;
+  background-color: rgba(8, 8, 8,0);
+  position: fixed;
+  bottom: 0;
+  z-index: 998;
+}
+
+.goldservice {
+  transform: translate(0%, 15rpx);
+  -webkit-transform: translate(0%, 15rpx);
+  transition-duration:0.2s
+}
+
+.specialservice {
+  transform: translate(0%, 85rpx);
+  -webkit-transform: translate(0%, 85rpx);
+  transition-duration:0.2s
+}
+
+.business {
+  transform: translate(0%, 155rpx);
+  -webkit-transform: translate(0%, 155rpx);
+  transition-duration:0.2s
+}
+
+.order {
+  transform: translate(0%, 225rpx);
+  -webkit-transform: translate(0%, 225rpx);
+  transition-duration:0.2s
+}
+
+.my {
+  transform: translate(0%, 295rpx);
+  -webkit-transform: translate(0%, 295rpx);
+  transition-duration:0.2s
+}
+
+
+
+
+@import "goldservice/goldservice.wxss";

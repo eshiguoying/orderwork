@@ -1,0 +1,27 @@
+<view class="pricedetailpage" 
+      style="width:{{windowW}}px;transform: translate(0%, {{ispricedetailpage? 0: 300}}px);transition-duration:0.2s">
+  <view class='head'>
+    <view class='close' bindtap='closepricedetailpage'>关闭</view>
+  </view>
+  <view class='body'>
+    <view class='listbody'>
+      <view class='item'>
+        <view class='classify'>行李价格</view>
+        <view class='pricedesc'>单件行李价格￥{{onelugpricevalue}} x {{lugnum}} 件</view>
+        <view class='pricevalue'>￥{{lugnum * onelugpricevalue}}</view>
+      </view>
+      <view class='item'>
+        <view class='classify'>保费</view>
+        <view class='pricedesc'>行李价值￥{{lugvalue}} x {{insured_scale}}(保费比例)</view>
+        <view class='pricevalue'>￥{{prem}}</view>
+      </view>
+      <view class='item'>
+        <view class='classify'>保管费</view>
+        <view class='pricedesc'>保管费￥{{15}} x 0天</view>
+        <view class='pricevalue'>￥0</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class='shadepricedetailpage' bindtap='closepricedetailpage'  style="height:{{windowH}}px;display:{{ispricedetailpage? '':'none'}}" ></view>

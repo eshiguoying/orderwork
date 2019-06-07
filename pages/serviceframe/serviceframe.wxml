@@ -1,0 +1,47 @@
+<view class='container' style='width:{{windowW}}px;height:{{navH + titlebarH +windowH}}px'>
+  <view class='nav_head' style='height:{{navH}}px;'></view>
+  <view class='nav bg-white' style='height: {{titlebarH}}px;'>
+    <view class='nav_imagecontainer' bindtap='navBack'>
+      <image src='../../images/list.png' mode='aspectFit' class='back' ></image>
+    </view>
+  </view>
+
+   <view class="listbar {{open? 'c-state1' : 'c-state2'}}" style='height:{{windowH}}px;'>
+    <view class='listbar_second_level'>
+      <view class='scroll_signs'>
+        <view class='action_block {{servicename}}'></view>
+      </view>
+     
+      <view class='signs'>
+        <view class="item" bindtap='servicetap' data-service='goldservice'>
+          <text class='item_text' >金牌</text>
+        </view>
+        <view class="item" bindtap='servicetap' data-service='specialservice'>
+          <text  class='item_text' >专车</text>
+        </view>
+        <view class="item"  bindtap='servicetap' data-service='business'>
+          <text  class='item_text' >企业</text>
+        </view>
+        <view class="item"  bindtap='servicetap' data-service='order'>
+          <text  class='item_text'>订单</text>
+        </view>
+        <view class="item"  bindtap='servicetap' data-service='my'>
+          <text  class='item_text'>我的</text>
+        </view>
+      </view> 
+    </view>
+  </view> 
+  
+  <view class='shadebar' bindtap='cancallistbar'  style="height:{{windowH}}px;display:{{open? '':'none'}}" ></view>
+
+   <view class='contentbody' style='width:{{windowW}}px;height:{{windowH}}px'>
+   <include src="goldservice/goldservice.wxml" />
+     <!-- <block wx:if="{{servicename == 'goldservice'}}"><include src="goldservice/goldservice.wxml" /></block>
+     <block wx:elif="{{servicename == 'specialservice'}}"><include src="specialservice/specialservice.wxml" /></block>
+     <block wx:elif="{{servicename == 'business'}}"><include src="business/business.wxml" /></block>
+     <block wx:elif="{{servicename == 'order'}}"><include src="order/order.wxml" /></block>
+     <block wx:elif="{{servicename == 'my'}}"><include src="my/my.wxml" /></block>
+      -->
+    
+  </view>
+</view>

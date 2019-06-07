@@ -1,0 +1,77 @@
+/* pages/serviceframe/pricedetail/pricedetail.wxss */
+.pricedetailpage {
+  height: 460rpx;
+  position: fixed;
+  bottom: 0;
+  z-index: 997;
+  background-color: #FCFBF8;
+  box-shadow: 1px -2px 4px #E5E5E5;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricedetailpage .head {
+  height: 80rpx;
+  border-bottom: 1rpx solid #EDECEB;
+  display: flex;
+  align-items: center;
+}
+
+.pricedetailpage .head .close {
+  position: fixed;
+  right: 0;
+  margin-right: 20rpx;
+  color: #1AAD19;
+}
+
+.shadepricedetailpage {
+  width: 100%;
+  background-color: rgba(8, 8, 8,0);
+  position: fixed;
+  bottom: 0;
+  z-index: 998;
+}
+
+.pricedetailpage .body{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  background-color: #F1F1F3;
+}
+
+.pricedetailpage .body .listbody {
+  width: 96%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricedetailpage .body .listbody .item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #E8E8E9
+}
+
+.pricedetailpage .body .listbody .item .classify {
+  font-size: 30rpx;
+  font-weight: 100;
+}
+
+.pricedetailpage .body .listbody .item .pricedesc {
+  position: fixed;
+  left: 0;
+  margin-left: 200rpx;
+  font-size: 30rpx;
+  font-weight: 100;
+  color: #BAB8B8;
+}
+
+.pricedetailpage .body .listbody .item .pricevalue {
+  position: fixed;
+  right: 0;
+  margin-right: 20rpx;
+  font-size: 30rpx;
+  font-weight: 400;
+  color: #ED666C;
+}

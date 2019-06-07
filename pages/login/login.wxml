@@ -1,0 +1,36 @@
+<view class="container" 
+      style='width:{{windowW}}px;height:{{navH + titlebarH + windowH}}px;'>
+      <view class='bodyleft' style='height:{{navH + titlebarH + windowH}}px;'>
+        <view class='itme_'>
+          <view class='onever'></view>
+        </view>
+        <view class='itme_'>
+          <view class='twover'></view>
+        </view>
+        <view class='itme_'>
+          <view class='threever'></view>
+        </view>
+      </view>
+      <view class='bodyright'>
+        <view class='item' style='margin-top:{{navH + titlebarH}}px'>
+          <input type="text" class="username " value='' placeholder='姓名...' bindinput="bindUserNameInput"/>
+        </view>
+        <view class='phone_container item'>
+          <view class='left'>
+            <input type="text" class="userphone" value='' placeholder='手机号...' bindinput="bindPhoneNumInput"/>
+          </view>
+          <view class="right sendSMS" bindtap='sendSMS'>
+            <view class='but'>{{sendMsg}}</view>
+          </view>
+        </view>
+        <view class='item'>
+          <input type="text" class="verify" value='' placeholder='验证码...' bindinput="bindVerifyCodeInput"/>
+        </view>
+        <view class='item'>
+          <input type="text" class="registerNum" value='' placeholder='注册码...' bindinput="bindRegisterNumInput"/>
+        </view>
+        <view class='item'>
+          <view class='registerbut' bindtap="registerBtn">注册</view>
+        </view>
+      </view>
+</view>

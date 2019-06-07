@@ -1,0 +1,115 @@
+.addrselect {
+  position: fixed;
+  bottom: 0;
+  z-index: 997;
+  background-color: #F1F1F3;
+}
+
+.seleaddrbar {
+  box-sizing: border-box;
+  height: 100rpx;
+  background-color: #FCFBF8;
+  box-shadow: 1px 1px 3px #E5E5E5;
+  display: flex;
+}
+
+.citysele {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30rpx;
+  font-weight: 100;
+}
+
+.selectaddr {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30rpx;
+  font-weight: 100;
+}
+
+.verticalline {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 1rpx solid #F5F3F3;
+  border-right: 1rpx solid #F5F3F3;
+}
+
+.addrinput {
+  width: 95%;
+  height: 100%;
+}
+
+.canclebutt {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 0;
+  font-size: 30rpx;
+  font-weight: 100;
+  color: #BAB8B8;
+}
+
+.addrbody {
+  overflow: scroll;
+}
+
+.addrdetailbody {
+  width: 100%;
+  height: 120rpx;
+}
+
+.addrdetailbody .temp {
+  width: 90%;
+  height: 120rpx;
+  margin-left: 5%;
+  border-bottom: 1rpx solid #E8E8E9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.addrdetailbody .temp .space {
+  font-size: 30rpx;
+  font-weight: 100;
+  background-color: #EE656C;
+  color: #FCFBF8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landmark {
+  width: 100%;
+  font-size: 30rpx;
+  font-weight: 100;
+  display: flex;
+  justify-items: center;
+  text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
+}
+
+.addrdetail_sele {
+  width: 100%;
+  font-size: 25rpx;
+  font-weight: 100;
+  color: #B5B5B5;
+  text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
+}
+
+.keywordcolor {
+  color: #EE656C;
+}

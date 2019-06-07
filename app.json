@@ -1,0 +1,19 @@
+{
+  "pages": [
+    "pages/serviceframe/serviceframe",
+    "pages/login/login",
+    "pages/serviceframe/addrselect/addrselect",
+    "pages/serviceframe/pricedetail/pricedetail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FCFBF8",
+    "navigationBarTextStyle": "black"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序!"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
+}
