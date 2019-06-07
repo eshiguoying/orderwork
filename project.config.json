@@ -15,7 +15,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.7.0",
 	"appid": "wxc11be37be8adb687",
-	"projectname": "counterorder",
+	"projectname": "orderwork",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},

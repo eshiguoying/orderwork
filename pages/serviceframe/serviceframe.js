@@ -192,12 +192,13 @@ Page({
         this_.setData({
           accountInfo: wx.getStorageSync('accountInfo')
         })
+
+        // 授权地理位置信息
+        this_.getCurrCity();
         // 寄件时间
         this_.sendDate();
         // 收件时间
         this_.taketime();
-        // 授权地理位置信息
-        this_.getCurrCity();
         // 保费计算比例
       }
     }, 10)
@@ -819,30 +820,60 @@ scancode() {
   wx.scanCode({
     scanType: ['pdf417', 'qrCode', 'datamatrix', 'barCode'],
     success(res) {
-      if (this_.data.lugbrprefix != res.result.substring(0,4)) {
-        wx.showModal({
-          content: '此码无效' + res.result,
-          confirmText: '确定',
-          confirmColor: '#EAB4BA',
-          showCancel: false
-        });
-        return;
-      } else {
+      // qr不能超过行李数
+      if (this_.data.lugbrlist.length == this_.data.lugnum) {
         wx.showToast({
-          title: '成功',
+          title: 'qr码已达上限',
           icon: 'none',
-          duration: 500
+          duration: 3000
+        })
+        return;
+      }
+
+      if (this_.data.lugbrprefix != res.result.substring(0,4)) {
+        wx.showToast({
+          title: '此码无效' + res.result,
+          icon: 'none',
+          duration: 3000
+        })
+        return;
+      } 
+
+      if (this_.data.lugbrlist.indexOf(res.result) != -1) {
+        wx.showToast({
+          title: 'qr码重复添加',
+          icon: 'none',
+          duration: 3000
         })
       }
-      // 扫描的内容
-      var lugbrlist = this_.data.lugbrlist;
-      lugbrlist.push(res.result);
-      this_.setData({
-        lugbrlist: lugbrlist,
-      });
+
+      // 检查qr码是否有效
+      this_.checkqrvalid(res.result, this_);
     }
   })
 },
+
+  // 检查qr码是否有效
+  checkqrvalid(qr,this_) {
+
+    request.HttpRequst('/v2/order/qrIsRepet', 'GET', { qrCode: qr }).then(function (res) {
+      if (res.isRepet) {
+        wx.showToast({
+          title: '此码已经使用过',
+          icon: 'none',
+          duration: 3000
+        })
+        return;
+      }
+
+      // 扫描的内容
+      var lugbrlist = this_.data.lugbrlist;
+      lugbrlist.push(qr);
+      this_.setData({
+        lugbrlist: lugbrlist,
+      });
+    })
+  },
 
   viewbrbut() {
     this.setData({
