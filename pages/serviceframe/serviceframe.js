@@ -21,7 +21,7 @@ Page({
     // 点击三条杠是否打开左侧弹出框
     open: false,
     // 默认登陆页面是 => 金牌配送
-    servicename: 'goldservice',
+    servicename: 'order',
 
     // 寄间类型滑块
     sliding: {
@@ -873,6 +873,12 @@ scancode() {
       this_.setData({
         lugbrlist: lugbrlist,
       });
+
+      wx.showToast({
+        title: 'qr添加成功',
+        icon: 'none',
+        duration: 2000
+      })
     })
   },
 

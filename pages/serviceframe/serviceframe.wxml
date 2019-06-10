@@ -13,6 +13,9 @@
       </view>
      
       <view class='signs'>
+        <view class="item"  bindtap='servicetap' data-service='order'>
+          <text  class='item_text'>订单</text>
+        </view>
         <view class="item" bindtap='servicetap' data-service='goldservice'>
           <text class='item_text' >金牌</text>
         </view>
@@ -20,11 +23,11 @@
           <text  class='item_text' >专车</text>
         </view>
         <view class="item"  bindtap='servicetap' data-service='business'>
-          <text  class='item_text' >企业</text>
+          <text  class='item_text' >管理</text>
         </view>
-        <view class="item"  bindtap='servicetap' data-service='order'>
-          <text  class='item_text'>订单</text>
-        </view>
+        <!-- <view class="item"  bindtap='servicetap' data-service='reportforms'>
+          <text  class='item_text' >报表</text>
+        </view> -->
         <view class="item"  bindtap='servicetap' data-service='my'>
           <text  class='item_text'>我的</text>
         </view>
