@@ -1,43 +1,43 @@
 <view class="addrselect" 
-      style="width:{{windowW}}px;height:{{windowH}}px;transform: translate(0%, {{selectaddrpage? 0: windowH}}px);transition-duration:0.3s">
-  <view class='seleaddrbar' style='width:{{windowW}}px;'>
-    <view class="citysele" catchtap='editcityselet' ><text>{{city_}}</text> ▾</view>
-    <view class="selectaddr" catchtap='editaddrselet' >
-      <view class='verticalline'>
-        <input type='text' 
-               class='addrinput' 
-               placeholder='你到哪儿' 
-               bindinput="getsuggest" 
-               value='{{addrinput_}}' 
-               disabled='{{isselect_addr}}'></input>
-      </view>
-    </view>
-    <view class='canclebutt' bindtap='cancleaddrselepage'>取消</view>
-  </view>
-  <view class='addrbody' style='width:{{windowW}}px;height:{{windowH - 50}}px;'>
-   <block wx:if="{{suggestion.length > 0}}">
-    <block wx:for="{{suggestion}}" wx:key="item" bindtap='seleoneaddr'>
-      <block wx:if="{{item.landmark != null && item.address != null}}">
-      <view class='addrdetailbody' 
-            data-landmark='{{item.landmark}}' 
-            data-address='{{item.address}}' 
-            data-location='{{item.location}}' catchtap='pitchonaddrone'>
-        <view class='temp'>
-          <view class='landmark'>{{item.landmark}}</view>
-          <view class='addrdetail_sele'>{{item.address}}</view>
+        style="width:{{windowW}}px;height:{{windowH}}px;transform: translate(0%, {{selectaddrpage? 0: windowH}}px);transition-duration:0.3s">
+    <view class='seleaddrbar' style='width:{{windowW}}px;'>
+      <view class="citysele" catchtap='editcityselet' ><text>{{city_}}</text> ▾</view>
+      <view class="selectaddr" catchtap='editaddrselet' >
+        <view class='verticalline'>
+          <input type='text' 
+                class='addrinput' 
+                placeholder='你到哪儿' 
+                bindinput="getsuggest" 
+                value='{{addrinput_}}' 
+                disabled='{{isselect_addr}}'></input>
         </view>
       </view>
-      </block>
-   </block>
-   </block>
-   <block  wx:else>
-    <view class='addrdetailbody'>
-        <view class='temp'>
-          <view class='space'>
-            暂无相关地址信息！
+      <view class='canclebutt' bindtap='cancleaddrselepage'>取消</view>
+    </view>
+    <view class='addrbody' style='width:{{windowW}}px;height:{{windowH - 50}}px;'>
+    <block wx:if="{{suggestion.length > 0}}">
+      <block wx:for="{{suggestion}}" wx:key="item" bindtap='seleoneaddr'>
+        <block wx:if="{{item.landmark != null && item.address != null}}">
+        <view class='addrdetailbody' 
+              data-landmark='{{item.landmark}}' 
+              data-address='{{item.address}}' 
+              data-location='{{item.location}}' catchtap='pitchonaddrone'>
+          <view class='temp'>
+            <view class='landmark'>{{item.landmark}}</view>
+            <view class='addrdetail_sele'>{{item.address}}</view>
           </view>
         </view>
+        </block>
+    </block>
+    </block>
+    <block  wx:else>
+      <view class='addrdetailbody'>
+          <view class='temp'>
+            <view class='space'>
+              暂无相关地址信息！
+            </view>
+          </view>
+      </view>
+    </block>
     </view>
-   </block>
   </view>
-</view>

@@ -2,6 +2,10 @@
   overflow: scroll;
 }
 
+.specialservicecontainer {
+  overflow: scroll;
+}
+
 /* 取 */
 .send {
   margin-top: 10rpx;
@@ -843,9 +847,3 @@
   background-color: #ED666C;
   font-weight: bold;
 }
-
-
-
-
-@import "../pricedetail/pricedetail.wxss";
-@import "../addrselect/addrselect.wxss";

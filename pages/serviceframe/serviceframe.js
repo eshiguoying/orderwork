@@ -2,7 +2,8 @@ const App = getApp();
 
 const request = require('../../request');
 const config = require('../../config');
-// 高德地图引用
+// const addrselect = require('addrselect/addrselect');
+// // 高德地图引用
 const amapFile = require('../../thirdparty/js/amap-wx.js');
 
 

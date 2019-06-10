@@ -133,7 +133,6 @@
   transition-duration:0.2s
 }
 
-
-
-
-@import "goldservice/goldservice.wxss";
+@import "service.wxss";
+@import "pricedetail/pricedetail.wxss";
+@import "addrselect/addrselect.wxss";

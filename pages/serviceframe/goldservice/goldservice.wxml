@@ -252,10 +252,6 @@
         </view>
   </view>
 
-
-  <include src="../pricedetail/pricedetail.wxml" />
-  <include src="../addrselect/addrselect.wxml" />
-
 </view>
 
 

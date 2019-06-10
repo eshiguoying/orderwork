@@ -1,9 +1,7 @@
 {
   "pages": [
     "pages/serviceframe/serviceframe",
-    "pages/login/login",
-    "pages/serviceframe/addrselect/addrselect",
-    "pages/serviceframe/pricedetail/pricedetail"
+    "pages/login/login"
   ],
   "window": {
     "backgroundTextStyle": "light",
