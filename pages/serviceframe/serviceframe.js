@@ -23,6 +23,10 @@ Page({
     // 默认登陆页面是 => 金牌配送
     servicename: 'order',
 
+    // 订单页面
+    selectedorderlist:[],
+    ispicthonlist: {},
+
     // 寄间类型滑块
     sliding: {
       'sendaddrinfo': 'sendaddrinfo_hotel',
@@ -917,14 +921,41 @@ scancode() {
     })
   },
 
-  // 加载信息价格
-  loadgoldsericeprice() {
+  // 
+  picthupone(e) {
+    console.info(e.currentTarget.dataset.selectid);
+    console.info(e.currentTarget.dataset.issele);
+    
+
+    if (this.data.ispicthonlist[e.currentTarget.dataset.selectid]) {
+      var selectedorderlist = this.data.selectedorderlist;
+      selectedorderlist.splice(e.currentTarget.dataset.selectid);
+      this.setData({
+        selectedorderlist: selectedorderlist,
+        ['ispicthonlist.' + e.currentTarget.dataset.selectid]: false,
+      });
+    } else {
+      var selectedorderlist = this.data.selectedorderlist;
+      selectedorderlist.push(e.currentTarget.dataset.selectid);
+      this.setData({
+        selectedorderlist: selectedorderlist,
+        ['ispicthonlist.' + e.currentTarget.dataset.selectid]: true,
+      });
+    }
+    
+  },
+
+  // // 加载信息价格
+  // loadgoldsericeprice() {
 
 
-    request.HttpRequst_c('/v2/counter/listByDistributor', 'POST', counterParams).then(function (res) {
+  //   request.HttpRequst_c('/v2/counter/listByDistributor', 'POST', counterParams).then(function (res) {
 
-    });
-  }
+  //   });
+  // }
+
+
+  
 })
 
 

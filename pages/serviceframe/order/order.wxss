@@ -1,1 +1,259 @@
-/* pages/serviceframe/order/order.wxss */
+.ordercontainer {
+  overflow: scroll;
+}
+
+.ordercontainer .order_item {
+  display: flex;
+  margin-top: 5rpx;
+  margin-bottom: 15rpx;
+  margin-left: 5rpx;
+  margin-right: 5rpx;
+  height: 240rpx;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5, -1px 1px 4px #E5E5E5;
+  border-radius: 5rpx;
+}
+
+.ordercontainer .order_item .select_item{
+  width: 50rpx;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ordercontainer .order_item .select_item .deliverytype{
+ position: absolute;
+ top: 0;
+ left: 0;
+ z-index: 20rpx;
+ width: 45rpx;
+ height: 70rpx;
+ box-sizing: border-box;
+ display: flex;
+ align-items: center;
+ font-size: 30rpx;
+ font-weight: 100;
+ border-bottom-left-radius: 50%;
+ border-bottom-right-radius: 50%;
+ writing-mode: vertical-rl;
+}
+
+.ordercontainer .order_item .select_item .GOLD{
+  border: 1rpx solid #EAB4BA;
+  background-color: rgba(234,180,186, 0.2);
+  color: #EAB4BA;
+  font-weight: bold;
+}
+
+.ordercontainer .order_item .select_item .SPECIAL{
+  border: 1rpx solid #9F68AC;
+  background-color: rgba(159,104,172, 0.2);
+  color: #9F68AC;
+  font-weight: bold;
+}
+
+.ordercontainer .order_item .select_item .select_one{
+  width: 30rpx;
+  height: 30rpx;
+  border: 4rpx solid #E5E5E5;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ordercontainer .order_item .select_item .select_one .select_picthup{
+  width: 15rpx;
+  height: 15rpx;
+  background-color: #07233F;
+}
+
+
+.ordercontainer .order_item .space{
+  width: 10rpx;
+  height: 100%;
+}
+.ordercontainer .order_item .addr_time_item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ordercontainer .order_item .addr_time_item  .addrtype {
+  height: 80rpx;
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+}
+
+.ordercontainer .order_item .addr_time_item  .addrtype .addrtype_{
+  flex: 1;
+  height: 80rpx;
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+
+}
+
+.ordercontainer .order_item .addr_time_item  .addrtype .cusinfo_{
+  flex: 1;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+}
+
+.ordercontainer .order_item .addr_time_item  .addrtype .cusinfo_ .cusimage{
+  width: 30rpx;
+  height: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ordercontainer .order_item .addr_time_item  .addrtype .cusinfo_ .cusname{
+  margin-left: 10rpx;
+  flex: 1;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  font-size: 30rpx;
+  font-weight: 100rpx;
+
+}
+
+.ordercontainer .order_item .addr_time_item  .addr {
+  height: 80rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.ordercontainer .order_item .addr_time_item  .addr .sendaddr{
+  flex: 1;
+  width: 100%;
+  display: flex;
+}
+
+.ordercontainer .order_item .addr_time_item  .addr .sendaddr .hint{
+  width: 40rpx;
+  height: 40rpx;
+  border: 3rpx solid #CBCCCD;
+  font-size: 30rpx;
+  font-weight: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ordercontainer .order_item .addr_time_item  .addr .sendaddr .detail{
+  margin-left: 10rpx;
+  width: 500rpx;
+  height: 100%;
+  font-size: 30rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  font-weight: 100;
+}
+
+.ordercontainer .order_item .addr_time_item  .takeaddr{
+  flex: 1;
+  width: 100%;
+  display: flex;
+}
+
+.ordercontainer .order_item .addr_time_item  .addr .takeaddr .hint{
+  width: 40rpx;
+  height: 40rpx;
+  border: 3rpx solid #CBCCCD;
+  font-size: 30rpx;
+  font-weight: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ordercontainer .order_item .addr_time_item  .addr .takeaddr .detail{
+  margin-left: 10rpx;
+  width: 500rpx;
+  height: 100%;
+  font-size: 30rpx;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  font-weight: 100;
+}
+
+
+
+.ordercontainer .order_item .addr_time_item  .time {
+  height: 80rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  display: flex;
+  color: #07233F;
+}
+
+.ordercontainer .order_item .addr_time_item  .time .sendtime {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.ordercontainer .order_item .addr_time_item .time .taketime {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.ordercontainer .order_item .other_item {
+  margin-left: 20rpx;
+  width: 100rpx;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 30rpx;
+  font-weight: 100;
+}
+
+.ordercontainer .order_item .other_item .blongworker{
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.ordercontainer .order_item .other_item .lugnum_ {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.ordercontainer .order_item .other_item .orderstatus {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.ordercontainer .order_item .orderdetailbut {
+  width: 20rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #CBCCCD;
+  font-size: 35rpx;
+  font-weight: 100;
+}
+
+
+
+

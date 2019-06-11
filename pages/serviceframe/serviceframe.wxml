@@ -38,7 +38,10 @@
   <view class='shadebar' bindtap='cancallistbar'  style="height:{{windowH}}px;display:{{open? '':'none'}}" ></view>
 
    <view class='contentbody' style='width:{{windowW}}px;height:{{windowH}}px'>
-    <block wx:if="{{servicename == 'goldservice'}}">
+    <block wx:if="{{servicename == 'order'}}">
+      <include src="order/order.wxml" />  
+    </block>
+    <block wx:elif="{{servicename == 'goldservice'}}">
       <!-- 金牌 -->
       <include src="goldservice/goldservice.wxml" />
       <!-- 价格选择 -->
@@ -57,7 +60,7 @@
     </block>
      <!--
      <block wx:elif="{{servicename == 'business'}}"><include src="business/business.wxml" /></block>
-     <block wx:elif="{{servicename == 'order'}}"><include src="order/order.wxml" /></block>
+     
      <block wx:elif="{{servicename == 'my'}}"><include src="my/my.wxml" /></block>
       -->
 

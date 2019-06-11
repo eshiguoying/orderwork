@@ -1,2 +1,43 @@
-<!--pages/serviceframe/order/order.wxml-->
-<text>pages/serviceframe/order/order.wxml</text>
+<view class='ordercontainer' style='width:{{windowW}}px;height:{{windowH - 60}}px'>
+  <view class='order_item' >
+    <view class='select_item'>
+      <view class='deliverytype GOLD'>金牌</view>
+      <view class='select_one' data-selectid='0' catchtap='picthupone' >
+        <view class='select_picthup'  hidden="{{ispicthonlist[0]? false : true}}"></view>
+      </view>
+    </view>
+    <view class='space'></view>
+    <view class='addr_time_item'>
+      <view class='addrtype'>
+        <view class='addrtype_'>酒店 --> 机场</view>
+        <!-- <view class='cusinfo_'>
+          <view class='cusimage'>
+            <image class='image_' src='../../images/cushead.png' mode='aspectFit'></image>
+          </view>
+          <view class='cusname'>张晶晶</view>
+        </view> -->
+      </view>
+      <view class='addr'>
+        <view class='sendaddr'>
+          <view class='hint'>寄</view>
+          <view class='detail'>虹桥T2航站楼到达层28号行李转盘对面</view>
+        </view>
+        <view class='takeaddr'>
+          <view class='hint'>收</view>
+          <view class='detail'>春竹大楼1308号</view>
+        </view>
+      </view>
+      <view class='time'>
+        <view class='sendtime'>取件：06-11 14:00</view>
+        <view class='taketime'>送达：06-11 18:00</view>
+      </view>
+    </view>
+    <view class='other_item'>
+      <view class='blongworker'>王孟之</view>
+      <view class='lugnum_'>1件</view>
+      <view class='orderstatus'>待配送</view>
+    </view>
+    <view class='orderdetailbut'>></view>
+  </view>
+
+</view>
