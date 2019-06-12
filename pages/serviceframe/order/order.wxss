@@ -1,7 +1,3 @@
-.ordercontainer {
-  overflow: scroll;
-}
-
 .ordercontainer .order_item {
   display: flex;
   margin-top: 5rpx;
@@ -157,6 +153,7 @@
   display: flex;
   align-items: center;
   font-weight: 100;
+  color: #ACABAB;
 }
 
 .ordercontainer .order_item .addr_time_item  .takeaddr{
@@ -187,6 +184,7 @@
   display: flex;
   align-items: center;
   font-weight: 100;
+  color: #ACABAB;
 }
 
 
@@ -241,7 +239,39 @@
   flex: 1;
   display: flex;
   align-items: center;
+  font-weight: 500;
 }
+
+.ordercontainer .order_item .other_item .PREPAID {
+  color: #ED666C;
+}
+
+/* 待提取 */
+.ordercontainer .order_item .other_item .WAITPICK {
+  color: #ED666C;
+}
+
+/* 配送中 */
+.ordercontainer .order_item .other_item .DELIVERYING {
+  color: #005B66;
+}
+
+/* 已送达 */
+.ordercontainer .order_item .other_item .DELIVERYOVER {
+  color: #75B591;
+}
+
+/* 已完成 */
+.ordercontainer .order_item .other_item .COMPLETED {
+  color: #9F68AC;
+}
+
+/* 退款中 */
+.ordercontainer .order_item .other_item .REFUNDING {
+  color: #ACABAB;
+}
+
+
 
 .ordercontainer .order_item .orderdetailbut {
   width: 20rpx;

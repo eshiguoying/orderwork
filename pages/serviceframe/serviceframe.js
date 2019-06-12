@@ -24,8 +24,21 @@ Page({
     servicename: 'order',
 
     // 订单页面
+    // 选择订单按钮数据储存
     selectedorderlist:[],
-    ispicthonlist: {},
+    queryorderlistReqPram:{
+      counterId: '',// 柜台id
+      distributorId: '',// 分销商id
+      beginDate: '',// 开始时间
+      endDate: '',//结束时间
+      orderno: '',// 订单号
+      status: '',// 订单状态
+      userId: '', // 用户id
+      pageIndex: 1 // 默认第一页
+    },
+    // 订单列表展示
+    orderlist:[],
+    totalPage: 0,// 页面总数;
 
     // 寄间类型滑块
     sliding: {
@@ -198,15 +211,27 @@ Page({
           accountInfo: wx.getStorageSync('accountInfo')
         })
 
-        // 授权地理位置信息
-        this_.getCurrCity();
-        // 寄件时间
-        this_.sendDate();
-        // 收件时间
-        this_.taketime();
-        // 保费计算比例
+        // 根据页面选择情况加载相关数据
+        this_.loaddatabyservicetype();
+
+        
       }
     }, 10)
+  },
+
+// 根据页面选择情况加载相关数据
+  loaddatabyservicetype() {
+    if (this.data.servicename == 'order') {
+      // 订单信息,加载订单列表
+      this.loadOrderlist();
+    } else {
+      // 授权地理位置信息
+      this_.getCurrCity();
+      // 寄件时间
+      this_.sendDate();
+      // 收件时间
+      this_.taketime();
+    }
   },
 
   // 用户位置权限设置
@@ -921,41 +946,124 @@ scancode() {
     })
   },
 
-  // 
+  // 选择
   picthupone(e) {
-    console.info(e.currentTarget.dataset.selectid);
-    console.info(e.currentTarget.dataset.issele);
-    
 
-    if (this.data.ispicthonlist[e.currentTarget.dataset.selectid]) {
-      var selectedorderlist = this.data.selectedorderlist;
-      selectedorderlist.splice(e.currentTarget.dataset.selectid);
-      this.setData({
-        selectedorderlist: selectedorderlist,
-        ['ispicthonlist.' + e.currentTarget.dataset.selectid]: false,
-      });
-    } else {
-      var selectedorderlist = this.data.selectedorderlist;
+    var selectedorderlist = this.data.selectedorderlist;
+    console.info(e.currentTarget.dataset.index);
+    if (this.data.orderlist[e.currentTarget.dataset.index].selected) {
       selectedorderlist.push(e.currentTarget.dataset.selectid);
-      this.setData({
-        selectedorderlist: selectedorderlist,
-        ['ispicthonlist.' + e.currentTarget.dataset.selectid]: true,
-      });
+    } else {
+      selectedorderlist.splice(e.currentTarget.dataset.index, 1);
     }
-    
+
+    this.setData({
+      selectedorderlist: selectedorderlist,
+      ["orderlist[" + e.currentTarget.dataset.index + "].selected"]: !this.data.orderlist[e.currentTarget.dataset.index].selected, 
+    });
+
+
+    console.info(this.data.selectedorderlist);
   },
 
-  // // 加载信息价格
-  // loadgoldsericeprice() {
+  // 加载订单列表数据
+  loadOrderlist() {
+    var this_ = this
+    request.HttpRequst('/v2/order/list', 'POST', this.data.queryorderlistReqPram).then(function (res) {
+      console.log(res.result )
 
+      // 未成功加载
+      if (res.code == 500) {
+        this_.setData({ orderlist: [] })
+        wx.showModal({
+          content: '您还没有被分配到三级分销商',
+          confirmText: '确定',
+          confirmColor: '#fbc400',
+          showCancel: false,
+        })
+        return false
+      }
 
-  //   request.HttpRequst_c('/v2/counter/listByDistributor', 'POST', counterParams).then(function (res) {
+      // 未查询出数据
+      if (res.result.totalPage == 0) {
+        return false
+      }
+      console.info(res.result.list);
+      var orderlist = this_.data.orderlist;
+      var list = res.result.list
+      for (var i = 0; i < list.length; ++i) {
+        var oneItem = {
+          order: {
+            // actualmoney: list[i].order.actualmoney,
+            // addtime: list[i].order.addtime,
+            // channel: list[i].order.channel,
+            // cusid: list[i].order.cusid,
+            // cutmoney: list[i].order.cutmoney,
+            // distributorId: list[i].order.distributorId,
+            // fetchcode: list[i].order.fetchcode,
+            id: list[i].order.id,
+            // isvalid: list[i].order.isvalid,
+            // mobile: list[i].order.mobile,
+            // name: list[i].order.name,
+            num: list[i].order.num,
+            // orderno: list[i].order.orderno,
+            taketime: list[i].order.taketime,
+            taketimepart: list[i].order.taketime.substring(5, 16),
+            serviceType: list[i].order.serviceType,
+            serviceTypeDesc: config.serviceType[list[i].order.serviceType].name,
+            status: list[i].order.status,
+            statusdesc: config.orderStatus[list[i].order.status].name,// 订单状态描述
+            // iscanceled: list[i].order.iscanceled,
+            sendtime: list[i].order.sendtime,
+            sendtimepart: list[i].order.sendtime.substring(5, 16),
+            // totalmoney: list[i].order.totalmoney,
+            // type: list[i].order.type,
+            // neadfeach: list[i].order.neadfetch
+          },
+          orderAddress: {
+            destaddress: list[i].orderAddress.destaddress,
+            destaddrtype: list[i].orderAddress.destaddrtype,
+            destaddrtypedesc: list[i].destType,
+            // destcityid: list[i].orderAddress.destcityid,
+            // destcityname: list[i].orderAddress.destcityname,
+            // destgps: list[i].orderAddress.destgps,
+            // destprovid: list[i].orderAddress.destprovid,
+            // destprovname: list[i].orderAddress.destprovname,
+            // orderid: list[i].orderAddress.orderid,
+            srcaddress: list[i].orderAddress.srcaddress,
+            srcaddrtype: list[i].orderAddress.srcaddrtype,
+            srcaddrtypedesc: list[i].srcType,
+            // srcaddressid: list[i].orderAddress.srcaddressid,
+            // srccityid: list[i].orderAddress.srccityid,
+            // srccityname: list[i].orderAddress.srccityname,
+            // srcgps: list[i].orderAddress.srcgps,
+            // srcprovid: list[i].orderAddress.srcprovid,
+            // srcprovname: list[i].orderAddress.srcprovname
+          },
+          charge: list[i].appUser ? list[i].appUser.name : '无',
+          selected: true,
+        }
 
-  //   });
-  // }
+        orderlist.push(oneItem)
+      }
 
+      console.info(orderlist);
 
-  
+      this_.setData({
+        orderlist: orderlist,
+        ["queryorderlistReqPram.pageIndex"]: this_.data.queryorderlistReqPram.pageIndex + 1,
+        totalPage: res.result.totalPage
+      })
+    })
+  },
+
+  // 下拉加载数据;
+  bindDownLoad: function () {
+    if (this.data.queryorderlistReqPram.pageIndex > this.data.totalPage) {
+      return false
+    }
+    this.loadOrderlist()
+  },
 })
 
 
