@@ -1064,6 +1064,27 @@ scancode() {
     }
     this.loadOrderlist()
   },
+
+  // 刷新
+  refreshtap() {
+    // 刷新订单列表的目标：携带筛选条件重新查询一边
+    this.initqueryorderlistreqparam();
+
+  },
+
+  // 初始化订单列表请求参数
+  initqueryorderlistreqparam() {
+    this.setData({
+      ['queryorderlistReqPram.counterId']: '',
+      ['queryorderlistReqPram.distributorId']: '',
+      ['queryorderlistReqPram.beginDate']: '',
+      ['queryorderlistReqPram.endDate']: '',
+      ['queryorderlistReqPram.orderno']: '',
+      ['queryorderlistReqPram.status']: '',
+      ['queryorderlistReqPram.userId']: '',
+      ['queryorderlistReqPram.pageIndex']: 1,
+    });
+  }
 })
 
 

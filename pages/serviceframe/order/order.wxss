@@ -22,9 +22,9 @@
 .ordercontainer .order_item .select_item .deliverytype{
  position: absolute;
  top: 0;
- left: 0;
+ left: 0rpx;
  z-index: 20rpx;
- width: 45rpx;
+ width: 40rpx;
  height: 70rpx;
  box-sizing: border-box;
  display: flex;
@@ -78,8 +78,7 @@
 }
 
 .ordercontainer .order_item .addr_time_item  .addrtype {
-  height: 80rpx;
-  font-size: 30rpx;
+  flex: 1;
   display: flex;
   align-items: center;
 }
@@ -87,40 +86,32 @@
 .ordercontainer .order_item .addr_time_item  .addrtype .addrtype_{
   flex: 1;
   height: 80rpx;
-  font-size: 30rpx;
+  font-size: 27rpx;
   display: flex;
   align-items: center;
-
 }
 
-.ordercontainer .order_item .addr_time_item  .addrtype .cusinfo_{
+.ordercontainer .order_item .addr_time_item .time {
   flex: 1;
-  height: 80rpx;
+  font-size: 27rpx;
   display: flex;
-  align-items: center;
 }
 
-.ordercontainer .order_item .addr_time_item  .addrtype .cusinfo_ .cusimage{
-  width: 30rpx;
-  height: 30rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ordercontainer .order_item .addr_time_item  .addrtype .cusinfo_ .cusname{
-  margin-left: 10rpx;
+.ordercontainer .order_item .addr_time_item  .time .sendtime {
   flex: 1;
-  height: 80rpx;
+  height: 100%;
   display: flex;
   align-items: center;
-  font-size: 30rpx;
-  font-weight: 100rpx;
-
+}
+.ordercontainer .order_item .addr_time_item .time .taketime {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .ordercontainer .order_item .addr_time_item  .addr {
-  height: 80rpx;
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
@@ -132,10 +123,10 @@
 }
 
 .ordercontainer .order_item .addr_time_item  .addr .sendaddr .hint{
-  width: 40rpx;
-  height: 40rpx;
+  width: 35rpx;
+  height: 35rpx;
   border: 3rpx solid #CBCCCD;
-  font-size: 30rpx;
+  font-size: 27rpx;
   font-weight: 100;
   display: flex;
   align-items: center;
@@ -144,9 +135,9 @@
 
 .ordercontainer .order_item .addr_time_item  .addr .sendaddr .detail{
   margin-left: 10rpx;
-  width: 500rpx;
+  width: 450rpx;
   height: 100%;
-  font-size: 30rpx;
+  font-size: 27rpx;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -163,10 +154,10 @@
 }
 
 .ordercontainer .order_item .addr_time_item  .addr .takeaddr .hint{
-  width: 40rpx;
-  height: 40rpx;
+  width: 35rpx;
+  height: 35rpx;
   border: 3rpx solid #CBCCCD;
-  font-size: 30rpx;
+  font-size: 27rpx;
   font-weight: 100;
   display: flex;
   align-items: center;
@@ -175,9 +166,9 @@
 
 .ordercontainer .order_item .addr_time_item  .addr .takeaddr .detail{
   margin-left: 10rpx;
-  width: 500rpx;
+  width: 450rpx;
   height: 100%;
-  font-size: 30rpx;
+  font-size: 27rpx;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -187,39 +178,12 @@
   color: #ACABAB;
 }
 
-
-
-.ordercontainer .order_item .addr_time_item  .time {
-  height: 80rpx;
-  font-size: 30rpx;
-  font-weight: bold;
-  display: flex;
-  color: #07233F;
-}
-
-.ordercontainer .order_item .addr_time_item  .time .sendtime {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.ordercontainer .order_item .addr_time_item .time .taketime {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-
-
 .ordercontainer .order_item .other_item {
-  margin-left: 20rpx;
-  width: 100rpx;
+  width: 110rpx;
   height: 100%;
   display: flex;
   flex-direction: column;
-  font-size: 30rpx;
+  font-size: 27rpx;
   font-weight: 100;
 }
 
@@ -227,6 +191,7 @@
   flex: 1;
   display: flex;
   align-items: center;
+
 }
 
 .ordercontainer .order_item .other_item .lugnum_ {
@@ -239,16 +204,16 @@
   flex: 1;
   display: flex;
   align-items: center;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .ordercontainer .order_item .other_item .PREPAID {
-  color: #ED666C;
+  color: #EAB4BA;
 }
 
 /* 待提取 */
 .ordercontainer .order_item .other_item .WAITPICK {
-  color: #ED666C;
+  color: #EAB4BA;
 }
 
 /* 配送中 */
@@ -284,6 +249,42 @@
   font-weight: 100;
 }
 
+.floatpanel {
+  position: fixed;
+  left: 30rpx;
+  bottom: 50rpx;
+  height: 80rpx;
+  border-radius: 10rpx;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5,1px -2px 4px #E5E5E5; 
+  display: flex;
+}
 
+.floatpanel .item {
+  flex: 1;
+  /* border: 1rpx dashed #E5E5E5; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* font-size: 30rpx;
+  font-weight: 100; */
+}
+
+.floatpanel .item .veri {
+  width: 100%;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  font-size: 30rpx;
+  font-weight: 100;
+  border-left: 1rpx dashed #E5E5E5;
+  box-sizing: border-box;
+}
+
+.floatpanel image {
+  width: 30rpx;
+  height: 30rpx;
+}
 
 

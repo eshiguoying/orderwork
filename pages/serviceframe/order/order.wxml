@@ -12,7 +12,6 @@
       <view class='addr_time_item'>
         <view class='addrtype'>
           <view class='addrtype_'>{{orderItem.orderAddress.srcaddrtypedesc}} -> {{orderItem.orderAddress.destaddrtypedesc}}</view>
-      
         </view>
         <view class='addr'>
           <view class='sendaddr'>
@@ -29,13 +28,25 @@
           <view class='taketime'>送 {{orderItem.order.sendtimepart}}</view>
         </view>
       </view>
+      <view class='space'></view>
       <view class='other_item'>
+        <view class='orderstatus {{orderItem.order.status}}'>{{orderItem.order.statusdesc}}</view>
         <view class='blongworker'>{{orderItem.charge}}</view>
         <view class='lugnum_'>{{orderItem.order.num}}件</view>
-        <view class='orderstatus {{orderItem.order.status}}'>{{orderItem.order.statusdesc}}</view>
       </view>
       <view class='orderdetailbut'>></view>
     </view>
   </block>
-   
 </scroll-view>
+
+<view class='floatpanel' style='width:{{windowW - 30}}px;'>
+  <view class='refreshbut item' catchtap='refreshtap'>
+    <image src='../../images/refresh_24.png'></image>
+  </view>
+  <view class='filtrate item'>
+    <view class='veri'>筛选</view>
+  </view>
+  <view class='multiplechoice item'>
+    <view class='veri'>多选</view>
+  </view>
+</view>
