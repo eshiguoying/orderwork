@@ -39,6 +39,10 @@ Page({
     // 订单列表展示
     orderlist:[],
     totalPage: 0,// 页面总数;
+    multiplechoiceflag:false,// 多选
+    mulchoiceflag: false,//多选
+    openshadepanel:false,// 不打开遮罩
+
 
     // 寄间类型滑块
     sliding: {
@@ -948,9 +952,7 @@ scancode() {
 
   // 选择
   picthupone(e) {
-
     var selectedorderlist = this.data.selectedorderlist;
-    console.info(e.currentTarget.dataset.index);
     if (this.data.orderlist[e.currentTarget.dataset.index].selected) {
       selectedorderlist.push(e.currentTarget.dataset.selectid);
     } else {
@@ -962,7 +964,6 @@ scancode() {
       ["orderlist[" + e.currentTarget.dataset.index + "].selected"]: !this.data.orderlist[e.currentTarget.dataset.index].selected, 
     });
 
-
     console.info(this.data.selectedorderlist);
   },
 
@@ -971,7 +972,8 @@ scancode() {
     var this_ = this
     request.HttpRequst('/v2/order/list', 'POST', this.data.queryorderlistReqPram).then(function (res) {
       console.log(res.result )
-
+      // 隐藏加载框
+      wx.hideLoading();
       // 未成功加载
       if (res.code == 500) {
         this_.setData({ orderlist: [] })
@@ -1067,22 +1069,74 @@ scancode() {
 
   // 刷新
   refreshtap() {
-    // 刷新订单列表的目标：携带筛选条件重新查询一边
-    this.initqueryorderlistreqparam();
-
+    // 弹出加载页面
+    wx.showLoading();
+    // 刷新订单列表的目标：携带筛选条件重新查询一边,并且页数回到第一页
+    this.setData({
+      orderlist: [],
+      ['queryorderlistReqPram.pageIndex']: 1,
+    });
+    // 查询订单列表信息
+    this.loadOrderlist();
   },
 
-  // 初始化订单列表请求参数
-  initqueryorderlistreqparam() {
+  // 是否多选
+  tomutlchoice() {
     this.setData({
-      ['queryorderlistReqPram.counterId']: '',
-      ['queryorderlistReqPram.distributorId']: '',
-      ['queryorderlistReqPram.beginDate']: '',
-      ['queryorderlistReqPram.endDate']: '',
-      ['queryorderlistReqPram.orderno']: '',
-      ['queryorderlistReqPram.status']: '',
-      ['queryorderlistReqPram.userId']: '',
-      ['queryorderlistReqPram.pageIndex']: 1,
+      multiplechoiceflag: true
+    });
+  },
+
+  // 取消多选
+  mutlchoice_cancal() {
+    var orderlist = this.data.orderlist;
+    for (var i = 0; i < orderlist.length; i++) {
+      orderlist[i].selected= true;
+    }
+        
+    this.setData({
+      selectedorderlist: [],
+      multiplechoiceflag: false,
+      orderlist:orderlist,
+      mulchoiceflag:false,
+    });
+  },
+
+  // 取消
+  mulchoiceflag() {
+    var orderlist = this.data.orderlist;
+    var selectedorderlist = this.data.selectedorderlist;
+    selectedorderlist = [];
+    var mulchoiceflag = this.data.mulchoiceflag;
+    if (mulchoiceflag) {
+      for (var i = 0; i < orderlist.length; i++) {
+        orderlist[i].selected = mulchoiceflag;
+      }
+    } else {
+      for (var i = 0; i < orderlist.length; i++) {
+        selectedorderlist.push(orderlist[i].order.id);
+        orderlist[i].selected = mulchoiceflag;
+      }
+    }
+
+    this.setData({
+      selectedorderlist: selectedorderlist,
+      orderlist: orderlist,
+      mulchoiceflag: !this.data.mulchoiceflag
+    });
+
+    console.info(this.data.selectedorderlist);
+  },
+
+  // 批量改派 调出遮罩层，
+  batchchangesendtap() {
+    this.setData({
+      openshadepanel:true
+    });
+  },
+  cancalshadepanel() {
+    this.setData({
+      openshadepanel: false
     });
   }
 })

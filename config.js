@@ -45,11 +45,11 @@ var ADDRTYPE = {
 var SREVICETYPE = {
   GOLD: {
     value: 'GOLD',
-    name: '金牌'
+    name: '金'
   },
   SPECIAL: {
     value: 'SPECIAL',
-    name: '专车'
+    name: '专'
   }
 };
 

@@ -4,14 +4,14 @@
   margin-bottom: 15rpx;
   margin-left: 5rpx;
   margin-right: 5rpx;
-  height: 240rpx;
+  height: 300rpx;
   background-color: #FCFBF8;
   box-shadow: 1px 2px 4px #E5E5E5, -1px 1px 4px #E5E5E5;
   border-radius: 5rpx;
 }
 
 .ordercontainer .order_item .select_item{
-  width: 50rpx;
+  width: 80rpx;
   height: 100%;
   position: relative;
   display: flex;
@@ -22,47 +22,58 @@
 .ordercontainer .order_item .select_item .deliverytype{
  position: absolute;
  top: 0;
- left: 0rpx;
+ left: 22rpx;
  z-index: 20rpx;
  width: 40rpx;
- height: 70rpx;
+ height: 40rpx;
  box-sizing: border-box;
  display: flex;
  align-items: center;
+ justify-content: center;
  font-size: 30rpx;
  font-weight: 100;
- border-bottom-left-radius: 50%;
- border-bottom-right-radius: 50%;
- writing-mode: vertical-rl;
+ border-bottom-right-radius: 10rpx;
+ border-bottom-left-radius: 10rpx
 }
 
 .ordercontainer .order_item .select_item .GOLD{
-  border: 1rpx solid #EAB4BA;
-  background-color: rgba(234,180,186, 0.2);
-  color: #EAB4BA;
+  background-color: rgba(174,173,173, 0.2);
+  color: #AEADAD;
   font-weight: bold;
 }
 
 .ordercontainer .order_item .select_item .SPECIAL{
-  border: 1rpx solid #9F68AC;
-  background-color: rgba(159,104,172, 0.2);
-  color: #9F68AC;
+  background-color: rgba(237,102,108, 0.2);
+  color: #ED666C;
   font-weight: bold;
 }
 
-.ordercontainer .order_item .select_item .select_one{
-  width: 30rpx;
-  height: 30rpx;
-  border: 4rpx solid #E5E5E5;
-  border-radius: 50%;
+.container_mulchoice {
+  width: 80rpx;
+  height: 240rpx;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.ordercontainer .order_item .select_item .select_one{
+  width: 15rpx;
+  height: 15rpx;
+  border: 4rpx solid #E5E5E5;
+  /* border-radius: 50%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ordercontainer .order_item .select_item .container_mulchoice  .selected_ {
+  background-color: #005B66;
+}
+
 .ordercontainer .order_item .select_item .select_one .select_picthup{
   width: 15rpx;
   height: 15rpx;
+  border-radius: 50%;
   background-color: #07233F;
 }
 
@@ -86,14 +97,14 @@
 .ordercontainer .order_item .addr_time_item  .addrtype .addrtype_{
   flex: 1;
   height: 80rpx;
-  font-size: 27rpx;
+  font-size: 30rpx;
   display: flex;
   align-items: center;
 }
 
 .ordercontainer .order_item .addr_time_item .time {
   flex: 1;
-  font-size: 27rpx;
+  font-size: 30rpx;
   display: flex;
 }
 
@@ -120,13 +131,14 @@
   flex: 1;
   width: 100%;
   display: flex;
+  align-items: center;
 }
 
 .ordercontainer .order_item .addr_time_item  .addr .sendaddr .hint{
   width: 35rpx;
   height: 35rpx;
-  border: 3rpx solid #CBCCCD;
-  font-size: 27rpx;
+  border: 1rpx solid #CBCCCD;
+  font-size: 30rpx;
   font-weight: 100;
   display: flex;
   align-items: center;
@@ -137,7 +149,7 @@
   margin-left: 10rpx;
   width: 450rpx;
   height: 100%;
-  font-size: 27rpx;
+  font-size: 30rpx;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -151,13 +163,14 @@
   flex: 1;
   width: 100%;
   display: flex;
+  align-items: center;
 }
 
 .ordercontainer .order_item .addr_time_item  .addr .takeaddr .hint{
   width: 35rpx;
   height: 35rpx;
   border: 3rpx solid #CBCCCD;
-  font-size: 27rpx;
+  font-size: 30rpx;
   font-weight: 100;
   display: flex;
   align-items: center;
@@ -168,7 +181,7 @@
   margin-left: 10rpx;
   width: 450rpx;
   height: 100%;
-  font-size: 27rpx;
+  font-size: 30rpx;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -183,7 +196,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  font-size: 27rpx;
+  font-size: 30rpx;
   font-weight: 100;
 }
 
@@ -208,12 +221,12 @@
 }
 
 .ordercontainer .order_item .other_item .PREPAID {
-  color: #EAB4BA;
+  color: #ED666C;
 }
 
 /* 待提取 */
 .ordercontainer .order_item .other_item .WAITPICK {
-  color: #EAB4BA;
+  color: #ED666C;
 }
 
 /* 配送中 */
@@ -251,9 +264,9 @@
 
 .floatpanel {
   position: fixed;
-  left: 30rpx;
-  bottom: 50rpx;
-  height: 80rpx;
+  left: 0;
+  bottom: 0;
+  height: 100rpx;
   border-radius: 10rpx;
   background-color: #FCFBF8;
   box-shadow: 1px 2px 4px #E5E5E5,1px -2px 4px #E5E5E5; 
@@ -283,8 +296,101 @@
 }
 
 .floatpanel image {
-  width: 30rpx;
+  width: 35rpx;
+  height: 35rpx;
+}
+
+
+.mulchoicepanal {
+  height: 100rpx;
+  position: fixed;
+  bottom: 0;
+  z-index: 120;
+  background-color: #FCFBF8;
+  transition-duration:0.3s;
+  display: flex;
+}
+
+.mulchoicepanal .batch_changesend {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 100;
+}
+
+.mulchoicepanal .batch_changesend .veri {
+  width:100%;
   height: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1rpx solid #E5E5E5;
+  font-size: 30rpx;
+  font-weight: 100;
+}
+
+.mulchoicepanal .batch_orderstatus_change {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.mulchoicepanal .batch_orderstatus_change .veri {
+  width:100%;
+  height: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1rpx solid #E5E5E5;
+  font-size: 30rpx;
+  font-weight: 100;
+}
+
+.mulchoicepanal .cancelmulchoice {
+  width: 120rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.mulchoicepanal .cancelmulchoice .veri {
+  width: 120rpx;
+  height: 30rpx;
+  font-size: 30rpx;
+  color: #9F9E9E;
+  font-weight: 100;
+  border-left: 1rpx solid #E5E5E5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mulchoicepanal .mulchoiceflag {
+  flex: 1;
+  height: 100%;
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.space_ {
+  width: 5rpx;
+  height: 100%;
+}
+
+.shadepanel {
+  width: 100%;
+  background-color: rgba(168,167,167,0);
+  position: fixed;
+  bottom: 0;
+  z-index: 998;
 }
 
 

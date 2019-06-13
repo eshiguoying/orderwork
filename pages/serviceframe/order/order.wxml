@@ -1,17 +1,18 @@
-<scroll-view class='ordercontainer' style='width:{{windowW}}px;height:{{windowH}}px' scroll-y bindscrolltolower='bindDownLoad'>
+<scroll-view class='ordercontainer' style='width:{{windowW}}px;height:{{windowH - 50}}px' scroll-y bindscrolltolower='bindDownLoad'>
 
   <block wx:for="{{orderlist}}" wx:for-item="orderItem" wx:for-index="index">
     <view class='order_item' >
       <view class='select_item'>
         <view class='deliverytype {{orderItem.order.serviceType}}'>{{orderItem.order.serviceTypeDesc}}</view>
-        <view class='select_one' data-selectid='{{orderItem.order.id}}' data-index='{{index}}' catchtap='picthupone' >
-          <view class='select_picthup'  hidden="{{orderItem.selected}}"></view>
-        </view>
+         <block wx:if="{{multiplechoiceflag}}">
+          <view class='container_mulchoice' data-selectid='{{orderItem.order.id}}' data-index='{{index}}' catchtap='picthupone'>
+            <view class="select_one  {{orderItem.selected? '':'selected_'}}"></view>
+          </view>
+        </block>
       </view>
-      <view class='space'></view>
       <view class='addr_time_item'>
         <view class='addrtype'>
-          <view class='addrtype_'>{{orderItem.orderAddress.srcaddrtypedesc}} -> {{orderItem.orderAddress.destaddrtypedesc}}</view>
+          <view class='addrtype_'>{{orderItem.orderAddress.srcaddrtypedesc}} -- {{orderItem.orderAddress.destaddrtypedesc}}</view>
         </view>
         <view class='addr'>
           <view class='sendaddr'>
@@ -29,6 +30,7 @@
         </view>
       </view>
       <view class='space'></view>
+      <view class='space'></view>
       <view class='other_item'>
         <view class='orderstatus {{orderItem.order.status}}'>{{orderItem.order.statusdesc}}</view>
         <view class='blongworker'>{{orderItem.charge}}</view>
@@ -39,14 +41,50 @@
   </block>
 </scroll-view>
 
-<view class='floatpanel' style='width:{{windowW - 30}}px;'>
+<view class='floatpanel' style='width:{{windowW}}px;'>
   <view class='refreshbut item' catchtap='refreshtap'>
     <image src='../../images/refresh_24.png'></image>
   </view>
   <view class='filtrate item'>
     <view class='veri'>筛选</view>
   </view>
-  <view class='multiplechoice item'>
+  <view class='multiplechoice item' catchtap='tomutlchoice'>
     <view class='veri'>多选</view>
   </view>
 </view>
+
+<view class="mulchoicepanal" style='width:{{windowW}}px;transform: translate({{multiplechoiceflag?  0 : windowW}}px, 0%)'>
+    <view class='mulchoiceflag' catchtap='mulchoiceflag'>
+      <block wx:if="{{mulchoiceflag}}">
+        取消全选
+      </block>
+       <block wx:else>
+          全选
+      </block>
+    </view>
+    <view class='batch_changesend' catchtap='batchchangesendtap'><view class='veri'>批量改派</view></view>
+    <view class='batch_orderstatus_change'><view class='veri'>批量状态更改</view></view>
+    <view class='cancelmulchoice' catchtap='mutlchoice_cancal'>
+      <view class='veri'>取消</view>
+    </view>
+</view>
+
+<view class="mulchoicepanal" style='width:{{windowW}}px;transform: translate({{multiplechoiceflag?  0 : windowW}}px, 0%)'>
+    <view class='mulchoiceflag' catchtap='mulchoiceflag'>
+      <block wx:if="{{mulchoiceflag}}">
+        取消全选
+      </block>
+       <block wx:else>
+          全选
+      </block>
+    </view>
+    <view class='batch_changesend' catchtap='batchchangesendtap'><view class='veri'>批量改派</view></view>
+    <view class='batch_orderstatus_change'><view class='veri'>批量状态更改</view></view>
+    <view class='cancelmulchoice' catchtap='mutlchoice_cancal'>
+      <view class='veri'>取消</view>
+    </view>
+</view>
+
+<view class='shadepanel' 
+      bindtap='cancalshadepanel'  
+      style="width:{{windowW}}px;height:{{windowH}}px;display:{{openshadepanel? '':'none'}}" ></view>
