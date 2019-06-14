@@ -1,25 +1,17 @@
 .ordercontainer .order_item {
   display: flex;
   margin-top: 5rpx;
-  margin-bottom: 15rpx;
-  margin-left: 5rpx;
-  margin-right: 5rpx;
-  height: 300rpx;
+  margin-bottom: 20rpx;
+  margin-left: 15rpx;
+  margin-right: 15rpx;
+  height: 360rpx;
   background-color: #FCFBF8;
-  box-shadow: 1px 2px 4px #E5E5E5, -1px 1px 4px #E5E5E5;
+  box-shadow: 1px 1px 4px #E5E5E5, -1px 1px 4px #E5E5E5;
   border-radius: 5rpx;
-}
-
-.ordercontainer .order_item .select_item{
-  width: 80rpx;
-  height: 100%;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.ordercontainer .order_item .select_item .deliverytype{
+.ordercontainer .order_item .deliverytype{
  position: absolute;
  top: 0;
  left: 22rpx;
@@ -36,16 +28,32 @@
  border-bottom-left-radius: 10rpx
 }
 
-.ordercontainer .order_item .select_item .GOLD{
+.ordercontainer .order_item .GOLD{
   background-color: rgba(174,173,173, 0.2);
   color: #AEADAD;
   font-weight: bold;
 }
 
-.ordercontainer .order_item .select_item .SPECIAL{
+.ordercontainer .order_item .SPECIAL{
   background-color: rgba(237,102,108, 0.2);
   color: #ED666C;
   font-weight: bold;
+}
+
+.ordercontainer .order_item .select_item{
+  position: absolute;
+  top: 0;
+  right: -20rpx;
+  z-index: 50;
+  width: 80rpx;
+  height: 360rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-duration:0.3s;
+  border: 1rpx dashed #E5E5E5;
+  box-sizing: border-box;
+  background-color: #FCFBF8;
 }
 
 .container_mulchoice {
@@ -54,6 +62,107 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+.ordercontainer .order_item .order_body {
+ flex: 1;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+.order_body .body  {
+  display: flex;
+  flex-direction: column;
+  
+  height: 290rpx;
+}
+
+.order_body .body .cusinfo_ {
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+}
+
+.order_body .body .cusinfo_ .item_ {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  font-weight: 100;
+}
+
+.order_body .body .cusinfo_ .photo{
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order_body .body .cusinfo_ .photo image {
+  width: 25rpx;
+  height: 25rpx;
+}
+
+.order_body .body .cusinfo_ .info {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+
+.order_body .body .cusinfo_ .orderstatus {
+  width: 130rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  font-weight: 100;
+}
+
+
+.order_body .body .item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+   
+   
+}
+
+.order_body .body .item .photo {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order_body .body .item .send_ {
+  font-size: 20rpx;
+  color: #ED676D;
+}
+
+.order_body .body .item .take_ {
+  font-size: 20rpx;
+  color: #015C67;
+}
+
+.order_body .body .item .photo image {
+  width: 25rpx;
+  height: 25rpx;
+}
+
+.order_body .body .item .info {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  font-weight: 100;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 
 .ordercontainer .order_item .select_item .select_one{

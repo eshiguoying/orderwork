@@ -1,8 +1,12 @@
-<scroll-view class='ordercontainer' style='width:{{windowW}}px;height:{{windowH - 50}}px' scroll-y bindscrolltolower='bindDownLoad'>
+<scroll-view class='ordercontainer' 
+             style='width:{{windowW}}px;height:{{windowH - 50}}px' 
+            scroll-y 
+            bindscrolltolower='bindDownLoad'>
 
   <block wx:for="{{orderlist}}" wx:for-item="orderItem" wx:for-index="index">
     <view class='order_item' >
-      <view class='select_item'>
+      <view class='deliverytype {{orderItem.order.serviceType}}'>{{orderItem.order.serviceTypeDesc}}</view>
+      <!-- <view class='select_item'>
         <view class='deliverytype {{orderItem.order.serviceType}}'>{{orderItem.order.serviceTypeDesc}}</view>
          <block wx:if="{{multiplechoiceflag}}">
           <view class='container_mulchoice' data-selectid='{{orderItem.order.id}}' data-index='{{index}}' catchtap='picthupone'>
@@ -36,8 +40,74 @@
         <view class='blongworker'>{{orderItem.charge}}</view>
         <view class='lugnum_'>{{orderItem.order.num}}件</view>
       </view>
-      <view class='orderdetailbut'>></view>
-    </view>
+      <view class='orderdetailbut'>></view> -->
+      <!-- <view class='select_item'>
+         
+      </view>
+      <view class='order_body'></view>
+      -->
+     
+      <view class='select_item' style='transform: translate({{multiplechoiceflag?  0 : 40}}px, 0%)'>
+          <view class='container_mulchoice' data-selectid='{{orderItem.order.id}}' data-index='{{index}}' catchtap='picthupone'>
+            <view class="select_one  {{orderItem.selected? '':'selected_'}}"></view>
+          </view>
+      </view>
+
+      <view class='order_body' >
+        <view class='body' style='width:{{windowW - 35}}px;' >
+          <view class='cusinfo_'>
+            <view class='item_'>
+              <view class='photo '>
+                <image src='../../images/cus.png'></image>
+              </view>
+              <view class='info'>测试用</view>
+            </view>
+            <view class='item_'>
+              <view class='photo'>
+                <image src='../../images/lug.png'></image>
+              </view>
+              <view class='info'>{{orderItem.order.num}}件</view>
+            </view>
+            <view class='item_'>
+              <view class='photo'>
+                <image src='../../images/staff.png'></image>
+              </view>
+              <view class='info'>{{orderItem.charge}}</view>
+            </view>
+            <view class='orderstatus'>
+              <view class='info'>{{orderItem.order.statusdesc}}</view>
+              <view class='photo'>
+                <image src='../../images/right_arrows.png'></image>
+              </view>
+            </view>
+          </view>
+          <view class='item'>
+            <view class='photo'>
+              <image src='../../images/addrtype.png'></image>
+            </view>
+            <view class='info'>
+              {{orderItem.orderAddress.srcaddrtypedesc}} ~ {{orderItem.orderAddress.destaddrtypedesc}}
+            </view>
+          </view>
+          <view class='item'>
+            <view class='photo'>
+              <image src='../../images/clock.png'></image>
+            </view>
+            <view class='info'>
+              {{orderItem.order.taketimepart}} ~ {{orderItem.order.sendtimepart}}
+            </view>
+          </view>
+          <view class='item'>
+            <view class='photo send_'>●</view>
+            <view class='info'>{{orderItem.orderAddress.srcaddress}}</view>
+          </view>
+          <view class='item'>
+            <view class='photo take_'>●</view>
+            <view class='info'>{{orderItem.orderAddress.destaddress}}</view>
+          </view>
+        </view>
+      </view>
+      </view>
   </block>
 </scroll-view>
 
