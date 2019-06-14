@@ -6,49 +6,11 @@
   <block wx:for="{{orderlist}}" wx:for-item="orderItem" wx:for-index="index">
     <view class='order_item' >
       <view class='deliverytype {{orderItem.order.serviceType}}'>{{orderItem.order.serviceTypeDesc}}</view>
-      <!-- <view class='select_item'>
-        <view class='deliverytype {{orderItem.order.serviceType}}'>{{orderItem.order.serviceTypeDesc}}</view>
-         <block wx:if="{{multiplechoiceflag}}">
-          <view class='container_mulchoice' data-selectid='{{orderItem.order.id}}' data-index='{{index}}' catchtap='picthupone'>
-            <view class="select_one  {{orderItem.selected? '':'selected_'}}"></view>
-          </view>
-        </block>
-      </view>
-      <view class='addr_time_item'>
-        <view class='addrtype'>
-          <view class='addrtype_'>{{orderItem.orderAddress.srcaddrtypedesc}} -- {{orderItem.orderAddress.destaddrtypedesc}}</view>
-        </view>
-        <view class='addr'>
-          <view class='sendaddr'>
-            <view class='hint'>取</view>
-            <view class='detail'>{{orderItem.orderAddress.srcaddress}}</view>
-          </view>
-          <view class='takeaddr'>
-            <view class='hint'>送</view>
-            <view class='detail'>{{orderItem.orderAddress.destaddress}}</view>
-          </view>
-        </view>
-        <view class='time'>
-          <view class='sendtime'>取 {{orderItem.order.taketimepart}}</view>
-          <view class='taketime'>送 {{orderItem.order.sendtimepart}}</view>
-        </view>
-      </view>
-      <view class='space'></view>
-      <view class='space'></view>
-      <view class='other_item'>
-        <view class='orderstatus {{orderItem.order.status}}'>{{orderItem.order.statusdesc}}</view>
-        <view class='blongworker'>{{orderItem.charge}}</view>
-        <view class='lugnum_'>{{orderItem.order.num}}件</view>
-      </view>
-      <view class='orderdetailbut'>></view> -->
-      <!-- <view class='select_item'>
-         
-      </view>
-      <view class='order_body'></view>
-      -->
-     
-      <view class='select_item' style='transform: translate({{multiplechoiceflag?  0 : 40}}px, 0%)'>
-          <view class='container_mulchoice' data-selectid='{{orderItem.order.id}}' data-index='{{index}}' catchtap='picthupone'>
+      <view class='select_item' 
+            style='transform: translate({{multiplechoiceflag?  0 : 40}}px, 0%)'
+            data-index='{{index}}' 
+            catchtap='picthupone'>
+          <view class='container_mulchoice' >
             <view class="select_one  {{orderItem.selected? '':'selected_'}}"></view>
           </view>
       </view>
@@ -155,6 +117,25 @@
     </view>
 </view>
 
+
+
 <view class='shadepanel' 
-      bindtap='cancalshadepanel'  
-      style="width:{{windowW}}px;height:{{windowH}}px;display:{{openshadepanel? '':'none'}}" ></view>
+      catchtap='cancalshadepanel'  
+      style="width:{{windowW}}px;height:{{windowH}}px;display:{{openshadepanel? '':'none'}}" >
+   <view class='staffinfolist'  catchtap='xxx'>
+      <view class='head'>
+        <view class='item cancal_'>取消</view>
+        <view class='center'></view>
+        <view class='item sure_'>确定</view>
+      </view>
+      <view class='body'>
+        <scroll-view class='stafflistscroll' scroll-y >
+          <view class='staffinfo'>
+            <view class='staffname item'>张静静</view>
+            <view class='center'></view>
+            <view class='staffphotonum item'>18752066145</view>
+          </view>
+        </scroll-view>
+      </view>
+   </view>           
+</view>

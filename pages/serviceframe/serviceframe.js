@@ -952,17 +952,34 @@ scancode() {
 
   // 选择
   picthupone(e) {
-    var selectedorderlist = this.data.selectedorderlist;
-    if (this.data.orderlist[e.currentTarget.dataset.index].selected) {
-      selectedorderlist.push(e.currentTarget.dataset.selectid);
-    } else {
-      selectedorderlist.splice(e.currentTarget.dataset.index, 1);
+    // 退单中的信息无法选择
+    var orderinfo = this.data.orderlist[e.currentTarget.dataset.index];
+    if (orderinfo.order.iscanceled == '1' || orderinfo.order.status == config.orderStatus.REFUNDING.value) {
+      wx.showToast({
+        title: '正在退单中',
+        icon: 'none',
+        duration: 1000
+      });
+      return;
     }
 
-    this.setData({
-      selectedorderlist: selectedorderlist,
-      ["orderlist[" + e.currentTarget.dataset.index + "].selected"]: !this.data.orderlist[e.currentTarget.dataset.index].selected, 
-    });
+
+    var selectedorderlist = this.data.selectedorderlist;
+    
+    if (orderinfo.selected) {
+      orderinfo.selected = false;
+      selectedorderlist.push(orderinfo);
+      this.setData({
+        selectedorderlist: selectedorderlist,
+        ["orderlist[" + e.currentTarget.dataset.index + "].selected"]: false,
+      });
+    } else {
+      selectedorderlist.splice(e.currentTarget.dataset.index, 1);
+      this.setData({
+        selectedorderlist: selectedorderlist,
+        ["orderlist[" + e.currentTarget.dataset.index + "].selected"]: true,
+      });
+    }
 
     console.info(this.data.selectedorderlist);
   },
@@ -1001,7 +1018,7 @@ scancode() {
             // channel: list[i].order.channel,
             // cusid: list[i].order.cusid,
             // cutmoney: list[i].order.cutmoney,
-            // distributorId: list[i].order.distributorId,
+            distributorId: list[i].order.distributorId,
             // fetchcode: list[i].order.fetchcode,
             id: list[i].order.id,
             // isvalid: list[i].order.isvalid,
@@ -1015,7 +1032,7 @@ scancode() {
             serviceTypeDesc: config.serviceType[list[i].order.serviceType].name,
             status: list[i].order.status,
             statusdesc: config.orderStatus[list[i].order.status].name,// 订单状态描述
-            // iscanceled: list[i].order.iscanceled,
+            iscanceled: list[i].order.iscanceled,
             sendtime: list[i].order.sendtime,
             sendtimepart: list[i].order.sendtime.substring(5, 16),
             // totalmoney: list[i].order.totalmoney,
@@ -1114,7 +1131,12 @@ scancode() {
       }
     } else {
       for (var i = 0; i < orderlist.length; i++) {
-        selectedorderlist.push(orderlist[i].order.id);
+        // 退单中的信息无法选择
+        if (orderlist[i].order.iscanceled == '1' || orderlist[i].order.status == config.orderStatus.REFUNDING.value) {
+          continue;
+        }
+
+        selectedorderlist.push();
         orderlist[i].selected = mulchoiceflag;
       }
     }
@@ -1130,6 +1152,50 @@ scancode() {
 
   // 批量改派 调出遮罩层，
   batchchangesendtap() {
+    if(this.data.selectedorderlist.length==0) {
+      wx.showToast({
+        title: '未选择订单',
+        icon: 'none',
+        duration: 2000,
+      });
+      return;
+    }
+
+    for (var i = 1; i < this.data.selectArr.length; ++i) {
+        if (this.data.selectArr[0].order.iscanceled == '1' || this.data.selectArr[0].order.status == 'REFUNDING') {
+        wx.showModal({
+          content: '有订单正在退单中，请稍后进行操作',
+          confirmText: '确定',
+          confirmColor: '#fbc400',
+          showCancel: false
+        })
+
+        return false
+      }
+    }
+
+    // var that = this
+    // if (this.data.selectArr.length > 0) {
+    //   
+    //   this.setData({
+    //     grayBgShow1: true,
+    //     grayBgStatus1: true,
+    //     popReassignShow: true,
+    //     workerClickIdx: -1
+    //   })
+    //   console.info(this.data.selectArr[0].order.distributorId);
+    //   var params = {
+    //     distributorId: this.data.selectArr[0].order.distributorId
+    //   }
+    //   console.log(params)
+    //   request.HttpRequst('/v2/app-user/select', 'GET', params).then(function (res) {
+    //     console.log(res)
+    //     that.setData({
+    //       assignArr: res.data
+    //     })
+    //   })
+
+    
     this.setData({
       openshadepanel:true
     });
