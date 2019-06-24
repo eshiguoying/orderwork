@@ -562,6 +562,10 @@
   box-sizing: border-box;
 }
 
+.shadepanel .staffinfolist .body .stafflistscroll .on{
+  background-color: rgba(182,184,184, 0.2)
+}
+
 .shadepanel .staffinfolist .body .stafflistscroll .staffinfo .item{
   display: flex;
   align-items: center;

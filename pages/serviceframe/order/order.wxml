@@ -124,17 +124,20 @@
       style="width:{{windowW}}px;height:{{windowH}}px;display:{{openshadepanel? '':'none'}}" >
    <view class='staffinfolist'  catchtap='xxx'>
       <view class='head'>
-        <view class='item cancal_'>取消</view>
+        <view class='item cancal_'  catchtap='cancal_changeorder'>取消</view>
         <view class='center'></view>
-        <view class='item sure_'>确定</view>
+        <view class='item sure_' catchtap='surestaff_changorder'>确定</view>
       </view>
       <view class='body'>
         <scroll-view class='stafflistscroll' scroll-y >
-          <view class='staffinfo'>
-            <view class='staffname item'>张静静</view>
-            <view class='center'></view>
-            <view class='staffphotonum item'>18752066145</view>
-          </view>
+          <block wx:for="{{staffinfolist}}" wx:for-index="idx">
+            <view class="staffinfo {{staffselect == idx? 'on': ''}}" 
+                  catchtap='selecedstaff' data-id="{{item.id}}" data-index='{{idx}}'>
+              <view class='staffname item'>{{item.name}}</view>
+              <view class='center'></view>
+              <view class='staffphotonum item'>{{item.mobile}}</view>
+            </view>
+          </block>
         </scroll-view>
       </view>
    </view>           
