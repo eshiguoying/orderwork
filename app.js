@@ -72,6 +72,8 @@ App({
           });
 
           request.header.token = res.token;
+          
+          console.info(res);
           // 是否已注册
           if (res.isReg) {
             // 已注册

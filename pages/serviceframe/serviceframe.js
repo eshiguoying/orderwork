@@ -27,15 +27,28 @@ Page({
     // 选择订单按钮数据储存
     selectedorderlist:[],
     queryorderlistReqPram:{
-      counterId: '',// 柜台id
-      distributorId: '',// 分销商id
+      countername: '',// 柜台name
+      counterId: -1,// 柜台id
+      distributorname: '', // 分销商name
+      distributorId: -1,// 分销商id
       beginDate: '',// 开始时间
       endDate: '',//结束时间
       orderno: '',// 订单号
       status: '',// 订单状态
+      orderCharge: '',// 订单负责人名称
+      orderChargeId: -1,// 订单负责人id
       userId: '', // 用户id
       pageIndex: 1 // 默认第一页
     },
+    // 是否打开筛选页面
+    screenchoiceflag:false,
+    // 三级分销商接口
+    distributorArr:[],
+    // 柜台
+    counterArr: [],
+    // 订单负责人
+    orderChargeArr:[],
+    
     // 订单列表展示
     orderlist:[],
     totalPage: 0,// 页面总数;
@@ -987,6 +1000,9 @@ scancode() {
   // 加载订单列表数据
   loadOrderlist() {
     var this_ = this
+
+    console.info("+++++++++++++++++++");
+
     request.HttpRequst('/v2/order/list', 'POST', this.data.queryorderlistReqPram).then(function (res) {
       // 隐藏加载框
       wx.hideLoading();
@@ -1007,6 +1023,8 @@ scancode() {
         return false
       }
       var orderlist = this_.data.orderlist;
+      console.info("+++++++++++++++++++");
+      console.info(orderlist);
       var list = res.result.list
       for (var i = 0; i < list.length; ++i) {
         var oneItem = {
@@ -1387,9 +1405,152 @@ scancode() {
       staffselect: '-1',
       staffinfolist: [],
     });
-  }
-})
+  },
 
+  // 打开筛选接口
+  screenchoice() {
+    var this_ = this;
+
+ 
+    //三级分销商接口 高级
+    if (this_.data.accountInfo.appUser.level == 1) {
+      request.HttpRequst('/v2/distributor/ownerList', 'GET', {}).then(function (res) {
+        this_.setData({
+          distributorArr: res.list
+        });
+      })
+
+      // 订单负责人接口 高级
+      console.info(this_.data.accountInfo.appUser.distributor2nd);
+      var params = {
+        distributorId: this_.data.accountInfo.appUser.distributor2nd,
+        isvalid: 'Y'
+      }
+      request.HttpRequst('/v2/app-user/list', 'POST', params).then(function (res) {
+        console.info(res);
+        this_.setData({
+          orderChargeArr: res.data
+        })
+      })
+    }
+
+    //柜台服务中心接口参数 TODO 高级不应该查询出所有的柜台信息嘛？
+    if (this_.data.accountInfo.appUser.distributor3rd) {
+      var counterParams = this_.data.accountInfo.appUser.distributor3rd
+      request.HttpRequst('/v2/counter/listByDistributor', 'POST', counterParams).then(function (res) {
+        this_.setData({
+          counterArr: res.counters
+        })
+      })
+    }
+
+    //订单负责人接口 中级
+    if (this_.data.accountInfo.appUser.level == 2) {
+      var params = {
+        distributorId: this_.data.accountInfo.appUser.distributor3rd,
+      }
+      request.HttpRequst('/v2/app-user/select', 'GET', params).then(function (res) {
+        this_.setData({
+          orderChargeArr: res.data
+        })
+      })
+    }
+
+    this_.setData({
+      screenchoiceflag: true
+    });
+  },
+
+  showtrileveldistribution() {
+    this.setData({
+      isviewtrileveldistri: true,
+    });
+  },
+
+  cancaltrileveldistribution() {
+    this.setData({
+      ['queryorderlistReqPram.distributorname']: '',
+      ['queryorderlistReqPram.distributorId']: -1,
+      isviewtrileveldistri: false,
+    });
+  },
+
+
+  //选择三级分销商
+  selectDistributor: function (e) {
+    var that = this
+    that.setData({
+      isviewtrileveldistri: false,
+      ['queryorderlistReqPram.distributorname']: e.currentTarget.dataset.name,
+      ['queryorderlistReqPram.distributorId']: e.currentTarget.dataset.id,
+      ['queryorderlistReqPram.countername']: '',
+      ['queryorderlistReqPram.counterId']: -1,
+      isviewtrileveldistri: false,
+    })
+
+    //柜台服务中心接口参数 高级
+    if (that.data.accountInfo.appUser.level == 1) {
+      if (that.data.queryorderlistReqPram.distributorId == -1) {
+        return false
+      }
+
+      var counterParams = that.data.queryorderlistReqPram.distributorId
+
+      request.HttpRequst('/v2/counter/listByDistributor', 'POST', counterParams).then(function (res) {
+        that.setData({
+          counterArr: res.counters
+        })
+      })
+    }
+  },
+
+  showcounterbody() {
+    this.setData({
+      isviewcounter: true,
+    });
+  },
+
+  cancalcounter() {
+    this.setData({
+      ['queryorderlistReqPram.countername']: '',
+      ['queryorderlistReqPram.counterId']: -1,
+      isviewcounter: false,
+    });
+  },
+
+  //选择柜台服务中心
+  selectCounter: function (e) {
+    console.info(e.currentTarget.dataset.value);
+    this.setData({
+      ['queryorderlistReqPram.countername']: e.currentTarget.dataset.name,
+      ['queryorderlistReqPram.counterId']: e.currentTarget.dataset.id,
+      isviewcounter: false,
+    })
+  },
+
+  showofficerbody() {
+    this.setData({
+      isviewofficerbody: true,
+    });
+  },
+
+  cancalorderoffice() {
+    this.setData({
+      ['queryorderlistReqPram.orderCharge']: '',
+      ['queryorderlistReqPram.orderChargeId']: -1,
+      isviewofficerbody: false,
+    });
+  },
+
+  //选择柜台服务中心
+  selectOrderCharge: function (e) {
+    this.setData({
+      ['queryorderlistReqPram.orderCharge']: e.currentTarget.dataset.name,
+      ['queryorderlistReqPram.orderChargeId']: e.currentTarget.dataset.id,
+      isviewofficerbody: false,
+    })
+  },
+})
 
 
 
