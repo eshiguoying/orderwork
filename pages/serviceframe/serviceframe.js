@@ -48,6 +48,11 @@ Page({
     counterArr: [],
     // 订单负责人
     orderChargeArr:[],
+    selectedPREPAID: false,// 待分配
+    selectedWAITPICK: false,// 待提取
+    selectedDELIVERYING: false,// 配送中
+    selectedDELIVERYOVER: false,// 已送达
+    selectedCOMPLETED: false, // 已完成
     
     // 订单列表展示
     orderlist:[],
@@ -244,6 +249,12 @@ Page({
     if (this.data.servicename == 'order') {
       // 订单信息,加载订单列表
       this.loadOrderlist();
+
+      this.canlendar = this.selectComponent("#canlendar");
+      this.canlendar.init(3);
+      this.canlendar2 = this.selectComponent("#canlendar2");
+      this.canlendar2.init(3);
+
     } else {
       // 授权地理位置信息
       this_.getCurrCity();
@@ -1001,7 +1012,6 @@ scancode() {
   loadOrderlist() {
     var this_ = this
 
-    console.info("+++++++++++++++++++");
 
     request.HttpRequst('/v2/order/list', 'POST', this.data.queryorderlistReqPram).then(function (res) {
       // 隐藏加载框
@@ -1459,6 +1469,11 @@ scancode() {
     this_.setData({
       screenchoiceflag: true
     });
+
+    this.canlendar = this.selectComponent("#canlendar");
+    this.canlendar.init(3);
+    this.canlendar2 = this.selectComponent("#canlendar2");
+    this.canlendar2.init(3);
   },
 
   showtrileveldistribution() {
@@ -1529,6 +1544,15 @@ scancode() {
   },
 
   showofficerbody() {
+    if (this.data.orderChargeArr.length == 0) {
+      wx.showToast({
+        title: '暂无订单负责人',
+        icon: 'none',
+        duration: 2000,
+      });
+      return;
+    }
+
     this.setData({
       isviewofficerbody: true,
     });
@@ -1549,6 +1573,132 @@ scancode() {
       ['queryorderlistReqPram.orderChargeId']: e.currentTarget.dataset.id,
       isviewofficerbody: false,
     })
+  },
+
+  checkTap: function (e) {
+    var code = e.currentTarget.dataset.code
+    this.setData({
+      [code]: !this.data[code]
+    });
+
+    var statusStr = '';
+    if (this.data.selectedPREPAID) {
+      statusStr += 'PREPAID,'
+    }
+    if (this.data.selectedWAITPICK) {
+      statusStr += 'WAITPICK,'
+    }
+    if (this.data.selectedDELIVERYING) {
+      statusStr += 'DELIVERYING,'
+    }
+    if (this.data.selectedDELIVERYOVER) {
+      statusStr += 'DELIVERYOVER,'
+    }
+    if (this.data.selectedCOMPLETED) {
+      statusStr += 'COMPLETED,'
+    }
+    statusStr = statusStr.substring(0, statusStr.length - 1)
+    this.setData({
+      ['queryorderlistReqPram.status']: statusStr
+    })
+  },
+
+  
+  //显示开始日期弹层
+  showStartTime() {
+    this.setData({
+      showStartTime: true
+    })
+
+    this.canlendar.toViewFunc(parseInt(this.data.s_month))
+  },
+
+  canlendar_cancal_but(e) {
+    if (e.currentTarget.dataset.type == 'start') {
+      this.setData({
+        ['queryorderlistReqPram.beginDate']: '',
+        startTime: '',
+        startTimeShow: '',
+        s_year: '',
+        s_month:'',
+        s_day: '',
+        
+        showStartTime: false,
+      })
+    } else {
+      this.setData({
+        ['queryorderlistReqPram.endDate']: '',
+        endTime: '',
+        endTimeShow: '',
+        e_year: '',
+        e_month: '',
+        e_day: '',
+
+        showEndTime: false,
+      });
+    }
+
+   
+  },
+
+  // 选择日期
+  _selectDayEvent: function (e) {
+    var data = e.detail.currentTarget.dataset
+
+    var month = data.month < 10 ? '0' + data.month : data.month
+    var day = data.day < 10 ? '0' + data.day : data.day
+    var type = data.type
+
+    if (data.type == 'start') {
+      this.setData({
+        ['queryorderlistReqPram.beginDate']: data.year + '-' + month + '-' + day + ' 00:00:00',
+        startTime: data.year + '-' + month + '-' + day + ' 00:00:00',
+        startTimeShow: data.year + '.' + month + '.' + day,
+        s_year: data.year,
+        s_month: data.month,
+        s_day: data.day,
+        ['queryorderlistReqPram.endDate']: data.year + '-' + month + '-' + day + ' 23:59:59',
+        endTime: data.year + '-' + month + '-' + day + ' 23:59:59',
+        endTimeShow: data.year + '.' + month + '.' + day,
+        e_year: data.year,
+        e_month: data.month,
+        e_day: data.day
+      })
+    }
+
+    if (data.type == 'end') {
+      if (this.data.startTimeShow > data.year + '.' + month + '.' + day && this.data.startTimeShow != '请选择') {
+        wx.showToast({
+          title: '结束时间不小于开始时间',
+          icon: 'none',
+          duration: 2000,
+        });
+        return false
+      }
+
+      this.setData({
+        ['queryorderlistReqPram.endDate']: data.year + '-' + month + '-' + day + ' 23:59:59',
+        endTime: data.year + '-' + month + '-' + day + ' 23:59:59',
+        endTimeShow: data.year + '.' + month + '.' + day,
+        e_year: data.year,
+        e_month: data.month,
+        e_day: data.day
+      })
+    }
+
+    this.setData({
+      showStartTime: false,
+      showEndTime: false,
+    })
+  },
+
+  //显示结束日期弹层
+  showEndTime() {
+    this.setData({
+      showEndTime: true
+    })
+
+    this.canlendar2.toViewFunc(parseInt(this.data.e_month))
   },
 })
 

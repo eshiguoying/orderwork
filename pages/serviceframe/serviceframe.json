@@ -1,4 +1,7 @@
 {
-  "navigationStyle": "custom"
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "canlendar": "../canlendar/canlendar"
+  }
 }
 

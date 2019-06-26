@@ -151,18 +151,16 @@
     </view>
     <view class='query_body'>
       <view class='margin_body'>
-        <view class='line'>
-          <view class='lable'>订单号</view>
-           <input class='item orderno'></input>
+        <view class='line orderbody'>
+           <input class='item orderno' placeholder='订单号' ></input>
         </view>
 
         <block wx:if="{{accountInfo.appUser.level == 1}}">
           <view class='line trileveldistribody'>
-            <view class='lable'>三级分销商</view>
-            <input class='item tri_level_distribution'
+            <input class='item'
                    disabled='true' 
-                   catchtap='showtrileveldistribution' value='{{queryorderlistReqPram.distributorname}}' ></input>
-            <view class="trileveldistribution_list  {{isviewtrileveldistri? '' : 'nosee'}}">
+                   catchtap='showtrileveldistribution' value='{{queryorderlistReqPram.distributorname}}' placeholder='三级分销商'></input>
+            <view class="list trileveldistri_list  {{isviewtrileveldistri? '' : 'nosee'}}">
               <view class='cancel' catchtap='cancaltrileveldistribution'>清空</view>
               <scroll-view class='srcoll_list' scroll-y>
                 <block wx:for="{{distributorArr}}">
@@ -177,13 +175,13 @@
 
 
         <!-- 柜台 -->
-        <view class='line counterbody'>
-            <view class='lable'>柜台</view>
-            <input class='item counter' 
-                   disabled='true'
-                   catchtap='showcounterbody' 
-                   value='{{queryorderlistReqPram.countername}}'></input>
-            <view class="counter_list  {{isviewcounter? '' : 'nosee'}}">
+        <block wx:if="{{counterArr.length != 0}}">
+          <view class='line counterbody'>
+            <input class='item' 
+                    disabled='true'
+                    catchtap='showcounterbody' 
+                    value='{{queryorderlistReqPram.countername}}' placeholder='柜台'></input>
+            <view class="list counter_list  {{isviewcounter? '' : 'nosee'}}">
               <view class='cancel' catchtap='cancalcounter'>清空</view>
               <scroll-view class='srcoll_list' scroll-y>
                 <block wx:for="{{counterArr}}">
@@ -194,16 +192,17 @@
               </scroll-view>
             </view>
           </view>
-      
+        </block>
+
       <!-- 订单负责人 -->
-       <block wx:if="{{accountInfo.appUser.level != 3}}">
-        <view class='line orderofficerbody'>
-            <view class='lable'>订单负责人</view>
-            <input class='item orderofficer' 
+       <block wx:if="{{accountInfo.appUser.level != 3}}"> 
+        <block wx:if="{{orderChargeArr.length != 0}}">
+          <view class='line orderofficerbody'>
+            <input class='item' 
                    disabled='true'
                    catchtap='showofficerbody' 
-                   value='{{queryorderlistReqPram.orderCharge}}'></input>
-            <view class="orderofficer_list  {{isviewofficerbody? '' : 'nosee'}}">
+                   value='{{queryorderlistReqPram.orderCharge}}' placeholder='订单负责人'></input>
+            <view class="list orderofficer_list  {{isviewofficerbody? '' : 'nosee'}}">
               <view class='cancel' catchtap='cancalorderoffice'>清空</view>
               <scroll-view class='srcoll_list' scroll-y>
                 <block wx:for="{{orderChargeArr}}">
@@ -213,13 +212,79 @@
                 </block>
               </scroll-view>
             </view>
-          </view>
+        </view>
+        </block>
        </block>
 
-        <view class='line'>
-          <view class='lable'>订单状态</view>
-          <view class=''></view>
+        <view class='line orderstatus'>
+          <view class='item statusbody'>
+            <view class='status'  data-status="待分配" data-code="selectedPREPAID" bindtap='checkTap'>
+              <view class="check {{selectedPREPAID ? 'selected' : ''}}"></view>
+              <label class="order-pop-status">待分配</label>
+            </view>
+              <view class='veri'></view>
+            <view class='status' data-status="待提取" data-code="selectedWAITPICK" bindtap='checkTap'>
+               <view class="check {{selectedWAITPICK ? 'selected' : ''}}"></view>
+               <label class="order-pop-status">待提取</label>
+            </view>
+              <view class='veri'></view>
+            <view class='status' data-status="配送中" data-code="selectedDELIVERYING" bindtap='checkTap'>
+               <view class="check {{selectedDELIVERYING ? 'selected' : ''}}"></view>
+               <label class="order-pop-status">配送中</label>              
+            </view>
+              <view class='veri'></view>
+            <view class='status' data-status="已送达" data-code="selectedDELIVERYOVER" bindtap='checkTap'>
+              <view class="check {{selectedDELIVERYOVER ? 'selected' : ''}}"></view>
+              <label class="order-pop-status">已送达</label>
+            </view>
+              <view class='veri'></view>
+            <view class='status' data-status="已完成" data-code="selectedCOMPLETED" bindtap='checkTap'>
+              <view class="check {{selectedCOMPLETED ? 'selected' : ''}}"></view>
+              <label class="order-pop-status">已完成</label>
+            </view>
+          </view>
         </view>
+
+        <view class='line starttimebody' bindtap='showStartTime'>
+           <input class='item starttime' placeholder='订单开始时间' disabled='true' value='{{startTimeShow}}'></input>
+        </view>
+
+        <view class='line endtimebody' bindtap='showEndTime'>
+           <input class='item endtime' placeholder='订单结束时间' disabled='true' value='{{endTimeShow}}'></input>
+        </view>
+        
+        <!-- 选择时间 -->
+        <view class="canlendar-layer {{showStartTime? '':'canlendar_hide'}}">
+          <view class="head__" data-type="start">
+            <view class='space'></view>
+            <view class='cancel' catchtap='canlendar_cancal_but' data-type='start'>x</view>
+          </view>
+
+          <view class='datebody_'>
+            <canlendar id="canlendar" 
+                      select-year="{{s_year}}"  
+                      select-month="{{s_month}}"  
+                      select-day="{{s_day}}" 
+                      type="start" 
+                      bind:selectDayEvent="_selectDayEvent" />
+          </view>
+
+        </view>
+
+         <view class="canlendar-layer {{showEndTime? '':'canlendar_hide'}}">
+            <view class="head__" data-type="start">
+              <view class='space'></view>
+              <view class='cancel' catchtap='canlendar_cancal_but' data-type='end'>x</view>
+            </view>
+
+            <canlendar id="canlendar2" 
+                       select-year="{{e_year}}"  
+                       select-month="{{e_month}}"  
+                       select-day="{{e_day}}" 
+                       type="end" 
+                       bind:selectDayEvent="_selectDayEvent" />
+        </view>
+
       </view>
     </view>
 </view>

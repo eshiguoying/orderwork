@@ -1,0 +1,27 @@
+<!--pages/canlendar/canlendar.wxml-->
+<view class="canlendarBgView"> 
+  <view class="weekBgView">   
+    <view class="weekView" wx:for="{{weeks_ch}}" wx:key="{{index}}" data-idx="{{index}}">{{item}}</view>  
+  </view>
+   <scroll-view scroll-y style='height:600rpx;overflow:scroll;' scroll-into-view="{{toView}}">
+  <view class="canlendarView" wx:for="{{monthData}}" id="month{{monthDataItem.cur_month}}" data-id="month{{monthDataItem.cur_month}}" wx:for-item="monthDataItem"  wx:for-index="index">  
+    <view class="canlendarTopView">   
+      <!--<view class="leftBgView" bindtap="handleCalendar" data-handle="prev">    
+        <view class="leftView">《</view>  
+      </view>-->
+      <view class="centerView">{{monthDataItem.cur_year || "--"}} 年 {{monthDataItem.cur_month || "--"}} 月</view>   
+      <!--<view class="rightBgView" bindtap="handleCalendar" data-handle="next">    
+        <view class="rightView">》</view>   
+      </view>-->
+    </view>  
+     
+    <view class="dateBgView">   
+      <view wx:if="{{monthDataItem.empytGrids.length > 0}}" class="dateEmptyView" wx:for="{{monthDataItem.empytGrids}}" wx:for-item="emptyItem" wx:for-index="e_idx" data-idx="{{e_idx}}">   </view>   
+      <view class="dateView" wx:for="{{monthDataItem.days}}"  wx:for-item="daysItem" 
+      data-year="{{monthDataItem.cur_year}}" data-month="{{monthDataItem.cur_month}}" data-day="{{daysItem}}" data-type="{{type}}" catchtap="_selectDayEvent">    
+        <view class="datesView {{cur_year == monthDataItem.cur_year && cur_month == monthDataItem.cur_month && daysItem == todayIndex ? 'today' : ''}} {{selectYear == monthDataItem.cur_year && selectMonth == monthDataItem.cur_month && selectDay == daysItem ? 'selectDay' : ''}}">{{daysItem}}</view>      
+      </view> 
+    </view> 
+  </view>
+  </scroll-view>
+</view>

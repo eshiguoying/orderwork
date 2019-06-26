@@ -578,7 +578,7 @@
 
 /* start */
 .screenpanal {
-  height: 900rpx;
+  height: 850rpx;
   position: fixed;
   bottom: 0;
   z-index: 120;
@@ -595,7 +595,7 @@
   display: flex;
   font-size:30rpx;
   font-weight: 100;
-  box-shadow: 1px 1px 4px #E5E5E5
+  box-shadow: 1px 1px 4px #E5E5E5;
 }
 
 
@@ -620,6 +620,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .screenpanal .query_body .margin_body {
@@ -631,183 +632,169 @@
 
 
 .screenpanal .query_body .margin_body .line {
-  border: 3rpx solid #A9A9A8;
   width: 100%;
-  height: 80rpx;
+  height: 70rpx;
   display: flex;
   align-items: center;
+  margin-bottom: 30rpx;
   position: relative;
-  border-radius: 10rpx;
-  margin-bottom: 40rpx; 
-}
-
-
- .screenpanal .query_body .margin_body .line .lable {
-  position: absolute;
-  top: -20rpx;
-  left: 20rpx;
-  background-color: #FCFBF8;
-  display: flex;
-  justify-content: center;
-  color: #A9A9A8;
+  font-size: 30rpx;
+  font-weight: 100;
+  box-shadow: 1px 1px 4px #E5E5E5
 }
 
 .screenpanal .query_body .margin_body .line .item {
-  margin-left: 20rpx;
-  margin-right: 20rpx;
+  margin-left: 10rpx;
+  margin-right: 10rpx;
   width: 100%;
   height: 100%;
 }
 
-.screenpanal .query_body .margin_body .trileveldistribody {
-  position: relative;
-}
-
-.screenpanal .query_body .margin_body .line .trileveldistribution_list{
+.screenpanal .query_body .margin_body .line .list{
   position: absolute;
-  top: 100rpx;
-  left:20rpx;
+  top: 70rpx;
+  left:0rpx;
   width: 300rpx;
-  height: 300rpx;
+  height: 260rpx;
   background-color: #FCFBF8;
   box-shadow: 1px 1px 4px #E5E5E5;
   display: flex;
   flex-direction: column;
+  border: 1rpx dashed #D5D5D3;
+}
+
+.screenpanal .query_body .margin_body .line .nosee {
+  z-index: -200;
+  visibility: hidden;
+}
+
+.screenpanal .query_body .margin_body .line .list .cancel {
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 2px 4px #E5E5E5;
+}
+
+.screenpanal .query_body .margin_body .line .list .srcoll_list{
+  height: 240rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.screenpanal .query_body .margin_body .line .list .srcoll_list .item_{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 80rpx;
+}
+
+.screenpanal .query_body .margin_body .orderbody {
+  border-left: 10rpx solid #ED666C;
+}
+
+.screenpanal .query_body .margin_body .trileveldistribody {
+  border-left: 10rpx solid #005B66;
+}
+
+.screenpanal .query_body .margin_body .counterbody {
+  border-left: 10rpx solid #75B591;
+}
+
+.screenpanal .query_body .margin_body .orderofficerbody {
+  border-left: 10rpx solid #9F68AC;
+}
+
+.screenpanal .query_body .margin_body .orderstatus {
+  border-left: 10rpx solid #07233F;
+}
+
+.screenpanal .query_body .margin_body .starttimebody {
+  border-left: 10rpx solid #EAB4BA;
+}
+
+.screenpanal .query_body .margin_body .endtimebody {
+  border-left: 10rpx solid #FF9D6C;
+}
+
+.screenpanal .query_body .margin_body .line .trileveldistri_list {
   z-index: 10;
 }
 
-
-.screenpanal .query_body .margin_body .trileveldistribody .nosee {
-  z-index: -200;
-  visibility: hidden;
-}
-
-
-.screenpanal .query_body .margin_body .trileveldistribody .trileveldistribution_list .cancel {
-  width: 100%;
-  height: 50rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 1px 2px 4px #E5E5E5;
-}
-
-.screenpanal .query_body .margin_body .trileveldistribody .trileveldistribution_list .srcoll_list{
-  height: 250rpx;
-  display: flex;
-  flex-direction: column;
-}
-
-.screenpanal .query_body .margin_body .trileveldistribody .trileveldistribution_list .srcoll_list .item_{
-  display: flex;
-  align-items: center;
-  border-bottom: 1rpx dashed #CBCCCD;
-  width: 100%;
-  height: 70rpx;
-  font-size: 30rpx;
-  font-weight: 100;
-}
-
-
-/* counter */
-.screenpanal .query_body .margin_body .counterbody {
-  position: relative
-}
-
-.screenpanal .query_body .margin_body .line .counter_list{
-  position: absolute;
-  top: 100rpx;
-  left:20rpx;
-  width: 300rpx;
-  height: 300rpx;
-  background-color: #FCFBF8;
-  box-shadow: 1px 1px 4px #E5E5E5;
-  display: flex;
-  flex-direction: column;
+.screenpanal .query_body .margin_body .line .counter_list {
   z-index: 9;
 }
 
-
-.screenpanal .query_body .margin_body .counterbody .nosee {
-  z-index: -200;
-  visibility: hidden;
+.screenpanal .query_body .margin_body .line .orderofficer_list {
+  z-index: 8;
 }
 
-.screenpanal .query_body .margin_body .counterbody .counter_list .cancel {
-  width: 100%;
-  height: 50rpx;
+.screenpanal .query_body .margin_body .line .statusbody {
+  display: flex;
+  align-items: center;
+}
+
+.screenpanal .query_body .margin_body .line .statusbody .status {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 1px 2px 4px #E5E5E5;
 }
 
-.screenpanal .query_body .margin_body .counterbody .counter_list .srcoll_list{
-  height: 250rpx;
-  display: flex;
-  flex-direction: column;
+.screenpanal .query_body .margin_body .line .statusbody .status .check{
+  width: 20rpx;
+  height: 20rpx;
+  border: 1rpx solid #07233F;
 }
 
-.screenpanal .query_body .margin_body .counterbody .counter_list .srcoll_list .item_{
-  display: flex;
-  align-items: center;
-  border-bottom: 1rpx dashed #CBCCCD;
+
+.screenpanal .query_body .margin_body .line .statusbody .status .selected{
+  background-color: #07233F;
+}
+
+.screenpanal .query_body .margin_body .line .statusbody .veri {
+  border-left: 1rpx solid #CBCCCD;
+  height: 30rpx;
+}
+
+.canlendar-layer{
   width: 100%;
-  height: 70rpx;
-  font-size: 30rpx;
-  font-weight: 100;
-}
-
-/* counter */
-
-/* orderoffice */
-.screenpanal .query_body .margin_body .orderofficerbody {
-  position: relative
-}
-
-.screenpanal .query_body .margin_body .orderofficerbody .orderofficer_list{
+  height: 100%;
+  background: #FCFBF8;
   position: absolute;
-  top: 100rpx;
-  left:20rpx;
-  width: 300rpx;
-  height: 300rpx;
-  background-color: #FCFBF8;
-  box-shadow: 1px 1px 4px #E5E5E5;
+  left: 0;
+  top: 0;
+  z-index: 11;
+  border-top: 1rpx solid #E5E5E5;
   display: flex;
   flex-direction: column;
-  z-index: 7
 }
 
-
-.screenpanal .query_body .margin_body .orderofficerbody .nosee {
-  z-index: -200;
-  visibility: hidden;
-}
-
-.screenpanal .query_body .margin_body .orderofficerbody .orderofficer_list .cancel {
-  width: 100%;
-  height: 50rpx;
+.canlendar-layer .head__ {
   display: flex;
+  width: 100%;
+  height: 80rpx;
+}
+
+.canlendar-layer .datebody_ {
+  flex: 1;
+} 
+
+.canlendar-layer .head__ .space {
+  flex: 1;
+}
+
+.canlendar-layer .head__ .cancel {
+  width: 90rpx;
+
+  display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  box-shadow: 1px 2px 4px #E5E5E5;
+  font-weight: bold;
 }
 
-.screenpanal .query_body .margin_body .orderofficerbody .orderofficer_list .srcoll_list{
-  height: 250rpx;
-  display: flex;
-  flex-direction: column;
+.canlendar_hide {
+  display: none;
 }
 
-.screenpanal .query_body .margin_body .orderofficerbody .orderofficer_list .srcoll_list .item_{
-  display: flex;
-  align-items: center;
-  border-bottom: 1rpx dashed #CBCCCD;
-  width: 100%;
-  height: 70rpx;
-  font-size: 30rpx;
-  font-weight: 100;
-}
-
-/* orderoffice */
-/* end */
