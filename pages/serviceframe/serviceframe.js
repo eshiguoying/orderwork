@@ -40,6 +40,20 @@ Page({
       userId: '', // 用户id
       pageIndex: 1 // 默认第一页
     },
+    queryorderlistReqPram_: {
+      countername: '',// 柜台name
+      counterId: -1,// 柜台id
+      distributorname: '', // 分销商name
+      distributorId: -1,// 分销商id
+      beginDate: '',// 开始时间
+      endDate: '',//结束时间
+      orderno: '',// 订单号
+      status: '',// 订单状态
+      orderCharge: '',// 订单负责人名称
+      orderChargeId: -1,// 订单负责人id
+      userId: '', // 用户id
+      pageIndex: 1 // 默认第一页
+    },
     // 是否打开筛选页面
     screenchoiceflag:false,
     // 三级分销商接口
@@ -248,7 +262,7 @@ Page({
   loaddatabyservicetype() {
     if (this.data.servicename == 'order') {
       // 订单信息,加载订单列表
-      this.loadOrderlist();
+      this.loadOrderlist(this.data.queryorderlistReqPram_);
 
       this.canlendar = this.selectComponent("#canlendar");
       this.canlendar.init(3);
@@ -1013,7 +1027,7 @@ scancode() {
     var this_ = this
 
 
-    request.HttpRequst('/v2/order/list', 'POST', this.data.queryorderlistReqPram).then(function (res) {
+    request.HttpRequst('/v2/order/list', 'POST', this.data.queryorderlistReqPram_).then(function (res) {
       // 隐藏加载框
       wx.hideLoading();
       // 未成功加载
@@ -1106,7 +1120,7 @@ scancode() {
     if (this.data.queryorderlistReqPram.pageIndex > this.data.totalPage) {
       return false
     }
-    this.loadOrderlist()
+    this.loadOrderlist(this.data.queryorderlistReqPram_)
   },
 
   // 刷新
@@ -1119,7 +1133,7 @@ scancode() {
       ['queryorderlistReqPram.pageIndex']: 1,
     });
     // 查询订单列表信息
-    this.loadOrderlist();
+    this.loadOrderlist(this.data.queryorderlistReqPram_);
   },
 
   // 是否多选
@@ -1405,6 +1419,12 @@ scancode() {
         })
       })
     }
+  },
+
+  orderno_input(e) {
+    this.setData({
+      ['queryorderlistReqPram.orderno']: e.detail.value
+    });
   },
   
   // 取消选择改派人员列表
@@ -1700,6 +1720,63 @@ scancode() {
 
     this.canlendar2.toViewFunc(parseInt(this.data.e_month))
   },
+
+  // 查询
+  queryorderlist_but() {
+    this.loadOrderlist(this.data.queryorderlistReqPram);
+  
+    this.setData({
+      screenchoiceflag:false,
+      queryorderlistReqPram_: this.data.queryorderlistReqPram
+    });
+    
+  },
+  
+  // 重置
+  resetorderparam() {
+    var restvalue = {
+      countername: '',// 柜台name
+      counterId: -1,// 柜台id
+      distributorname: '', // 分销商name
+      distributorId: -1,// 分销商id
+      beginDate: '',// 开始时间
+      endDate: '',//结束时间
+      orderno: '',// 订单号
+      status: '',// 订单状态
+      orderCharge: '',// 订单负责人名称
+      orderChargeId: -1,// 订单负责人id
+      userId: '', // 用户id
+      pageIndex: 1 // 默认第一页
+    }
+
+    this.setData({
+      queryorderlistReqPram: restvalue,
+      queryorderlistReqPram_: restvalue,
+      startTime: '',
+      startTimeShow: '',
+      s_year: '',
+      s_month: '',
+      s_day: '',
+      endTime: '',
+      endTimeShow: '',
+      e_year: '',
+      e_month: '',
+      e_day: '',
+      selectedPREPAID:false,
+      selectedWAITPICK:false,
+      selectedDELIVERYING:false,
+      selectedDELIVERYOVER:false,
+      selectedCOMPLETED:false,
+    });
+  },
+
+  cancalorderparam() {
+    this.setData({
+      screenchoiceflag:false,
+      ['queryorderlistReqPram']: '',
+      queryorderlistReqPram:this.data.queryorderlistReqPram_
+    }) 
+  }
 })
 
 

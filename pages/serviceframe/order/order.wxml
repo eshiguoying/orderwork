@@ -145,14 +145,14 @@
 
 <view class="screenpanal" style='width:{{windowW}}px;transform: translate({{screenchoiceflag?  0 : windowW}}px, 0%)'>
     <view class='head'>
-        <view class='item cancal_'  catchtap='xxxxx'>取消</view>
-        <view class='reset_' catchtap='xxxxx'>重置</view>
-        <view class='item sure_' catchtap='xxxxxxx'>确定</view>
+        <view class='item cancal_'  catchtap='cancalorderparam'>取消</view>
+        <view class='reset_' catchtap='resetorderparam'>重置</view>
+        <view class='item sure_' catchtap='queryorderlist_but'>确定</view>
     </view>
     <view class='query_body'>
       <view class='margin_body'>
         <view class='line orderbody'>
-           <input class='item orderno' placeholder='订单号' ></input>
+           <input class='item orderno' placeholder='订单号' bindinput='orderno_input' value='{{queryorderlistReqPram.orderno}}'></input>
         </view>
 
         <block wx:if="{{accountInfo.appUser.level == 1}}">
