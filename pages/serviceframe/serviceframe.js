@@ -24,52 +24,76 @@ Page({
     servicename: 'order',
 
     // 订单页面
-    // 选择订单按钮数据储存
-    selectedorderlist:[],
+    // 零时组装请求参数
     queryorderlistReqPram:{
-      countername: '',// 柜台name
-      counterId: -1,// 柜台id
+      orderno: '',// 订单号
       distributorname: '', // 分销商name
-      distributorId: -1,// 分销商id
+      distributorId: '',// 分销商id
+      countername: '',// 柜台name
+      counterId: '',// 柜台id
+      username: '',// 订单负责人名称
+      userId: '', // 用户id
+      PREPAID: false,// 待分配是否选中
+      WAITPICK: false,// 待提取是否被选中
+      DELIVERYING: false,// 配送中是否被选中
+      DELIVERYOVER: false,// 已送达是否被选中
+      COMPLETED: false,// 已完成是否被选中
+      statuslist:[],// 订单状态列表
+      status: '',// 订单状态
+      startTimeShow: '',
+      s_year: '',
+      s_month: '',
+      s_day: '',
+      endTimeShow: '',
+      e_year: '',
+      e_month: '',
+      e_day: '',
       beginDate: '',// 开始时间
       endDate: '',//结束时间
-      orderno: '',// 订单号
-      status: '',// 订单状态
-      orderCharge: '',// 订单负责人名称
-      orderChargeId: -1,// 订单负责人id
-      userId: '', // 用户id
       pageIndex: 1 // 默认第一页
     },
-    queryorderlistReqPram_: {
-      countername: '',// 柜台name
-      counterId: -1,// 柜台id
+    // 最终组装请求参数
+    queryorderlistReqPram_official: {
+      orderno: '',// 订单号
       distributorname: '', // 分销商name
-      distributorId: -1,// 分销商id
+      distributorId: '',// 分销商id
+      countername: '',// 柜台name
+      counterId: '',// 柜台id
+      username: '',// 订单负责人名称
+      userId: '', // 用户id
+      PREPAID: false,// 待分配是否选中
+      WAITPICK: false,// 待提取是否被选中
+      DELIVERYING: false,// 配送中是否被选中
+      DELIVERYOVER: false,// 已送达是否被选中
+      COMPLETED: false,// 已完成是否被选中
+      statuslist: [],// 订单状态列表
+      status: '',// 订单状态
+      startTimeShow: '',
+      s_year: '',
+      s_month: '',
+      s_day: '',
+      endTimeShow: '',
+      e_year: '',
+      e_month: '',
+      e_day: '',
       beginDate: '',// 开始时间
       endDate: '',//结束时间
-      orderno: '',// 订单号
-      status: '',// 订单状态
-      orderCharge: '',// 订单负责人名称
-      orderChargeId: -1,// 订单负责人id
-      userId: '', // 用户id
       pageIndex: 1 // 默认第一页
     },
     // 是否打开筛选页面
     screenchoiceflag:false,
-    // 三级分销商接口
+    // 三级分销商list
     distributorArr:[],
-    // 柜台
+    // 柜台list
     counterArr: [],
-    // 订单负责人
+    // 订单负责人list
     orderChargeArr:[],
-    selectedPREPAID: false,// 待分配
-    selectedWAITPICK: false,// 待提取
-    selectedDELIVERYING: false,// 配送中
-    selectedDELIVERYOVER: false,// 已送达
-    selectedCOMPLETED: false, // 已完成
+    
     
     // 订单列表展示
     orderlist:[],
+    // 选择订单按钮数据储存
+    selectedorderlist: [],
     totalPage: 0,// 页面总数;
     multiplechoiceflag:false,// 多选
     mulchoiceflag: false,//多选
@@ -77,7 +101,6 @@ Page({
     staffinfolist: [],//更改取派员列表
     staffid:'',// 选中的取派员id
     staffinfo: {},
-
 
     // 寄间类型滑块
     sliding: {
@@ -262,7 +285,12 @@ Page({
   loaddatabyservicetype() {
     if (this.data.servicename == 'order') {
       // 订单信息,加载订单列表
-      this.loadOrderlist(this.data.queryorderlistReqPram_);
+      this.setData({
+        orderlist:[],
+        ['queryorderlistReqPram.pageIndex']: 1
+      });
+
+      this.loadOrderlist(this.data.queryorderlistReqPram_official);
 
       this.canlendar = this.selectComponent("#canlendar");
       this.canlendar.init(3);
@@ -1023,32 +1051,37 @@ scancode() {
   },
 
   // 加载订单列表数据
-  loadOrderlist() {
+  loadOrderlist(param) {
     var this_ = this
 
+    console.info("----");
+    console.info(param);
 
-    request.HttpRequst('/v2/order/list', 'POST', this.data.queryorderlistReqPram_).then(function (res) {
+    request.HttpRequst('/v2/order/list', 'POST', param).then(function (res) {
+      console.info("++++++++");
+      console.info(res);
+
       // 隐藏加载框
       wx.hideLoading();
       // 未成功加载
       if (res.code == 500) {
         this_.setData({ orderlist: [] })
-        wx.showModal({
-          content: '您还没有被分配到三级分销商',
-          confirmText: '确定',
-          confirmColor: '#fbc400',
-          showCancel: false,
-        })
+        wx.showToast({
+          title: '未被分配到三级分销商',
+          icon: 'none',
+          duration: 2000,
+        });
         return false
       }
 
       // 未查询出数据
       if (res.result.totalPage == 0) {
+        
         return false
       }
+
       var orderlist = this_.data.orderlist;
-      console.info("+++++++++++++++++++");
-      console.info(orderlist);
+      
       var list = res.result.list
       for (var i = 0; i < list.length; ++i) {
         var oneItem = {
@@ -1120,7 +1153,7 @@ scancode() {
     if (this.data.queryorderlistReqPram.pageIndex > this.data.totalPage) {
       return false
     }
-    this.loadOrderlist(this.data.queryorderlistReqPram_)
+    this.loadOrderlist(this.data.queryorderlistReqPram_official)
   },
 
   // 刷新
@@ -1133,7 +1166,7 @@ scancode() {
       ['queryorderlistReqPram.pageIndex']: 1,
     });
     // 查询订单列表信息
-    this.loadOrderlist(this.data.queryorderlistReqPram_);
+    this.loadOrderlist(this.data.queryorderlistReqPram_official);
   },
 
   // 是否多选
@@ -1425,6 +1458,8 @@ scancode() {
     this.setData({
       ['queryorderlistReqPram.orderno']: e.detail.value
     });
+    console.info(this.data.queryorderlistReqPram);
+    console.info(this.data.queryorderlistReqPram_official);
   },
   
   // 取消选择改派人员列表
@@ -1505,7 +1540,7 @@ scancode() {
   cancaltrileveldistribution() {
     this.setData({
       ['queryorderlistReqPram.distributorname']: '',
-      ['queryorderlistReqPram.distributorId']: -1,
+      ['queryorderlistReqPram.distributorId']: '',
       isviewtrileveldistri: false,
     });
   },
@@ -1519,7 +1554,7 @@ scancode() {
       ['queryorderlistReqPram.distributorname']: e.currentTarget.dataset.name,
       ['queryorderlistReqPram.distributorId']: e.currentTarget.dataset.id,
       ['queryorderlistReqPram.countername']: '',
-      ['queryorderlistReqPram.counterId']: -1,
+      ['queryorderlistReqPram.counterId']: '',
       isviewtrileveldistri: false,
     })
 
@@ -1548,14 +1583,13 @@ scancode() {
   cancalcounter() {
     this.setData({
       ['queryorderlistReqPram.countername']: '',
-      ['queryorderlistReqPram.counterId']: -1,
+      ['queryorderlistReqPram.counterId']: '',
       isviewcounter: false,
     });
   },
 
   //选择柜台服务中心
   selectCounter: function (e) {
-    console.info(e.currentTarget.dataset.value);
     this.setData({
       ['queryorderlistReqPram.countername']: e.currentTarget.dataset.name,
       ['queryorderlistReqPram.counterId']: e.currentTarget.dataset.id,
@@ -1580,8 +1614,8 @@ scancode() {
 
   cancalorderoffice() {
     this.setData({
-      ['queryorderlistReqPram.orderCharge']: '',
-      ['queryorderlistReqPram.orderChargeId']: -1,
+      ['queryorderlistReqPram.username']: '',
+      ['queryorderlistReqPram.userId']: '',
       isviewofficerbody: false,
     });
   },
@@ -1589,38 +1623,29 @@ scancode() {
   //选择柜台服务中心
   selectOrderCharge: function (e) {
     this.setData({
-      ['queryorderlistReqPram.orderCharge']: e.currentTarget.dataset.name,
-      ['queryorderlistReqPram.orderChargeId']: e.currentTarget.dataset.id,
+      ['queryorderlistReqPram.username']: e.currentTarget.dataset.name,
+      ['queryorderlistReqPram.userId']: e.currentTarget.dataset.id,
       isviewofficerbody: false,
     })
   },
 
   checkTap: function (e) {
     var code = e.currentTarget.dataset.code
+    var statuslist = this.data.queryorderlistReqPram.statuslist;
+    if (!this.data.queryorderlistReqPram[code]) {
+      // 选中
+      statuslist.push(code);
+    } else {
+      // 去除
+      statuslist.splice(statuslist.indexOf(code) ,1);
+    }
+
     this.setData({
-      [code]: !this.data[code]
+      ['queryorderlistReqPram.statuslist']: statuslist,
+      ['queryorderlistReqPram.' + code]: !this.data.queryorderlistReqPram[code],
+      ['queryorderlistReqPram.status']: statuslist.join(",")
     });
 
-    var statusStr = '';
-    if (this.data.selectedPREPAID) {
-      statusStr += 'PREPAID,'
-    }
-    if (this.data.selectedWAITPICK) {
-      statusStr += 'WAITPICK,'
-    }
-    if (this.data.selectedDELIVERYING) {
-      statusStr += 'DELIVERYING,'
-    }
-    if (this.data.selectedDELIVERYOVER) {
-      statusStr += 'DELIVERYOVER,'
-    }
-    if (this.data.selectedCOMPLETED) {
-      statusStr += 'COMPLETED,'
-    }
-    statusStr = statusStr.substring(0, statusStr.length - 1)
-    this.setData({
-      ['queryorderlistReqPram.status']: statusStr
-    })
   },
 
   
@@ -1668,21 +1693,18 @@ scancode() {
     var month = data.month < 10 ? '0' + data.month : data.month
     var day = data.day < 10 ? '0' + data.day : data.day
     var type = data.type
-
     if (data.type == 'start') {
       this.setData({
         ['queryorderlistReqPram.beginDate']: data.year + '-' + month + '-' + day + ' 00:00:00',
-        startTime: data.year + '-' + month + '-' + day + ' 00:00:00',
-        startTimeShow: data.year + '.' + month + '.' + day,
-        s_year: data.year,
-        s_month: data.month,
-        s_day: data.day,
+        ['queryorderlistReqPram.startTimeShow']: data.year + '.' + month + '.' + day,
+        ['queryorderlistReqPram.s_year']: data.year,
+        ['queryorderlistReqPram.s_month']: data.month,
+        ['queryorderlistReqPram.s_day']: data.day,
         ['queryorderlistReqPram.endDate']: data.year + '-' + month + '-' + day + ' 23:59:59',
-        endTime: data.year + '-' + month + '-' + day + ' 23:59:59',
-        endTimeShow: data.year + '.' + month + '.' + day,
-        e_year: data.year,
-        e_month: data.month,
-        e_day: data.day
+        ['queryorderlistReqPram.endTimeShow']: data.year + '.' + month + '.' + day,
+        ['queryorderlistReqPram.e_year']: data.year,
+        ['queryorderlistReqPram.e_month']: data.month,
+        ['queryorderlistReqPram.e_day']: data.day,
       })
     }
 
@@ -1698,11 +1720,10 @@ scancode() {
 
       this.setData({
         ['queryorderlistReqPram.endDate']: data.year + '-' + month + '-' + day + ' 23:59:59',
-        endTime: data.year + '-' + month + '-' + day + ' 23:59:59',
-        endTimeShow: data.year + '.' + month + '.' + day,
-        e_year: data.year,
-        e_month: data.month,
-        e_day: data.day
+        ['queryorderlistReqPram.endTimeShow']: data.year + '.' + month + '.' + day,
+        ['queryorderlistReqPram.e_year']: data.year,
+        ['queryorderlistReqPram.e_month']: data.month,
+        ['queryorderlistReqPram.e_day']: data.day,
       })
     }
 
@@ -1721,60 +1742,117 @@ scancode() {
     this.canlendar2.toViewFunc(parseInt(this.data.e_month))
   },
 
+
+
   // 查询
   queryorderlist_but() {
-    this.loadOrderlist(this.data.queryorderlistReqPram);
-  
+    var reqparam = this.data.queryorderlistReqPram;
     this.setData({
-      screenchoiceflag:false,
-      queryorderlistReqPram_: this.data.queryorderlistReqPram
+      orderlist:[],
+
+      screenchoiceflag: false,
+      ['queryorderlistReqPram_official.orderno']: reqparam.orderno,
+      ['queryorderlistReqPram_official.distributorname']: reqparam.distributorname,
+      ['queryorderlistReqPram_official.distributorId']: reqparam.distributorId,
+      ['queryorderlistReqPram_official.countername']: reqparam.countername,
+      ['queryorderlistReqPram_official.counterId']: reqparam.counterId,
+      ['queryorderlistReqPram_official.username']: reqparam.username,
+      ['queryorderlistReqPram_official.userId']: reqparam.userId,
+
+      ['queryorderlistReqPram_official.PREPAID']: reqparam.PREPAID,
+      ['queryorderlistReqPram_official.WAITPICK']: reqparam.WAITPICK,
+      ['queryorderlistReqPram_official.DELIVERYING']: reqparam.DELIVERYING,
+      ['queryorderlistReqPram_official.DELIVERYOVER']: reqparam.DELIVERYOVER,
+      ['queryorderlistReqPram_official.COMPLETED']: reqparam.COMPLETED,
+      ['queryorderlistReqPram_official.statuslist']: reqparam.statuslist,
+      ['queryorderlistReqPram_official.status']: reqparam.status,
+
+      ['queryorderlistReqPram_official.startTimeShow']: reqparam.startTimeShow,
+      ['queryorderlistReqPram_official.s_year']: reqparam.s_year,
+      ['queryorderlistReqPram_official.s_month']: reqparam.s_month,
+      ['queryorderlistReqPram_official.s_day']: reqparam.s_day,
+      ['queryorderlistReqPram_official.endTimeShow']: reqparam.endTimeShow,
+      ['queryorderlistReqPram_official.e_year']: reqparam.e_year,
+      ['queryorderlistReqPram_official.e_month']: reqparam.e_month,
+      ['queryorderlistReqPram_official.e_day']: reqparam.e_day,
+      ['queryorderlistReqPram_official.beginDate']: reqparam.beginDate,
+      ['queryorderlistReqPram_official.endDate']: reqparam.endDate,
+
+      ['queryorderlistReqPram_official.pageIndex']: 1,
     });
-    
+
+
+    this.loadOrderlist(this.data.queryorderlistReqPram_official);
   },
   
   // 重置
   resetorderparam() {
     var restvalue = {
-      countername: '',// 柜台name
-      counterId: -1,// 柜台id
-      distributorname: '', // 分销商name
-      distributorId: -1,// 分销商id
-      beginDate: '',// 开始时间
-      endDate: '',//结束时间
       orderno: '',// 订单号
-      status: '',// 订单状态
-      orderCharge: '',// 订单负责人名称
-      orderChargeId: -1,// 订单负责人id
+      distributorname: '', // 分销商name
+      distributorId: '',// 分销商id
+      countername: '',// 柜台name
+      counterId: '',// 柜台id
+      username: '',// 订单负责人名称
       userId: '', // 用户id
-      pageIndex: 1 // 默认第一页
-    }
-
-    this.setData({
-      queryorderlistReqPram: restvalue,
-      queryorderlistReqPram_: restvalue,
-      startTime: '',
+      PREPAID: false,// 待分配是否选中
+      WAITPICK: false,// 待提取是否被选中
+      DELIVERYING: false,// 配送中是否被选中
+      DELIVERYOVER: false,// 已送达是否被选中
+      COMPLETED: false,// 已完成是否被选中
+      statuslist: [],// 订单状态列表
+      status: '',// 订单状态
       startTimeShow: '',
       s_year: '',
       s_month: '',
       s_day: '',
-      endTime: '',
       endTimeShow: '',
       e_year: '',
       e_month: '',
       e_day: '',
-      selectedPREPAID:false,
-      selectedWAITPICK:false,
-      selectedDELIVERYING:false,
-      selectedDELIVERYOVER:false,
-      selectedCOMPLETED:false,
+      beginDate: '',// 开始时间
+      endDate: '',//结束时间
+      pageIndex: 1 // 默认第一页
+    }
+
+    this.setData({
+      queryorderlistReqPram: restvalue
     });
   },
 
   cancalorderparam() {
+    var reqparam = this.data.queryorderlistReqPram_official;
+    
     this.setData({
-      screenchoiceflag:false,
-      ['queryorderlistReqPram']: '',
-      queryorderlistReqPram:this.data.queryorderlistReqPram_
+      screenchoiceflag: false,
+      ['queryorderlistReqPram.orderno']: reqparam.orderno,
+      ['queryorderlistReqPram.distributorname']: reqparam.distributorname,
+      ['queryorderlistReqPram.distributorId']: reqparam.distributorId,
+      ['queryorderlistReqPram.countername']: reqparam.countername,
+      ['queryorderlistReqPram.counterId']: reqparam.counterId,
+      ['queryorderlistReqPram.username']: reqparam.username,
+      ['queryorderlistReqPram.userId']: reqparam.userId,
+
+      ['queryorderlistReqPram.PREPAID']: reqparam.PREPAID,
+      ['queryorderlistReqPram.WAITPICK']: reqparam.WAITPICK,
+      ['queryorderlistReqPram.DELIVERYING']: reqparam.DELIVERYING,
+      ['queryorderlistReqPram.DELIVERYOVER']: reqparam.DELIVERYOVER,
+      ['queryorderlistReqPram.COMPLETED']: reqparam.COMPLETED,
+      ['queryorderlistReqPram.statuslist']: reqparam.statuslist,
+      ['queryorderlistReqPram.status']: reqparam.status,
+
+      ['queryorderlistReqPram.startTimeShow']: reqparam.startTimeShow,
+      ['queryorderlistReqPram.s_year']: reqparam.s_year,
+      ['queryorderlistReqPram.s_month']: reqparam.s_month,
+      ['queryorderlistReqPram.s_day']: reqparam.s_day,
+      ['queryorderlistReqPram.endTimeShow']: reqparam.endTimeShow,
+      ['queryorderlistReqPram.e_year']: reqparam.e_year,
+      ['queryorderlistReqPram.e_month']: reqparam.e_month,
+      ['queryorderlistReqPram.e_day']: reqparam.e_day,
+      ['queryorderlistReqPram.beginDate']: reqparam.beginDate,
+      ['queryorderlistReqPram.endDate']: reqparam.endDate,
+
+      ['queryorderlistReqPram.pageIndex']: reqparam.pageIndex
     }) 
   }
 })

@@ -218,39 +218,39 @@
 
         <view class='line orderstatus'>
           <view class='item statusbody'>
-            <view class='status'  data-status="待分配" data-code="selectedPREPAID" bindtap='checkTap'>
-              <view class="check {{selectedPREPAID ? 'selected' : ''}}"></view>
+            <view class='status'  data-status="待分配" data-code="PREPAID" bindtap='checkTap'>
+              <view class="check {{queryorderlistReqPram.PREPAID ? 'selected' : ''}}"></view>
               <label class="order-pop-status">待分配</label>
             </view>
               <view class='veri'></view>
-            <view class='status' data-status="待提取" data-code="selectedWAITPICK" bindtap='checkTap'>
-               <view class="check {{selectedWAITPICK ? 'selected' : ''}}"></view>
+            <view class='status' data-status="待提取" data-code="WAITPICK" bindtap='checkTap'>
+               <view class="check {{queryorderlistReqPram.WAITPICK ? 'selected' : ''}}"></view>
                <label class="order-pop-status">待提取</label>
             </view>
               <view class='veri'></view>
-            <view class='status' data-status="配送中" data-code="selectedDELIVERYING" bindtap='checkTap'>
-               <view class="check {{selectedDELIVERYING ? 'selected' : ''}}"></view>
+            <view class='status' data-status="配送中" data-code="DELIVERYING" bindtap='checkTap'>
+               <view class="check {{queryorderlistReqPram.DELIVERYING ? 'selected' : ''}}"></view>
                <label class="order-pop-status">配送中</label>              
             </view>
               <view class='veri'></view>
-            <view class='status' data-status="已送达" data-code="selectedDELIVERYOVER" bindtap='checkTap'>
-              <view class="check {{selectedDELIVERYOVER ? 'selected' : ''}}"></view>
+            <view class='status' data-status="已送达" data-code="DELIVERYOVER" bindtap='checkTap'>
+              <view class="check {{queryorderlistReqPram.DELIVERYOVER ? 'selected' : ''}}"></view>
               <label class="order-pop-status">已送达</label>
             </view>
               <view class='veri'></view>
-            <view class='status' data-status="已完成" data-code="selectedCOMPLETED" bindtap='checkTap'>
-              <view class="check {{selectedCOMPLETED ? 'selected' : ''}}"></view>
+            <view class='status' data-status="已完成" data-code="COMPLETED" bindtap='checkTap'>
+              <view class="check {{queryorderlistReqPram.COMPLETED ? 'selected' : ''}}"></view>
               <label class="order-pop-status">已完成</label>
             </view>
           </view>
         </view>
 
         <view class='line starttimebody' bindtap='showStartTime'>
-           <input class='item starttime' placeholder='订单开始时间' disabled='true' value='{{startTimeShow}}'></input>
+           <input class='item starttime' placeholder='订单开始时间' disabled='true' value='{{queryorderlistReqPram.startTimeShow}}'></input>
         </view>
 
         <view class='line endtimebody' bindtap='showEndTime'>
-           <input class='item endtime' placeholder='订单结束时间' disabled='true' value='{{endTimeShow}}'></input>
+           <input class='item endtime' placeholder='订单结束时间' disabled='true' value='{{queryorderlistReqPram.endTimeShow}}'></input>
         </view>
         
         <!-- 选择时间 -->
@@ -262,9 +262,9 @@
 
           <view class='datebody_'>
             <canlendar id="canlendar" 
-                      select-year="{{s_year}}"  
-                      select-month="{{s_month}}"  
-                      select-day="{{s_day}}" 
+                      select-year="{{queryorderlistReqPram.s_year}}"  
+                      select-month="{{queryorderlistReqPram.s_month}}"  
+                      select-day="{{queryorderlistReqPram.s_day}}" 
                       type="start" 
                       bind:selectDayEvent="_selectDayEvent" />
           </view>
@@ -278,9 +278,9 @@
             </view>
 
             <canlendar id="canlendar2" 
-                       select-year="{{e_year}}"  
-                       select-month="{{e_month}}"  
-                       select-day="{{e_day}}" 
+                       select-year="{{queryorderlistReqPram.e_year}}"  
+                       select-month="{{queryorderlistReqPram.e_month}}"  
+                       select-day="{{queryorderlistReqPram.e_day}}" 
                        type="end" 
                        bind:selectDayEvent="_selectDayEvent" />
         </view>
