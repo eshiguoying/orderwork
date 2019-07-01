@@ -847,3 +847,7 @@
   background-color: #ED666C;
   font-weight: bold;
 }
+
+@import "../addrselect/addrselect.wxss";
+
+@import "../pricedetail/pricedetail.wxss";

@@ -15,37 +15,37 @@
           </view>
       </view>
 
-      <view class='order_body' >
+      <view class='order_body' catchtap='loadorderdetails' data-id='{{orderItem.order.id}}'>
         <view class='body' style='width:{{windowW - 35}}px;' >
           <view class='cusinfo_'>
             <view class='item_'>
               <view class='photo '>
-                <image src='../../images/cus.png'></image>
+                <image src='../../../images/cus.png'></image>
               </view>
               <view class='info'>测试用</view>
             </view>
             <view class='item_'>
               <view class='photo'>
-                <image src='../../images/lug.png'></image>
+                <image src='../../../images/lug.png'></image>
               </view>
               <view class='info'>{{orderItem.order.num}}件</view>
             </view>
             <view class='item_'>
               <view class='photo'>
-                <image src='../../images/staff.png'></image>
+                <image src='../../../images/staff.png'></image>
               </view>
               <view class='info'>{{orderItem.charge}}</view>
             </view>
             <view class='orderstatus'>
               <view class='info'>{{orderItem.order.statusdesc}}</view>
               <view class='photo'>
-                <image src='../../images/right_arrows.png'></image>
+                <image src='../../../images/right_arrows.png'></image>
               </view>
             </view>
           </view>
           <view class='item'>
             <view class='photo'>
-              <image src='../../images/addrtype.png'></image>
+              <image src='../../../images/addrtype.png'></image>
             </view>
             <view class='info'>
               {{orderItem.orderAddress.srcaddrtypedesc}} ~ {{orderItem.orderAddress.destaddrtypedesc}}
@@ -53,7 +53,7 @@
           </view>
           <view class='item'>
             <view class='photo'>
-              <image src='../../images/clock.png'></image>
+              <image src='../../../images/clock.png'></image>
             </view>
             <view class='info'>
               {{orderItem.order.taketimepart}} ~ {{orderItem.order.sendtimepart}}
@@ -75,7 +75,7 @@
 
 <view class='floatpanel' style='width:{{windowW}}px;'>
   <view class='refreshbut item' catchtap='refreshtap'>
-    <image src='../../images/refresh_24.png'></image>
+    <image src='../../../images/refresh_24.png'></image>
   </view>
   <view class='filtrate item'>
     <view class='veri' catchtap='screenchoice'>筛选</view>
@@ -288,3 +288,19 @@
       </view>
     </view>
 </view>
+
+<view class='screenpanalshade' style="width:{{windowW}}px;height:{{windowH}}px;display:{{screenchoiceflag? '':'none'}}" ></view>
+
+
+<view class="orderdetailspanal" 
+      style='width:{{windowW}}px;height:{{windowH}}px;transform: translate({{orderdetailshowflag?  0 : windowW}}px, 0%)'>
+  <view class='head'>
+    <view class='cancal' catchtap='closeorderdetailsbut'>X</view>
+  </view>
+  <view class='orderdetails_body'>
+    <block wx:if="{{orderdetailshowflag}}">
+      <orderdetails orderid="{{orderdetailsByorderid}}"/>
+    </block>
+  </view>
+</view>
+

@@ -184,7 +184,7 @@
         </view>
         <block wx:if='{{lugphotolist.length < 6}}'>
           <view class='lugphoneaddbody'catchtap='chooseImage_'>
-            <image class='lugphoneadd' src='../../images/addico.png'></image>
+            <image class='lugphoneadd' src='../../../images/addico.png'></image>
           </view>
         </block>
       </view>
@@ -245,7 +245,7 @@
         <view class='totalmoney'>￥{{totalmoney}}</view>
         <view class='pricedetailbut'>
           <view class='totalmoneyimg' catchtap='openpricedetail'>
-            <image class='pricedown' src='../../images/pricedown.png'></image>
+            <image class='pricedown' src='../../../images/pricedown.png'></image>
           </view>
         </view>
         <view class='sure_ceaterorder' >确认</view>
@@ -253,6 +253,13 @@
   </view>
 
 </view>
+
+<!-- 价格选择 -->
+<include src="../pricedetail/pricedetail.wxml" />
+<!-- 地址输入 -->
+<include src="../addrselect/addrselect.wxml" />
+
+
 
 
 

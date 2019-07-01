@@ -577,6 +577,13 @@
 }
 
 /* start */
+.screenpanalshade {
+  position: fixed;
+  bottom:0;
+  z-index: 119;
+  background-color: rgba(158,157,157, 0.5)
+}
+
 .screenpanal {
   height: 850rpx;
   position: fixed;
@@ -797,4 +804,37 @@
 .canlendar_hide {
   display: none;
 }
+
+.orderdetailspanal {
+  position: fixed;
+  bottom: 0;
+  z-index: 300;
+  background-color: #FCFBF8;
+  display: flex;
+  flex-direction: column;
+}
+
+.orderdetailspanal .head{
+  width: 100%;
+  height: 80rpx;
+  position: relative;
+}
+
+.orderdetailspanal .head .cancal {
+  position: absolute;
+  width: 80rpx;
+  height: 80rpx;
+  right: 10rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.orderdetailspanal .orderdetails_body {
+  flex: 1;
+}
+
+
 

@@ -1,7 +1,9 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
-    "canlendar": "../canlendar/canlendar"
+    "order": "order/order",
+    "goldservice": "goldservice/goldservice",
+    "specialservice": "specialservice/specialservice"
   }
 }
 

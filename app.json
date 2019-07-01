@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/serviceframe/serviceframe",
+    "pages/serviceframe/orderdetails/orderdetails",
     "pages/login/login"
   ],
   "window": {
