@@ -133,7 +133,7 @@
   transition-duration:0.2s
 } */
 
-.my {
+.report {
  transform: translate(0%, 295rpx);
   -webkit-transform: translate(0%, 295rpx);
   transition-duration:0.2s

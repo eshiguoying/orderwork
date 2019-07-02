@@ -1,0 +1,77 @@
+<!--user.wxml-->
+<view class="container">
+  <!--登录信息-->
+  <view id="topblock">
+    <view class="info-b">
+      <view class="info-title">登录信息：</view>
+      <view class="info-msg">
+        <text>姓名：{{accountInfo.appUser.name}}</text>
+        <text>电话：{{accountInfo.appUser.mobile}}</text>
+        <text class="edit-btn" data-param="myself" data-enable="true" bindtap="linkToEdit">编辑</text>
+      </view>
+      <view class="info-msg">
+        <text>所属三级分销商：{{accountInfo.appUser.thirdname}}</text>
+      </view>
+      <view class="info-msg">
+        <text>注册码：{{accountInfo.registerCode}}</text>
+      </view>
+    </view>
+    <!--顶部搜索-->
+    <view class="search-b">
+      <input class="search-in" bindinput="setUserName" placeholder="姓名" />
+      <button class="search-btn" bindtap="searchUser">搜索</button>
+    </view>
+    <!--筛选条件-->
+    <view class="filter-b" bindtap="searchFilter">
+      <view class="filter-icon"><image wx:if="{{userEnable}}" src="../../../images/user-icon01.png"></image></view>
+      <view class="filter-name">仅显示启用用户</view>
+    </view>
+  </view>
+  <!--用户列表-->
+  <scroll-view scroll-y class="user-list" style='height:{{wrapperH}}px;'>
+    <block wx:for="{{filterUserList}}" wx:key="*this">
+      <!--启用数据-->
+      <view class="user-item" wx:if="{{item.enable}}" >
+        <view class="user-level-block">
+          <view class="user-level h" wx:if="{{item.level == 2}}">中级</view>
+          <view class="user-level" wx:elif="{{item.level == 3}}">初级</view>
+        </view>
+        <view class="user-tinfo">
+          <text class="user-name">{{item.name}}</text>
+          <text class="user-company">所属三级分销商</text>
+          <text class="user-edit">编辑</text>
+          <text class="user-open">是否启用</text>
+        </view>
+        <view class="user-binfo">
+          <text class="user-name">{{item.phone}}</text>
+          <text class="user-company">{{item.distributor}}</text>
+          <text class="user-edit h" data-param="{{item}}" data-enable="{{item.enable}}" bindtap="linkToEdit">编辑</text>
+          <switch color="#fbc400" checked data-param="{{item}}" bindchange="enableUser" />
+        </view>
+      </view>
+      <!--非启用数据-->
+      <view class="user-item disable" wx:elif="{{!userEnable}}" >
+        <view class="user-level-block">
+          <view class="user-level h" wx:if="{{item.level == 2}}">中级</view>
+          <view class="user-level" wx:elif="{{item.level == 3}}">初级</view>
+        </view>
+        <view class="user-tinfo">
+          <text class="user-name">{{item.name}}</text>
+          <text class="user-company">所属三级分销商</text>
+          <text class="user-edit">编辑</text>
+          <text class="user-open">是否启用</text>
+        </view>
+        <view class="user-binfo">
+          <text class="user-name">{{item.phone}}</text>
+          <text class="user-company">{{item.distributor}}</text>
+          <text class="user-edit h" data-param="{{item}}" data-enable="{{item.enable}}" bindtap="linkToEdit">编辑</text>
+          <switch color="#fbc400" data-param="{{item}}" bindchange="enableUser" />
+        </view>
+      </view>
+    </block>
+    <view class="noresult-list" wx:if="{{noData}}">
+      <view><image class="noresult-list-img" src="../../../images/svg-7.png"></image></view>
+      <view class="noresult-list-msg">没有相关数据</view>
+    </view>
+  </scroll-view>
+</view>

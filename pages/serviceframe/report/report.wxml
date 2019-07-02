@@ -1,0 +1,38 @@
+<!--logs.wxml-->
+<view class="container">
+  <view id="querybox" class="query-box" bindtap='showQueryLayer'>
+    <view class="query-font">筛选</view>
+    <image src='../../../images/query-arrow.png' class="arrow"></image>
+  </view>
+  <view class="total">
+    <view class="total-order">订单总量：<label>{{orderTotal}}</label></view>
+    <view class="total-bag">行李总件数：<label>{{baggageTotal}}</label></view>
+  </view>
+  <view class="report-table">
+    <view class="report-row">
+      <view class="report-col">日期</view>
+      <view class="report-col">订单数</view>
+      <view class="report-col">行李件数</view>
+    </view>
+    <view class="report-row" wx:for="{{reportArr}}">
+      <view class="report-col">{{item.orderDate}}</view>
+      <view class="report-col">{{item.orderCount}}</view>
+      <view class="report-col">{{item.baggageNum}}</view>
+    </view>
+  </view>
+ 
+  <!-- <view class="gray-layer {{grayBgShow?'show':'hide'}} {{grayBgStatus?'fadeIn':'fadeOut'}}" catchtouchmove='stopPageScroll' bindtap='hideQueryLayer'></view>
+  <view class="query-pop {{reportQueryShow?'show':'hide'}} {{reportQueryStatus?'slideDown':'slideUp'}}">
+    <view class="query-line">
+      <view class="query-title">开始时间:</view>
+      <view class="time" bindtap='showStartTime'>{{startTimeShow}}</view>
+    </view>
+    <view class="query-line">
+      <view class="query-title">结束时间:</view>
+      <view class="time" bindtap='showEndTime'>{{endTimeShow}}</view>
+    </view>
+    <view class="query-btn-sure" bindtap='sureFunc'>确定</view>
+  </view> -->
+
+ 
+</view>

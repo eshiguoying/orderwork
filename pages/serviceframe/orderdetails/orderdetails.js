@@ -86,7 +86,6 @@ Component({
             })
             
             // 加载订单列表
-            console.info(this_.properties.orderid);
             this_.loadData(this_.properties.orderid);
             
             clearInterval(getToken);
@@ -300,6 +299,15 @@ Component({
     },
     //上传照片
     addPics: function () {
+      if (this.data.imgsArr.length >=6) {
+        wx.showToast({
+          title: '照片已达上线，无法在拍照',
+          icon: 'none',
+          duration: 2000,
+        });
+        return false
+      }
+
       var that = this
       //判断后台是否是退单状态
       request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
@@ -909,14 +917,14 @@ Component({
     //获取数据
     loadData: function (orderId) {
       var that = this
-
+      console.info(orderId);
       request.HttpRequst('/v2/order/info/' + orderId, 'GET', {}).then(function (res) {
         console.info(res);
 
         wx.hideLoading();
 
         var curOrder = res.data
-        console.log(res)
+
         var type = ''
         if (curOrder.order.type == 'AIRPORTCOUNTERTOHOTEL') {
           type = '机场-酒店'

@@ -832,6 +832,11 @@
   font-weight: bold;
 }
 
+.orderdetailspanal .head .cancal image { 
+  width: 40rpx;
+  height: 40rpx;
+}
+
 .orderdetailspanal .orderdetails_body {
   flex: 1;
 }

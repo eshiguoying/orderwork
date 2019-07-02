@@ -1,0 +1,177 @@
+.query-box{
+  height: 70rpx;
+  background: #fff;
+}
+.query-font{
+  height: 80rpx;
+  line-height: 80rpx;
+  margin-left: 10rpx;
+  float: left;
+}
+.query-box .arrow{
+  float: right;
+  width: 20rpx;
+  height: 14rpx;
+  margin: 28rpx 10rpx;
+}
+.total{
+  height: 50rpx;
+  margin: 30rpx 0 10rpx 0;
+}
+.total-order{
+  float: left;
+  margin-left: 20rpx;
+}
+.total-bag{
+  float: left;
+  margin-left: 50rpx;
+}
+.total label{
+  font-size: 40rpx;
+  color: #fbc400;
+}
+.report-table{
+  clear: both;
+  width: 97%;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 6rpx;
+}
+.report-row{
+  width: 96%;
+  margin: 0 auto;
+  height: 70rpx;
+  line-height: 70rpx;
+  clear: both;
+  border-bottom: solid 1px #eee;
+}
+.report-col{
+  float: left;
+  width: 30%;
+  text-align: center;
+}
+.gray-layer{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: .5;
+  z-index: 1000;
+}
+.query-pop{
+  width: 100%;
+  height: 160rpx;
+  background: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1001;
+  overflow: hidden;
+}
+.query-line{
+  height: 80rpx;
+}
+.query-title{
+  width: 150rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  float: left;
+  margin-left: 20rpx;
+}
+.time{
+  float: left;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 150rpx;
+  text-decoration: underline;
+  text-decoration-color: #ddd;
+}
+.query-btn-sure{
+  width: 140rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  position: absolute;
+  right: 30rpx;
+  top: 50rpx;
+  font-size: 28rpx;
+  border: solid 1px #f6ebc3;
+  border-radius: 6rpx;
+  background: #fef4d1;
+  color:#fbc400;
+  text-align: center;
+}
+.fadeIn{
+  animation: fadeIn .3s;
+}
+.fadeOut{
+  animation: fadeOut .3s;
+}
+.slideDown{
+  animation: slideDown .3s;
+}
+.slideUp{
+  animation: slideUp .3s;
+}
+@keyframes fadeIn{
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: .5;
+    }
+}
+@keyframes fadeOut{
+    from {
+        opacity: .5;
+    }
+    to {
+        opacity: 0;
+    }
+}
+@keyframes slideDown{
+    from {
+        height: 0;
+    }
+    to {
+        height: 160rpx;
+    }
+}
+@keyframes slideUp{
+    from {
+        height: 160rpx;
+    }
+    to {
+        height: 0;
+    }
+}
+.canlendar-layer{
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1003;
+}
+.can-title{
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+.canlendar-layer .close{
+  position: absolute;
+  top: 0rpx;
+  right: 0rpx;
+  width: 80rpx;
+  height: 80rpx;
+  z-index: 1004;
+  text-align: center;
+}
+.canlendar-layer image{
+  width: 25rpx;
+  height: 24rpx;
+  margin-top: 28rpx;
+}

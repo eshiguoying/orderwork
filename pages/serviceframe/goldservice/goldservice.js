@@ -233,6 +233,7 @@ Component({
 
     // 寄送地址类型
     selectaddrtype(param) {
+      console.info(param);
       var ordermaininfo = this.data.ordermaininfo;
       var addrnode = param.currentTarget.dataset.addrnode;
       var addrtype = param.currentTarget.dataset.addrtype;

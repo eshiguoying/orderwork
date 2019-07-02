@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "canlendar": "../canlendar/canlendar"
+  }
+}

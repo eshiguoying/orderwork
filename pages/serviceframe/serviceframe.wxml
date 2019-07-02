@@ -25,8 +25,8 @@
         <view class="item"  bindtap='servicetap' data-service='business'>
           <text  class='item_text' >管理</text>
         </view>
-        <view class="item"  bindtap='servicetap' data-service='my'>
-          <text  class='item_text'>我的</text>
+        <view class="item"  bindtap='servicetap' data-service='report'>
+          <text  class='item_text'>报表</text>
         </view>
       </view> 
     </view>
@@ -47,12 +47,13 @@
       <!-- 专车 -->
       <specialservice />
     </block>
-     <!--
-     <block wx:elif="{{servicename == 'business'}}"><include src="business/business.wxml" /></block>
      
-     <block wx:elif="{{servicename == 'my'}}"><include src="my/my.wxml" /></block>
-      -->
-
+     <block wx:elif="{{servicename == 'business'}}">
+      <user />
+     </block>
      
+    <block wx:elif="{{servicename == 'report'}}">
+      <report />
+    </block>
   </view>
 </view>

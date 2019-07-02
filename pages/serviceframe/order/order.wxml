@@ -295,7 +295,9 @@
 <view class="orderdetailspanal" 
       style='width:{{windowW}}px;height:{{windowH}}px;transform: translate({{orderdetailshowflag?  0 : windowW}}px, 0%)'>
   <view class='head'>
-    <view class='cancal' catchtap='closeorderdetailsbut'>X</view>
+    <view class='cancal' catchtap='closeorderdetailsbut'>
+      <image src='../../../images/Cancel.png'></image>
+    </view>
   </view>
   <view class='orderdetails_body'>
     <block wx:if="{{orderdetailshowflag}}">

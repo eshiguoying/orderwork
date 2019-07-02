@@ -3,7 +3,9 @@
   "usingComponents": {
     "order": "order/order",
     "goldservice": "goldservice/goldservice",
-    "specialservice": "specialservice/specialservice"
+    "specialservice": "specialservice/specialservice",
+    "user": "user/user",
+    "report": "report/report"
   }
 }
 
