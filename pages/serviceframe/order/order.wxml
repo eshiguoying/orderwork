@@ -15,7 +15,7 @@
           </view>
       </view>
 
-      <view class='order_body' catchtap='loadorderdetails' data-id='{{orderItem.order.id}}'>
+      <view class='order_body' catchtap='loadorderdetails' data-id='{{orderItem.order.id}}' data-index='{{index}}'>
         <view class='body' style='width:{{windowW - 35}}px;' >
           <view class='cusinfo_'>
             <view class='item_'>
@@ -301,7 +301,7 @@
   </view>
   <view class='orderdetails_body'>
     <block wx:if="{{orderdetailshowflag}}">
-      <orderdetails orderid="{{orderdetailsByorderid}}"/>
+      <orderdetails orderid="{{orderdetailsByorderid}}" orderIndex="{{orderIndex}}" bind:lowlevel_changeallow="lowlevel_changeallow" bind:nonlowlevel_changeallow="_nonlowlevel_changeallow"/>
     </block>
   </view>
 </view>

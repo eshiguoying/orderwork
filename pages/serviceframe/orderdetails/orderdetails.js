@@ -8,8 +8,12 @@ Component({
     // 这里定义了innerText属性，属性值可以在组件使用时指定
     orderid: {
       type: String,
-      value: -1,
+      value: "",
     },
+    orderIndex: {
+      type: String,
+      value: ""
+    }
   },
   data: {
     // 状态栏高度
@@ -63,6 +67,9 @@ Component({
     FlightNum: '',//航班号
     baggageCodeList: [],//如果有行李待提取，下单时的行李编码
     baggageImgList: [],//如果有行李待提取，下单时的照片
+
+    // 是否打开员工
+    isshowstafflistpanel:false
   },
 
   attached() {
@@ -854,66 +861,58 @@ Component({
         }
 
         that.setData({
-          grayBgStatus: true,
-          grayBgShow: true,
-          popReassignShow: true
-        })
-
-        var params = {
-          distributorId: that.data.appUserDistributorId,
-        }
-
-        request.HttpRequst('/v2/app-user/select', 'GET', params).then(function (res) {
-          console.log(res)
-          that.setData({
-            resignArr: res.data
-          })
-        })
-
+          isshowstafflistpanel:true
+        }) 
+        
       })
     },
-    hidePopResign: function () {
-      var that = this
-      that.setData({
-        grayBgStatus: false,
-        grayBgShow: false,
-        popReassignShow: false
-      })
-    },
-    //选择改派的人
-    selectAssigner: function (e) {
-      this.setData({
-        workerClickIdx: e.currentTarget.dataset.idx,
-        assignId: e.currentTarget.dataset.id
-      })
-    },
+   
+    
     //改派方法
-    assignFunc: function () {
+    sure_changeallow_staff: function (e) {
       var that = this
-
-      that.hidePopResign()
 
       var params = {
-        userId: that.data.assignId,
+        userId: e.detail.id,
         orderIds: that.data.orderId
       }
 
       console.log(params)
       request.HttpRequst('/v2/order/anewAppoint', 'POST', params).then(function (res) {
-        console.log(res)
+        if(res.code != '0') {
+          wx.showToast({
+            title: '未改派成功',
+            icon: 'none',
+            duration: 2000,
+          });
+          return;
+        }
 
+        that.loadData(that.properties.orderid);
+
+        // 关闭人员列表
         that.setData({
-          level3Clicked: true
-        })
+          isshowstafflistpanel: false
+        }) 
 
-        wx.showLoading({
-          title: '加载中...',
-          mask: true
-        });
-
-        that.loadData(that.data.orderId)
+        // 如果是三级
+        if (that.data.accountInfo.appUser.level == '3') {
+          // 改派给别人，所以要关闭订单详情列表，并且要刷新订单列表
+          that.lowlevel_changeallow();
+        } else {
+          that._nonlowlevel_changeallow(e);
+        }
       })
     },
+
+    lowlevel_changeallow() {
+      this.triggerEvent("lowlevel_changeallow");
+    },
+
+    _nonlowlevel_changeallow(e) {
+      this.triggerEvent("nonlowlevel_changeallow", { "orderindex": this.properties.orderIndex, allowuser:e.detail});
+    },
+
     //获取数据
     loadData: function (orderId) {
       var that = this
@@ -925,22 +924,7 @@ Component({
 
         var curOrder = res.data
 
-        var type = ''
-        if (curOrder.order.type == 'AIRPORTCOUNTERTOHOTEL') {
-          type = '机场-酒店'
-        }
-        if (curOrder.order.type == 'AIRPORTCOUNTERTOAIRPORTCOUNTER') {
-          type = '机场-机场'
-        }
-        if (curOrder.order.type == 'AIRPORTCOUNTERTOHOUSE') {
-          type = '机场-住宅'
-        }
-        if (curOrder.order.type == 'HOTELTOAIRPORTCOUNTER') {
-          type = '酒店-机场'
-        }
-        if (curOrder.order.type == 'HOUSETOAIRPORTCOUNTER') {
-          type = '住宅-机场'
-        }
+        
 
         that.setData({
           customerName: curOrder.customer.name,
@@ -965,7 +949,6 @@ Component({
           appUserName: curOrder.appUser ? curOrder.appUser.name : '',
           appUserMobile: curOrder.appUser ? curOrder.appUser.mobile : '',
           imgsArr: curOrder.imgList ? curOrder.imgList : [],
-          type: type,
           remark: curOrder.order.remark ? curOrder.order.remark : '',
           neadfetch: curOrder.order.neadfetch ? curOrder.order.neadfetch : '',
           FlightNum: curOrder.orderFlight ? curOrder.orderFlight.takeflightno : '',
@@ -1006,59 +989,14 @@ Component({
     },
 
     
-  },
-  /**
-       * 生命周期函数--监听页面加载
-       */
-  onLoad: function (options) {
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+    // 关闭员工列表面板
+    closestafflistpanel() {
+      this.setData({
+        isshowstafflistpanel: false
+      });
+    }
+    
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
+  
 })

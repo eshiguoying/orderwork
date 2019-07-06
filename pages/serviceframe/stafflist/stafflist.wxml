@@ -1,0 +1,23 @@
+<view class='shadepanel' 
+      catchtap='closestafflistpanel'  
+      style="width:{{windowW}}px;height:{{windowH}}px;" >
+   <view class='staffinfolist'  catchtap='xxx'>
+      <view class='head'>
+        <view class='item cancal_'  catchtap='closestafflistpanel'>取消</view>
+        <view class='center'></view>
+        <view class='item sure_' catchtap='sure_changeallow_staff'>确定</view>
+      </view>
+      <view class='body'>
+        <scroll-view class='stafflistscroll' scroll-y >
+          <block wx:for="{{stafflist}}" wx:for-index="idx">
+            <view class="staffinfo {{selectedstaff_index == idx? 'on': ''}}" 
+                  catchtap='selectedstaff' data-id="{{item.id}}" data-index='{{idx}}'>
+              <view class='staffname item'>{{item.name}}</view>
+              <view class='center'></view>
+              <view class='staffphotonum item'>{{item.mobile}}</view>
+            </view>
+          </block>
+        </scroll-view>
+      </view>
+   </view>           
+</view>

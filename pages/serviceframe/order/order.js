@@ -1008,7 +1008,8 @@ Component({
     loadorderdetails(e) {
       this.setData({
         orderdetailsByorderid: e.currentTarget.dataset.id,
-        orderdetailshowflag: true
+        orderdetailshowflag: true,
+        orderIndex: e.currentTarget.dataset.index
       });
     },
 
@@ -1019,5 +1020,18 @@ Component({
     }
   },
   
-  
+  // 订单详情改派，如果是低级人员则刷新订单列表
+  lowlevel_changeallow() {
+    this.closeorderdetailsbut();
+    this.queryorderlist_but();
+  },
+
+  // 订单详情改派，如果是中高级人员则刷新订单列表 
+  _nonlowlevel_changeallow(e) {
+    console.info("===============================");
+    this.setData({
+      ["orderlist[" + e.detail.orderindex + "]"]: e.detail.allowuser
+    })
+  }
+
 })
