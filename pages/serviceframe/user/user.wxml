@@ -75,3 +75,8 @@
     </view>
   </scroll-view>
 </view>
+
+<!-- 反馈 -->
+<block wx:if="{{isshowuserEdit}}">
+  <userEdit />
+</block>

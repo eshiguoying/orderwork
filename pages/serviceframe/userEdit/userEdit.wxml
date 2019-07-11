@@ -1,4 +1,5 @@
 <!--userEdit.wxml-->
+<view class="orderdetails_container" style="width:{{windowW}}px;height:{{windowH}}px">
 <view class="container">
   <view class="form-item">
     <view class="user-label">姓名</view>
@@ -43,4 +44,5 @@
   </view>
   <!--提交-->
   <view class="submit-block"><button class="submit-btn btn" bindtap="submitInfo">确定</button></view>
+</view>
 </view>

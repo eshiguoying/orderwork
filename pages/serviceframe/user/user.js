@@ -197,9 +197,11 @@ Component ({
             data: e.currentTarget.dataset.param
           });
         }
-        wx.navigateTo({
-          url: '../userEdit/userEdit'
-        })
+       
+
+        this.setData({
+          isshowuserEdit:true
+        });
       }
     }
   },
