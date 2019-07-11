@@ -1,6 +1,8 @@
 {
   "component": true,
   "usingComponents": {
-    "stafflist": "../stafflist/stafflist"
+    "stafflist": "../stafflist/stafflist",
+    "log": "../log/log",
+    "feedbackList": "../feedbackList/feedbackList"
   }
 }

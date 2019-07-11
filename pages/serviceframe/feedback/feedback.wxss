@@ -1,0 +1,27 @@
+/* pages/feedback/feedback.wxss */
+.feedback-title{
+  width: 97%;
+  margin: 0 auto;
+  height: 60rpx;
+  line-height: 60rpx;
+}
+.feedback-con{
+  width: 96%;
+  background: #fff;
+  margin: 0 auto;
+  padding: 5rpx;
+  border-radius: 6rpx;
+}
+.placeholder{
+  color: #ddd;
+}
+.feedback-sure{
+  height: 70rpx;
+  line-height: 70rpx;
+  color: #fff;
+  width: 97%;
+  margin: 30rpx auto;
+  background: #333;
+  border-radius: 6rpx;
+  text-align: center;
+}

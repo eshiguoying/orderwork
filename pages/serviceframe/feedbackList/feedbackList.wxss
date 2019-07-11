@@ -1,0 +1,54 @@
+/* pages/feedbackList/feedbackList.wxss */
+.scroll-wrap{
+  height: 1100rpx;
+  margin-top: 80rpx;
+}
+.no-order-img{
+  width: 140rpx;
+  height: 140rpx;
+  margin: 0 auto;
+  display: block;
+  margin-top: 100rpx;
+}
+.no-order-text{
+  width: 100%;
+  text-align: center;
+  margin-top: 20rpx;
+}
+.feedback-button{
+  width:80px;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  background: #fbc400;
+  border-radius: 50rpx;
+  margin: 20rpx 20rpx 20rpx 0;
+  color: #fff;
+  float: right;
+}
+.feedback-list:first-child{
+  margin-top: 0;
+}
+.feedback-list{
+  width: 97%;
+  overflow: hidden;
+  background: #fff;
+  margin: 0 auto;
+  margin-top: 10rpx;
+  padding: 10rpx 0;
+}
+.content{
+  line-height: 50rpx;
+  margin-left: 20rpx; 
+}
+.time-box{
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.time,.name{
+  float: left;
+  margin-left: 20rpx;
+}
+.time{
+  color: #999;
+}

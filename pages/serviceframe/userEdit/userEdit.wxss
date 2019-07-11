@@ -1,0 +1,65 @@
+/**userEdit.wxss**/
+.form-item{
+  height: 100rpx;
+  margin: 10rpx 20rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  line-height: 100rpx;
+  color: #333;
+}
+.user-label{
+  float: left;
+  padding-left: 20rpx;
+  padding-right: 80rpx;
+}
+.input-name{
+  float: left;
+}
+.input-name input{
+  width: 500rpx;
+  height: 100rpx;
+}
+.input-name picker{
+  width: 400rpx;
+}
+.radio-level{
+  float: left;
+  margin-right: 40rpx;
+}
+.radio-icon{
+  width: 42rpx;
+  height: 42rpx;
+  border: 2rpx solid #ddd;
+  border-radius: 100%;
+  float: left;
+  margin-top: 28rpx;
+}
+.radio-icon view{
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 100%;
+  margin: 6rpx auto;
+  background-color: #ddd;
+}
+.radio-icon.h{
+  border-color: #fcb400;
+}
+.radio-icon.h view{
+  background-color: #fcb400;
+}
+.radio-name{
+  float: left;
+  padding-left: 20rpx;
+}
+.submit-btn{
+  width: 710rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 10rpx;
+  margin: 30rpx auto;
+  background-color: #231815;
+  color: #fff;
+  font-size: 28rpx;
+}

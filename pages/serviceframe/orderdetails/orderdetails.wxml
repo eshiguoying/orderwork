@@ -184,3 +184,18 @@
              bind:closestafflistpanel="closestafflistpanel" 
              bind:sure_changeallow_staff="sure_changeallow_staff"/>
 </block>
+
+<!-- 日志 -->
+<block wx:if="{{isshowRecord}}">
+  <log orderid="{{orderid}}" bind:closelogpanel="closelogpanel"/>
+</block>
+
+<!-- 反馈 -->
+<block wx:if="{{isshowfeedbackList}}">
+  <feedbackList orderid="{{orderid}}" bind:closelogpanel="closelogpanel"/>
+</block>
+
+<!-- 反馈 -->
+<block wx:if="{{isshowfeedback}}">
+  <feedback orderid="{{orderid}}" bind:closelogpanel="closelogpanel"/>
+</block>

@@ -1,0 +1,46 @@
+<!--userEdit.wxml-->
+<view class="container">
+  <view class="form-item">
+    <view class="user-label">姓名</view>
+    <view class="input-name"><input type="text" placeholder="姓名" bindinput="setName" value="{{userName}}" /></view>
+  </view>
+  <view class="form-item">
+    <view class="user-label">手机号</view>
+    <view class="input-name"><input type="text" placeholder="手机号" bindinput="setPhone" value="{{userPhone}}" /></view>
+  </view>
+  <view class="form-item">
+    <view class="user-label">所属三级分销商</view>
+    <view class="input-name">
+      <picker bindchange="changeDistributor" value="{{distributorIndex}}" range-key="name" range="{{distributorList}}" disabled="">
+        <view>{{distributorList[distributorIndex].name}}</view>
+      </picker>
+    </view>
+  </view>
+  <view class="form-item" wx:if="{{!editMyself}}">
+    <view class="user-label">指派</view>
+    <view class="input-name">
+      <block wx:if="{{userLevel == '2'}}">
+        <view class="radio-level" data-param="3" bindtap="changeLevel">
+          <view class="radio-icon"><view></view></view>
+          <view class="radio-name">初级指派员</view>
+        </view>
+        <view class="radio-level" data-param="2" bindtap="changeLevel">
+          <view class="radio-icon h"><view></view></view>
+          <view class="radio-name">中级指派员</view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="radio-level" data-param="3" bindtap="changeLevel">
+          <view class="radio-icon h"><view></view></view>
+          <view class="radio-name">初级指派员</view>
+        </view>
+        <view class="radio-level" data-param="2" bindtap="changeLevel">
+          <view class="radio-icon"><view></view></view>
+          <view class="radio-name">中级指派员</view>
+        </view>
+      </block>
+    </view>
+  </view>
+  <!--提交-->
+  <view class="submit-block"><button class="submit-btn btn" bindtap="submitInfo">确定</button></view>
+</view>

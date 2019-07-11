@@ -69,7 +69,10 @@ Component({
     baggageImgList: [],//如果有行李待提取，下单时的照片
 
     // 是否打开员工
-    isshowstafflistpanel:false
+    isshowstafflistpanel:false,
+
+    // 是否打开日志
+    isshowRecord:false
   },
 
   attached() {
@@ -994,9 +997,31 @@ Component({
       this.setData({
         isshowstafflistpanel: false
       });
+    },
+
+    // 查看日志
+    toRecord()  {
+      this.setData({
+        orderid: this.properties.orderid,
+        isshowRecord: true  
+      });
+    },
+
+    // 关闭日志面板
+    closelogpanel() {
+      this.setData({
+        isshowRecord: false
+      });
+    },
+
+    // 反馈
+    toFeedbackList() {
+      this.setData({
+        orderid: this.properties.orderid,
+        isshowfeedbackList: true
+      });
     }
     
   },
 
-  
 })
