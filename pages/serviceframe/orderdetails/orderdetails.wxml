@@ -195,7 +195,3 @@
   <feedbackList orderid="{{orderid}}" bind:closelogpanel="closelogpanel"/>
 </block>
 
-<!-- 反馈 -->
-<block wx:if="{{isshowfeedback}}">
-  <feedback orderid="{{orderid}}" bind:closelogpanel="closelogpanel"/>
-</block>

@@ -1,6 +1,8 @@
 <!--pages/feedback/feedback.wxml-->
-<view class="container">
-  <view class="feedback-title">反馈内容</view>
-  <textarea placeholder='请输入反馈内容' placeholder-class='placeholder' class="feedback-con" bindinput='bindFeedbackInput' value='{{feedback}}'></textarea>
-  <view class="feedback-sure" bindtap='toFeedbackList'>确定</view>
+<view class="shadepanel" style="width:{{windowW}}px;height:{{windowH}}px">
+  <view class="container">
+    <view class="feedback-title">反馈内容</view>
+    <textarea placeholder='请输入反馈内容' placeholder-class='placeholder' class="feedback-con" bindinput='bindFeedbackInput' value='{{feedback}}'></textarea>
+    <view class="feedback-sure" bindtap='toFeedbackList'>确定</view>
+  </view>
 </view>

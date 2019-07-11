@@ -13,7 +13,6 @@
   width: 100%;
   height: 80rpx;
   position: relative;
-  border: 1rpx solid black;
 }
 
 .shadepanel .head .cancal {

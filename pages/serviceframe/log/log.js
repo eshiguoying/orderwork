@@ -67,6 +67,11 @@ Component({
           logArr: arr
         })
       })
+    },
+
+    // 关闭日志面板
+    closelogpanel() {
+      this.triggerEvent("closelogpanel")
     }
   },
 

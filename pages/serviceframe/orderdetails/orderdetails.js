@@ -16,10 +16,6 @@ Component({
     }
   },
   data: {
-    // 状态栏高度
-    navH: App.globalData.navHeight,
-    // 标题栏高度
-    titlebarH: App.globalData.titlebarHeight,
     // 页面可用高度
     windowH: App.globalData.windowHeight,
     // 页面可用宽度
@@ -1020,7 +1016,8 @@ Component({
         orderid: this.properties.orderid,
         isshowfeedbackList: true
       });
-    }
+    },
+
     
   },
 
