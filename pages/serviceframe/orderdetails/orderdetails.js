@@ -227,7 +227,7 @@ Component({
         wx.scanCode({
           success(res) {
             console.log(res.result)
-            const qrReg = /^QR\d{6}$/
+            const qrReg = /^JPQR\d{6}$/
             if (that.data.qrArr.length == that.data.bagsNum) {
               wx.showModal({
                 content: '已全部扫描',

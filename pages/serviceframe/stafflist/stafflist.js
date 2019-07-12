@@ -57,7 +57,19 @@ Component({
     },
 
     sure_changeallow_staff() {
-      this.triggerEvent("sure_changeallow_staff", this.data.stafflist[this.data.selectedstaff_index])
+      if (this.data.selectedstaff_index == -1) {
+        wx.showToast({
+          title: '请选择改派人员',
+          icon: 'none',
+          duration: 2000,
+        });
+        return false
+      }
+
+      this.triggerEvent("sure_changeallow_staff", this.data.stafflist[this.data.selectedstaff_index]);
+
+      // 关闭
+      this.closestafflistpanel();
     }
   }
 })

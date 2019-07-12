@@ -92,13 +92,12 @@ Component({
     multiplechoiceflag: false,// 多选
     mulchoiceflag: false,//多选
     openshadepanel: false,// 不打开遮罩
-    staffinfolist: [],//更改取派员列表
-    staffid: '',// 选中的取派员id
-    staffinfo: {},
   },
 
   // 组件生命周期函数-在组件实例进入页面节点树时执行
   attached() {
+    // 筛选开始时间，结束时间
+    this.init_screen_time();
     this.init_order();
   },
 
@@ -303,6 +302,17 @@ Component({
 
     // 是否多选
     tomutlchoice() {
+      if(this.data.orderlist.length == 0) {
+        wx.showToast({
+          title: '暂无订单',
+          icon: 'none',
+          duration: 2000,
+        });
+        return;
+
+        return;
+      }
+
       this.setData({
         multiplechoiceflag: true
       });
@@ -320,10 +330,6 @@ Component({
         multiplechoiceflag: false,
         orderlist: orderlist,
         mulchoiceflag: false,
-        staffid: '',
-        staffinfo: {},
-        staffinfolist: [],
-        staffselect: '-1',
       });
     },
 
@@ -393,6 +399,22 @@ Component({
           return false
         }
 
+        
+        // 批量改派，当级别是3级时，
+        if(this.data.accountInfo.appUser.level == 3) {
+          if (selectedorderlist[i].order.status != config.orderStatus.DELIVERYOVER.value 
+            || selectedorderlist[i].orderAddress.destaddrtype == 'HOUSE'
+            || selectedorderlist[i].orderAddress.destaddrtype == 'HOTEL') {
+            // 3级只能改派一次（TODO 订单列表只能）
+            wx.showToast({
+              title: '某些订单号不能改派',
+              icon: 'none',
+              duration: 2000,
+            });
+            return;
+          }
+        }
+
       }
      
       // 未选择订单
@@ -405,51 +427,24 @@ Component({
         return;
       }
 
-
-      var params = {
-        distributorId: selectedorder.order.distributorId
-      }
-      request.HttpRequst('/v2/app-user/select', 'GET', params).then(function (res) {
-        console.log(res)
-        this_.setData({
-          staffinfolist: res.data
-        })
-      })
-
       this.setData({
-        openshadepanel: true
+        distributor3rd: selectedorder.order.distributorId,
+        isshowstafflistpanel:true
       });
     },
 
-    cancalshadepanel() {
+    closestafflistpanel() {
       this.setData({
-        openshadepanel: false
+        isshowstafflistpanel: false
       });
     },
 
-    // 选中某个取派员
-    selecedstaff(e) {
-      var staffid = e.currentTarget.dataset.id;
+    sure_changeallow_staff(e) {
+      // 弹出加载页面
+      wx.showLoading();
 
-      this.setData({
-        staffselect: e.currentTarget.dataset.index,
-        staffid: staffid,
-        staffinfo: this.data.staffinfolist[e.currentTarget.dataset.index],
-      });
-
-    },
-
-    surestaff_changorder() {
-      var staffid = this.data.staffid;
-      if (!staffid) {
-        wx.showToast({
-          title: '请选择改派人员',
-          icon: 'none',
-          duration: 2000,
-        });
-        return false
-      }
-
+      var staffid = e.detail.id;
+    
       var this_ = this
       var non_appoint_orderid_list = ''
       var appoint_orderid_list = ''
@@ -470,37 +465,41 @@ Component({
 
       if (non_appoint_orderid_list != '' && appoint_orderid_list == '') {
         var params = {
-          userId: this.data.staffid,
+          userId: e.detail.id,
           orderIds: non_appoint_orderid_list.substring(0, non_appoint_orderid_list.length - 1)
         }
-        console.log(new_params)
         request.HttpRequst('/v2/order/appoint', 'POST', params).then(function (res) {
           console.info(res);
           if (res.code == 0) {
-            var selectedorderlist = this_.data.selectedorderlist;
-            var orderlist = this_.data.orderlist;
-            for (var i = 0; i < selectedorderlist.length; i++) {
-              if (selectedorderlist[i]) {
-                this_.setData({
-                  ['orderlist[' + i + '].order.status']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderlist[i].order.status,
-                  ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
-                  ['orderlist[' + i + '].charge']: this_.data.staffinfo.name,
-                  ['orderlist[' + i + '].appUser']: this_.data.staffinfo,
-                  ['orderlist[' + i + '].selected']: false,
-                })
+            if(this_.data.accountInfo.appUser.level != 3) {
+              var selectedorderlist = this_.data.selectedorderlist;
+              var orderlist = this_.data.orderlist;
+              for (var i = 0; i < selectedorderlist.length; i++) {
+                if (selectedorderlist[i]) {
+                  this_.setData({
+                    ['orderlist[' + i + '].order.status']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderlist[i].order.status,
+                    ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
+                    ['orderlist[' + i + '].charge']: e.detail.name,
+                    ['orderlist[' + i + '].appUser']: e.detail,
+                    ['orderlist[' + i + '].selected']: false,
+                  })
+                }
               }
+
+              // 隐藏加载框
+              wx.hideLoading();
+            } else {
+              // 改派需要刷新订单
+              this_.setData({
+                orderlist: []
+              });
+              this_.loadOrderlist(this_.data.queryorderlistReqPram_official);
             }
 
-            // 取派人员框消失
-            this_.setData({
-              openshadepanel: false,
-              staffselect: '-1',
-              staffinfolist: [],
-              selectedorderlist: []
-            });
+            
           } else {
             wx.showToast({
-              title: '改派未成功，' + res.msg,
+              title: '改派未成功',
               icon: 'none',
               duration: 2000,
             });
@@ -510,55 +509,12 @@ Component({
         })
       } else if (non_appoint_orderid_list == '' && appoint_orderid_list != '') {
         var new_params = {
-          userId: this.data.staffid,
+          userId: e.detail.id,
           orderIds: appoint_orderid_list.substring(0, appoint_orderid_list.length - 1)
         }
         request.HttpRequst('/v2/order/anewAppoint', 'POST', new_params).then(function (res) {
           if (res.code == 0) {
-            console.info(res);
-            var selectedorderlist = this_.data.selectedorderlist;
-            var orderlist = this_.data.orderlist;
-            for (var i = 0; i < selectedorderlist.length; i++) {
-              if (selectedorderlist[i]) {
-                this_.setData({
-                  ['orderlist[' + i + '].order.status']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderlist[i].order.status,
-                  ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
-                  ['orderlist[' + i + '].charge']: this_.data.staffinfo.name,
-                  ['orderlist[' + i + '].appUser']: this_.data.staffinfo,
-                  ['orderlist[' + i + '].selected']: false,
-                })
-              }
-            }
-
-            // 取派人员框消失
-            this_.setData({
-              openshadepanel: false,
-              staffselect: '-1',
-              staffinfolist: [],
-              selectedorderlist: []
-            });
-          } else {
-            wx.showToast({
-              title: '改派未成功，' + res.msg,
-              icon: 'none',
-              duration: 2000,
-            });
-            return false
-          }
-        })
-      } else {
-        var params = {
-          userId: this.data.staffid,
-          orderIds: non_appoint_orderid_list.substring(0, non_appoint_orderid_list.length - 1)
-        }
-        console.log(new_params)
-        request.HttpRequst('/v2/order/appoint', 'POST', params).then(function (res) {
-          var new_params = {
-            userId: this.data.staffid,
-            orderIds: appoint_orderid_list.substring(0, appoint_orderid_list.length - 1)
-          }
-          request.HttpRequst('/v2/order/anewAppoint', 'POST', new_params).then(function (res) {
-            if (res.code == 0) {
+            if (this_.data.accountInfo.appUser.level != 3) {
               console.info(res);
               var selectedorderlist = this_.data.selectedorderlist;
               var orderlist = this_.data.orderlist;
@@ -567,31 +523,81 @@ Component({
                   this_.setData({
                     ['orderlist[' + i + '].order.status']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderlist[i].order.status,
                     ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
-                    ['orderlist[' + i + '].charge']: this_.data.staffinfo.name,
-                    ['orderlist[' + i + '].appUser']: this_.data.staffinfo,
+                    ['orderlist[' + i + '].charge']: e.detail.name,
+                    ['orderlist[' + i + '].appUser']: e.detail,
                     ['orderlist[' + i + '].selected']: false,
                   })
                 }
               }
-
-              // 取派人员框消失
+              // 隐藏加载框
+              wx.hideLoading();
+            } else {
+              // 改派需要刷新订单
               this_.setData({
-                openshadepanel: false,
-                staffselect: '-1',
-                staffinfolist: [],
-                selectedorderlist: []
+                orderlist: []
               });
+              this_.loadOrderlist(this_.data.queryorderlistReqPram_official);
+            }
+
+            
+          } else {
+            wx.showToast({
+              title: '改派未成功',
+              icon: 'none',
+              duration: 2000,
+            });
+            return false
+          }
+        })
+      } else {
+        var params = {
+          userId: e.detail.id,
+          orderIds: non_appoint_orderid_list.substring(0, non_appoint_orderid_list.length - 1)
+        }
+        console.log(new_params)
+        request.HttpRequst('/v2/order/appoint', 'POST', params).then(function (res) {
+          
+
+          var new_params = {
+            userId: e.detail.id,
+            orderIds: appoint_orderid_list.substring(0, appoint_orderid_list.length - 1)
+          }
+          request.HttpRequst('/v2/order/anewAppoint', 'POST', new_params).then(function (res) {
+            if (res.code == 0) {
+              if (this_.data.accountInfo.appUser.level != 3) {
+                console.info(res);
+                var selectedorderlist = this_.data.selectedorderlist;
+                var orderlist = this_.data.orderlist;
+                for (var i = 0; i < selectedorderlist.length; i++) {
+                  if (selectedorderlist[i]) {
+                    this_.setData({
+                      ['orderlist[' + i + '].order.status']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderlist[i].order.status,
+                      ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
+                      ['orderlist[' + i + '].charge']: e.detail.name,
+                      ['orderlist[' + i + '].appUser']: e.detail,
+                      ['orderlist[' + i + '].selected']: false,
+                    })
+                  }
+                }
+
+                // 隐藏加载框
+                wx.hideLoading();
+              } else {
+                // 改派需要刷新订单
+                this_.setData({
+                  orderlist:[]
+                });
+                this_.loadOrderlist(this_.data.queryorderlistReqPram_official);
+              }
 
             } else {
               wx.showToast({
-                title: '改派未成功，' + res.msg,
+                title: '改派未成功',
                 icon: 'none',
                 duration: 2000,
               });
               return false
             }
-
-
           })
         })
       }
@@ -667,6 +673,55 @@ Component({
       this_.setData({
         screenchoiceflag: true
       });
+    },
+
+    init_screen_time() {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      if (month < 10) {
+        month = '0' + month
+      }
+      var day = date.getDate();
+      if (day < 10) {
+        day = '0' + day
+      }
+
+      var date2 = new Date(date);
+      date2.setDate(date.getDate() + 2);
+      var e_year = date2.getFullYear();
+      var e_month = date2.getMonth() + 1;
+      if (e_month < 10) {
+        e_month = '0' + e_month
+      }
+      var e_day = date2.getDate();
+      if (e_day < 10) {
+        e_day = '0' + e_day
+      }
+
+      this.setData({
+        ['queryorderlistReqPram.beginDate']: year + '-' + month + '-' + day + ' 00:00:00',
+        ['queryorderlistReqPram.startTimeShow']: year + '.' + month + '.' + day,
+        ['queryorderlistReqPram.s_year']: year,
+        ['queryorderlistReqPram.s_month']: month,
+        ['queryorderlistReqPram.s_day']: day,
+        ['queryorderlistReqPram.endDate']: e_year + '-' + e_month + '-' + e_day + ' 23:59:59',
+        ['queryorderlistReqPram.endTimeShow']: e_year + '.' + e_month + '.' + e_day,
+        ['queryorderlistReqPram.e_year']: e_year,
+        ['queryorderlistReqPram.e_month']: e_month,
+        ['queryorderlistReqPram.e_day']: e_day,
+
+        ['queryorderlistReqPram_official.beginDate']: year + '-' + month + '-' + day + ' 00:00:00',
+        ['queryorderlistReqPram_official.startTimeShow']: year + '.' + month + '.' + day,
+        ['queryorderlistReqPram_official.s_year']: year,
+        ['queryorderlistReqPram_official.s_month']: month,
+        ['queryorderlistReqPram_official.s_day']: day,
+        ['queryorderlistReqPram_official.endDate']: e_year + '-' + e_month + '-' + e_day + ' 23:59:59',
+        ['queryorderlistReqPram_official.endTimeShow']: e_year + '.' + e_month + '.' + e_day,
+        ['queryorderlistReqPram_official.e_year']: e_year,
+        ['queryorderlistReqPram_official.e_month']: e_month,
+        ['queryorderlistReqPram_official.e_day']: e_day,
+      })
     },
 
     showtrileveldistribution() {

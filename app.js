@@ -42,6 +42,8 @@ App({
         let params = { 'code': res.code };
         
         request.HttpRequst('/v2/mini-program/accredit', 'GET', params).then(res => {
+          console.info(res);
+
           if (res.code == 400) {
             wx.hideLoading()
 

@@ -2,7 +2,8 @@
   "component": true,
   "usingComponents": {
     "canlendar": "../canlendar/canlendar",
-    "orderdetails": "../orderdetails/orderdetails"
+    "orderdetails": "../orderdetails/orderdetails",
+    "stafflist": "../stafflist/stafflist"
   }
 
 }
