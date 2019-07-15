@@ -669,13 +669,25 @@
   position: relative;
   font-size: 30rpx;
   font-weight: 100;
-  box-shadow: 1px 1px 4px #E5E5E5
+  box-shadow: 1px 1px 4px #E5E5E5;
+}
+
+.screenpanal .query_body .margin_body .line .deleteinfo {
+  width: 70rpx;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.screenpanal .query_body .margin_body .line .deleteinfo image {
+  width: 30rpx;
+  height: 30rpx;
 }
 
 .screenpanal .query_body .margin_body .line .item {
+  flex: 1;
   margin-left: 10rpx;
-  margin-right: 10rpx;
-  width: 100%;
   height: 100%;
 }
 

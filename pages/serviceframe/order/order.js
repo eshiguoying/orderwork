@@ -1072,7 +1072,43 @@ Component({
       this.setData({
         orderdetailshowflag: false
       });
-    }
+    },
+
+    // 筛选条件，清空
+    deletequeryparam(e) {
+      if(e.currentTarget.dataset.type == 'simple') {
+        this.setData({
+          ['queryorderlistReqPram.' + e.currentTarget.dataset.key]: ''
+        });
+      } else if (e.currentTarget.dataset.type == 'complex') {
+        this.setData({
+          ['queryorderlistReqPram.' + e.currentTarget.dataset.key + 'Id']: '',
+          ['queryorderlistReqPram.' + e.currentTarget.dataset.key + 'name']: '',
+        });
+      } else {
+        if (e.currentTarget.dataset.key == 'startTimeShow') {
+          this.setData({
+            ['queryorderlistReqPram.showStartTime']: '',
+            ['queryorderlistReqPram.s_year']: '',
+            ['queryorderlistReqPram.s_month']: '',
+            ['queryorderlistReqPram.s_day']: '',
+            ['queryorderlistReqPram.beginDate']: '',
+          });
+        } else {
+          this.setData({
+            ['queryorderlistReqPram.endTimeShow']: '',
+            ['queryorderlistReqPram.e_year']: '',
+            ['queryorderlistReqPram.e_month']: '',
+            ['queryorderlistReqPram.e_day']: '',
+            ['queryorderlistReqPram.endDate']: '',
+          });
+        }
+        
+      }
+      
+    },
+
+    
   },
   
   // 订单详情改派，如果是低级人员则刷新订单列表
@@ -1087,6 +1123,8 @@ Component({
     this.setData({
       ["orderlist[" + e.detail.orderindex + "]"]: e.detail.allowuser
     })
-  }
+  },
+
+  
 
 })
