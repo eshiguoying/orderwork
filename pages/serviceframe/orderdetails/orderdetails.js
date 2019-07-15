@@ -16,6 +16,10 @@ Component({
     }
   },
   data: {
+    // 状态栏高度
+    navH: App.globalData.navHeight,
+    // 标题栏高度
+    titlebarH: App.globalData.titlebarHeight,
     // 页面可用高度
     windowH: App.globalData.windowHeight,
     // 页面可用宽度
@@ -23,11 +27,14 @@ Component({
 
     accountInfo: {},//用户信息
 
+    upload_lugimg_succ_list: [],//图片上传成功数组
+
     resignArr: [],//改派人员列表
     workerClickIdx: -1,
     assignId: '',
     imgsArr: [],//上传图片数组
-    uploadFileSuccessArr: [],//图片上传成功数组
+    
+
     grayBgShow: false,
     grayBgStatus: false,
     popReassignShow: false,
@@ -303,166 +310,116 @@ Component({
         })
       })
     },
+
     //上传照片
     addPics: function () {
-      if (this.data.imgsArr.length >=6) {
-        wx.showToast({
-          title: '照片已达上线，无法在拍照',
-          icon: 'none',
-          duration: 2000,
-        });
-        return false
-      }
-
       var that = this
       //判断后台是否是退单状态
       request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
         if (res.code == 401) {//用户被禁用或删除
-          wx.showModal({
-            content: '您没有权限进行操作',
-            confirmText: '确定',
-            confirmColor: '#fbc400',
-            showCancel: false,
-            success: function (res) {
-              wx.redirectTo({
-                url: '../reject/reject'
-              })
-            }
+          wx.showToast({
+            title: '您没有权限进行操作',
+            icon: 'none',
+            duration: 2000,
+          });
+
+          wx.redirectTo({
+            url: '../reject/reject'
           })
 
           return false
         }
+
         if (res.data.order.iscanceled == '1' || res.data.order.status == 'REFUNDING') {
-          wx.showModal({
-            content: '退单中，请稍后进行操作',
-            confirmText: '确定',
-            confirmColor: '#fbc400',
-            showCancel: false,
-          })
+          
+          wx.showToast({
+            title: '退单中，请稍后进行操作',
+            icon: 'none',
+            duration: 2000,
+          });
 
           return false
         }
 
-        var picsArr = []
         wx.chooseImage({
-          count: 6,
+          count: 6 - that.data.imgsArr.length,
           sizeType: ['original', 'compressed'],
-          sourceType: ['camera'],
+          sourceType: ['album', 'camera'],
           success(res) {
             // tempFilePath可以作为img标签的src属性显示图片
             const tempFilePaths = res.tempFilePaths
-            if (tempFilePaths.length > 0) {
-              for (var i = 0; i < tempFilePaths.length; ++i) {
-                picsArr.push(tempFilePaths[i])
-              }
-
-              console.log(picsArr)
-              that.uploadFunc(picsArr)
-            }
+            that.upload_lug_Img(tempFilePaths)
           }
         })
       })
     },
+
+
     //多张图片上传
-    uploadImg: function (data) {
-      var that = this,
-        upload_i = data.upload_i ? data.upload_i : 0,//当前上传的哪张图片
-        success = data.success ? data.success : 0,//上传成功的个数
-        fail = data.fail ? data.fail : 0;//上传失败的个数
+    upload_lug_Img (lugimgpathlist) {
+      var that = this;
 
       wx.showLoading({
         title: '上传中...',
       })
 
-      wx.uploadFile({
-        url: data.url,
-        filePath: data.path[upload_i],
-        name: 'file',//这里根据自己的实际情况改
-        formData: null,//这里是上传图片时一起上传的数据
-        success: function (resp) {
-          if (JSON.parse(resp.data).msg == 'success') {
-            success++;//图片上传成功，图片上传成功的变量+1
-            that.data.uploadFileSuccessArr.push(JSON.parse(resp.data).url)
-            console.log(that.data.uploadFileSuccessArr)
+      var uploadcomplete = 0;
+      for (var i = 0; i < lugimgpathlist.length; i++) {
+        wx.uploadFile({
+          url: config.ipconfig + '/v2/img-storage/upload',
+          filePath: lugimgpathlist[i],
+          name: 'file',//这里根据自己的实际情况改
+          formData: null,//这里是上传图片时一起上传的数据
+          success: function (resp) {
+            if (JSON.parse(resp.data).msg == 'success') {
+              that.data.upload_lugimg_succ_list.push(JSON.parse(resp.data).url)
+            }
+          },
+          fail: function (res) {
+            wx.showToast({
+              title: '部分图片未上传成功',
+              icon: 'none',
+              duration: 1000
+            });
+          },
+          complete: function () {
+            uploadcomplete ++;//这个图片执行完上传后，开始上传下一张
+            if (uploadcomplete == lugimgpathlist.length) {//当图片传完时，停止调用
+              that.savalugimagslist()
+            }
           }
-        },
-        fail: function (res) {
-          fail++;//图片上传失败，图片上传失败的变量+1
-          console.log('fail:' + upload_i + "fail:" + fail);
-          wx.showModal({
-            content: '上传图片失败',
-            confirmText: '确定',
-            confirmColor: '#fbc400',
-            showCancel: false
-          })
-
-          return false
-        },
-        complete: function () {
-          console.log(upload_i);
-          upload_i++;//这个图片执行完上传后，开始上传下一张
-          if (upload_i == data.path.length) {   //当图片传完时，停止调用
-            console.log('执行完毕');
-            console.log('成功：' + success + " 失败：" + fail);
-            console.log('上传完成')
-            console.log(data.paramsData)
-            wx.hideLoading()
-            that.uploadSuccessFunc(data.paramsData)
-          } else {//若图片还没有传完，则继续调用函数
-            data.upload_i = upload_i;
-            data.success = success;
-            data.fail = fail;
-            that.uploadImg(data);
-          }
-
-        }
-      })
-    },
-    //上传图片到图片空间成功后调用方法
-    uploadSuccessFunc: function (params) {
-      var that = this
-
-      wx.showLoading({
-        title: '保存',
-      })
-
-      if (that.data.uploadFileSuccessArr.length > 0) {
-        for (var i = 0; i < that.data.uploadFileSuccessArr.length; ++i) {
-          params.imgUrls.push(that.data.uploadFileSuccessArr[i])
-        }
-      }
-
-      console.log('结果参数')
-      console.log(params)
-
-      request.HttpRequst('/v2/order/saveImg', 'POST', params).then(function (res) {
-        console.log('结果')
-        console.log(res)
-
-        wx.hideLoading()
-
-        that.setData({
-          uploadFileSuccessArr: []
         })
-
-        that.loadData(that.data.orderId)
-      })
+      }
     },
-    //上传图片
-    uploadFunc: function (picsArr) {
+
+    //上传图片到图片空间成功后调用方法
+    savalugimagslist () {
       var that = this
 
       var params = {
-        orderId: that.data.orderId,
-        imgUrls: []
+        orderId: that.properties.orderid,
+        imgUrls: that.data.upload_lugimg_succ_list
       }
 
-      that.uploadImg({
-        url: config.ipconfig + '/v2/img-storage/upload',
-        path: picsArr,
-        paramsData: params
+      request.HttpRequst('/v2/order/saveImg', 'POST', params).then(function (res) {
+        wx.hideLoading()
+        if(res.code == 0) {
+
+          wx.showToast({
+            title: '上传成功',
+            icon: 'none',
+            duration: 1000
+          });
+
+          that.setData({
+            upload_lugimg_succ_list: []
+          })
+
+          that.loadData(that.data.orderId)
+        }
       })
     },
+    
     //点击接受按钮
     getFunc: function () {
       var that = this
@@ -1018,6 +975,10 @@ Component({
       });
     },
 
+    // 取消订单详情面板
+    closeorderdetailpanel() {
+      this.triggerEvent("closeorderdetailpanel")
+    }
     
   },
 

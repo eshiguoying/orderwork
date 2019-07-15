@@ -141,8 +141,8 @@
             <input class='item'
                    disabled='true' 
                    catchtap='showtrileveldistribution' value='{{queryorderlistReqPram.distributorname}}' placeholder='三级分销商'></input>
+           
             <view class="list trileveldistri_list  {{isviewtrileveldistri? '' : 'nosee'}}">
-              <!-- <view class='cancel' catchtap='cancaltrileveldistribution'>清空</view> -->
               <scroll-view class='srcoll_list' scroll-y>
                 <block wx:for="{{distributorArr}}">
                   <view class='item_'  data-id="{{item.id}}" data-name="{{item.name}}" bindtap='selectDistributor'>
@@ -169,7 +169,6 @@
                     catchtap='showcounterbody' 
                     value='{{queryorderlistReqPram.countername}}' placeholder='柜台'></input>
             <view class="list counter_list  {{isviewcounter? '' : 'nosee'}}">
-              <!-- <view class='cancel' catchtap='cancalcounter'>清空</view> -->
               <scroll-view class='srcoll_list' scroll-y>
                 <block wx:for="{{counterArr}}">
                   <view class='item_'  data-id="{{item.id}}" data-name="{{item.servicecentername}}" bindtap='selectCounter'>
@@ -196,7 +195,6 @@
                    catchtap='showofficerbody' 
                    value='{{queryorderlistReqPram.username}}' placeholder='订单负责人'></input>
             <view class="list orderofficer_list  {{isviewofficerbody? '' : 'nosee'}}">
-              <!-- <view class='cancel' catchtap='cancalorderoffice'>清空</view> -->
               <scroll-view class='srcoll_list' scroll-y>
                 <block wx:for="{{orderChargeArr}}">
                   <view class='item_'  data-id="{{item.id}}" data-name="{{item.name}}" bindtap='selectOrderCharge'>
@@ -302,23 +300,16 @@
     </view>
 </view>
 
-
+<!-- 筛选时遮罩 -->
 <view class='screenpanalshade' style="width:{{windowW}}px;height:{{windowH}}px;display:{{screenchoiceflag? '':'none'}}" ></view>
 
 
-<view class="orderdetailspanal" 
-      style='width:{{windowW}}px;height:{{windowH}}px;transform: translate({{orderdetailshowflag?  0 : windowW}}px, 0%)'>
-  <view class='head'>
-    <view class='cancal' catchtap='closeorderdetailsbut'>
-      <image src='../../../images/Cancel.png'></image>
-    </view>
-  </view>
-  <view class='orderdetails_body'>
-    <block wx:if="{{orderdetailshowflag}}">
-      <orderdetails orderid="{{orderdetailsByorderid}}" orderIndex="{{orderIndex}}" bind:lowlevel_changeallow="lowlevel_changeallow" bind:nonlowlevel_changeallow="_nonlowlevel_changeallow"/>
-    </block>
-  </view>
-</view>
+<!-- 订单详情 -->
+<block wx:if="{{orderdetailshowflag}}">
+  <orderdetails orderid="{{orderdetailsByorderid}}" 
+                orderIndex="{{orderIndex}}"
+                bind:closeorderdetailpanel="_closeorderdetailpanel" />
+</block>
 
 
 <block wx:if="{{isshowstafflistpanel}}"> 

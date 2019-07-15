@@ -730,14 +730,6 @@ Component({
       });
     },
 
-    cancaltrileveldistribution() {
-      this.setData({
-        ['queryorderlistReqPram.distributorname']: '',
-        ['queryorderlistReqPram.distributorId']: '',
-        isviewtrileveldistri: false,
-      });
-    },
-
 
     //选择三级分销商
     selectDistributor: function (e) {
@@ -773,14 +765,6 @@ Component({
       });
     },
 
-    cancalcounter() {
-      this.setData({
-        ['queryorderlistReqPram.countername']: '',
-        ['queryorderlistReqPram.counterId']: '',
-        isviewcounter: false,
-      });
-    },
-
     //选择柜台服务中心
     selectCounter: function (e) {
       this.setData({
@@ -802,14 +786,6 @@ Component({
 
       this.setData({
         isviewofficerbody: true,
-      });
-    },
-
-    cancalorderoffice() {
-      this.setData({
-        ['queryorderlistReqPram.username']: '',
-        ['queryorderlistReqPram.userId']: '',
-        isviewofficerbody: false,
       });
     },
 
@@ -1088,7 +1064,7 @@ Component({
       } else {
         if (e.currentTarget.dataset.key == 'startTimeShow') {
           this.setData({
-            ['queryorderlistReqPram.showStartTime']: '',
+            ['queryorderlistReqPram.startTimeShow']: '',
             ['queryorderlistReqPram.s_year']: '',
             ['queryorderlistReqPram.s_month']: '',
             ['queryorderlistReqPram.s_day']: '',
@@ -1108,7 +1084,13 @@ Component({
       
     },
 
-    
+    // 关闭订单详情
+    _closeorderdetailpanel() {
+      this.setData({
+        orderdetailshowflag: false
+      });
+    }
+
   },
   
   // 订单详情改派，如果是低级人员则刷新订单列表
@@ -1126,5 +1108,4 @@ Component({
   },
 
   
-
 })

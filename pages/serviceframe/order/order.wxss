@@ -693,15 +693,15 @@
 
 .screenpanal .query_body .margin_body .line .list{
   position: absolute;
-  top: 70rpx;
+  top: 80rpx;
   left:0rpx;
-  width: 300rpx;
-  height: 260rpx;
+  width: 200rpx;
+  height: 240rpx;
   background-color: #FCFBF8;
-  box-shadow: 1px 1px 4px #E5E5E5;
+  box-shadow: 1px 1px 4px #E5E5E5,1px -1px 4px #E5E5E5,-1px 1px 4px #E5E5E5;
   display: flex;
   flex-direction: column;
-  border: 1rpx dashed #D5D5D3;
+  /* border: 1rpx dashed #D5D5D3; */
 }
 
 .screenpanal .query_body .margin_body .line .nosee {
@@ -729,35 +729,9 @@
   align-items: center;
   width: 100%;
   height: 80rpx;
+  margin-left: 10rpx;
 }
 
-.screenpanal .query_body .margin_body .orderbody {
-  border-left: 10rpx solid #ED666C;
-}
-
-.screenpanal .query_body .margin_body .trileveldistribody {
-  border-left: 10rpx solid #005B66;
-}
-
-.screenpanal .query_body .margin_body .counterbody {
-  border-left: 10rpx solid #75B591;
-}
-
-.screenpanal .query_body .margin_body .orderofficerbody {
-  border-left: 10rpx solid #9F68AC;
-}
-
-.screenpanal .query_body .margin_body .orderstatus {
-  border-left: 10rpx solid #07233F;
-}
-
-.screenpanal .query_body .margin_body .starttimebody {
-  border-left: 10rpx solid #EAB4BA;
-}
-
-.screenpanal .query_body .margin_body .endtimebody {
-  border-left: 10rpx solid #FF9D6C;
-}
 
 .screenpanal .query_body .margin_body .line .trileveldistri_list {
   z-index: 10;
