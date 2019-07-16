@@ -3,7 +3,7 @@
   background-color: rgba(99,99,99,0.3);
   position: fixed;
   bottom: 0;
-  z-index: 700;
+  z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: center;

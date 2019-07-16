@@ -14,10 +14,15 @@ Component({
    * 页面的初始数据
    */
   data: {
+    // 状态栏高度
+    navH: App.globalData.navHeight,
+    // 标题栏高度
+    titlebarH: App.globalData.titlebarHeight,
     // 页面可用高度
     windowH: App.globalData.windowHeight,
     // 页面可用宽度
     windowW: App.globalData.windowWidth,
+    
     feedbackArr:[],
     noData:false
   },
@@ -59,6 +64,11 @@ Component({
         orderid: this.properties.orderid,
         isshowfeedback: true
       });
+    },
+
+    // 关闭订单反馈列表
+    closefeedbacklistpanel() {
+      this.triggerEvent("closefeedbacklistpanel")
     },
 
     // 反馈页面关闭

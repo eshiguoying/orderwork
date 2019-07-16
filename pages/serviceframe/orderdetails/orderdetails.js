@@ -983,10 +983,18 @@ Component({
       });
     },
 
+    // 关闭反馈列表 
+    closefeedbacklistpanel() {
+      this.setData({
+        isshowfeedbackList: false
+      });
+    },
+
     // 取消订单详情面板
     closeorderdetailpanel() {
       this.triggerEvent("closeorderdetailpanel")
-    }
+    },
+
     
   },
 

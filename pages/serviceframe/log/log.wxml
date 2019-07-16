@@ -1,18 +1,21 @@
 <!--pages/record/record.wxml-->
-<view class="shadepanel" style="width:{{windowW}}px;height:{{windowH}}px">
-  <view class='log_body' style="width:{{windowW - 20}}px;height:{{logArr.length * 80}}rpx">
-    <!-- <view class='close' catchtap='closelogpanel'>
-      <image src='../../../images/enter_delete.png'></image>
-    </view> -->
-    
-      <scroll-view scroll-y style="width:{{windowW}}px;height:{{logArr.length * 80}}rpx">
+<view class="shadepanel" style="width:{{windowW}}px;height:{{navH + titlebarH +windowH}}px">
+  <view class='nav_head' style='height:{{navH}}px;'></view>
+  <view class='nav bg-white' style='height: {{titlebarH}}px;'>
+    <view class='nav_imagecontainer' bindtap='closelogpanel'>
+      <image src='../../../images/left.png' mode='aspectFit' class='back' ></image>
+    </view>
+  </view>
+
+  <view class='log_body' style="width:{{windowW}}px;height: {{windowH}}px;">
+      <scroll-view scroll-y style="width:{{windowW}}px;height:{{windowH}}px;">
         <view class="record-item" wx:for="{{logArr}}">
           <view class='guide_body item'>
             <view class='top_body'>
               <view class='dot'></view>
             </view>
-            <view class='bottom_body'>
-              <view class='line' wx:if="{{logArr.length-1 != index}}"></view>
+            <view class='bottom_body' wx:if="{{logArr.length-1 != index}}">
+              <view class='line'></view>
             </view>
           </view>
 
@@ -20,22 +23,22 @@
             <view class='top_body'>
               <block wx:if="{{logArr[index].operateDate != logArr[index -1].operateDate}}">
                 {{item.operateDate}}
-              </block>
+              </block>  
             </view>
-            <view class='bottom_body'></view>
+            <view class='bottom_body' wx:if="{{logArr.length-1 != index}}"></view>
           </view>
 
           <view class='time_body item'>
             <view class='top_body'>
               {{item.operateHour}}
             </view>
-            <view class='bottom_body'></view>
+            <view class='bottom_body' wx:if="{{logArr.length-1 != index}}"></view>
           </view>
           <view class='record_body item'>
              <view class='top_body'>
               {{item.remark}}
             </view>
-            <view class='bottom_body'></view>
+            <view class='bottom_body' wx:if="{{logArr.length-1 != index}}"></view>
           </view> 
         </view>
       </scroll-view>

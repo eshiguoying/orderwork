@@ -203,6 +203,6 @@
 
 <!-- 反馈 -->
 <block wx:if="{{isshowfeedbackList}}">
-  <feedbackList orderid="{{orderid}}" bind:closelogpanel="closelogpanel"/>
+  <feedbackList orderid="{{orderid}}" bind:closefeedbacklistpanel="closefeedbacklistpanel"/>
 </block>
 

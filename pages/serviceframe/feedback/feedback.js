@@ -46,8 +46,13 @@ Component({
       }
 
       request.HttpRequst('/v2/order/saveFeedback', 'POST', params).then(function (res) {
-        that.triggerEvent("closefeedbackpanel")
+        that.closefeedbackpanel();
       })
     },
+
+    // 关闭订单反馈面板
+    closefeedbackpanel() {
+      that.triggerEvent("closefeedbackpanel")
+    }
   },
 })
