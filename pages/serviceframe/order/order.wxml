@@ -78,7 +78,6 @@
       <view class='image'>
         <image src='../../../images/orderlist_empty.png'></image>
       </view>
-      <view class='lable'>未查询到订单</view>
     </view>
   </block>
 </scroll-view>

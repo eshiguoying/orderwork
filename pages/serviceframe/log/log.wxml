@@ -1,28 +1,44 @@
 <!--pages/record/record.wxml-->
 <view class="shadepanel" style="width:{{windowW}}px;height:{{windowH}}px">
-    <view class='head'>
-      <view class='cancal' catchtap='closelogpanel'>
-        <image src='../../../images/Cancel.png'></image>
-      </view>
-    </view>
+  <view class='log_body' style="width:{{windowW - 20}}px;height:{{logArr.length * 80}}rpx">
+    <!-- <view class='close' catchtap='closelogpanel'>
+      <image src='../../../images/enter_delete.png'></image>
+    </view> -->
+    
+      <scroll-view scroll-y style="width:{{windowW}}px;height:{{logArr.length * 80}}rpx">
+        <view class="record-item" wx:for="{{logArr}}">
+          <view class='guide_body item'>
+            <view class='top_body'>
+              <view class='dot'></view>
+            </view>
+            <view class='bottom_body'>
+              <view class='line' wx:if="{{logArr.length-1 != index}}"></view>
+            </view>
+          </view>
 
-   <view class='log_body'>
-    <view wx:if="{{noData}}">
-        <image src="../../images/ddhui.png" class="no-order-img"></image>
-        <view class="no-order-text">还没有日志信息哦~</view>
-    </view>
-    <scroll-view scroll-y style="height:{{windowH - 40}}px" wx:if="{{logArr.length>0}}">
-      <view class="record-item" wx:for="{{logArr}}">
-        <view class="record-time">
-            <view class="hour">{{item.operateHour}}</view>
-            <view class="date">{{item.operateDate}}</view>
+          <view class='date_body item' >
+            <view class='top_body'>
+              <block wx:if="{{logArr[index].operateDate != logArr[index -1].operateDate}}">
+                {{item.operateDate}}
+              </block>
+            </view>
+            <view class='bottom_body'></view>
+          </view>
+
+          <view class='time_body item'>
+            <view class='top_body'>
+              {{item.operateHour}}
+            </view>
+            <view class='bottom_body'></view>
+          </view>
+          <view class='record_body item'>
+             <view class='top_body'>
+              {{item.remark}}
+            </view>
+            <view class='bottom_body'></view>
+          </view> 
         </view>
-        <view class="r-icon-out">
-          <view class="r-icon-inner"></view>
-          <view class="line" wx:if="{{logArr.length-1 != index}}"></view>
-        </view>
-        <view class="event">{{item.remark}}</view>
-      </view>
-    </scroll-view>
-   </view>
+      </scroll-view>
+
+  </view>
 </view>

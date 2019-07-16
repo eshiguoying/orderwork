@@ -404,17 +404,9 @@ Component({
       request.HttpRequst('/v2/order/saveImg', 'POST', params).then(function (res) {
         wx.hideLoading()
         if(res.code == 0) {
-
-          wx.showToast({
-            title: '上传成功',
-            icon: 'none',
-            duration: 1000
-          });
-
           that.setData({
             upload_lugimg_succ_list: []
           })
-
           that.loadData(that.data.orderId)
         }
       })
@@ -524,6 +516,7 @@ Component({
         })
       })
     },
+    
     //点击送达按钮
     arriveFunc: function () {
       var that = this
@@ -954,10 +947,24 @@ Component({
 
     // 查看日志
     toRecord()  {
-      this.setData({
-        orderid: this.properties.orderid,
-        isshowRecord: true  
-      });
+      var this_inner = this;
+      request.HttpRequst('/v2/order/loglist', 'GET', { orderId: this.properties.orderid }).then(function (res) {
+        console.info(res);
+
+        if (res.list.length == 0) {
+          wx.showToast({
+            title: '暂无操作日志',
+            icon: 'none',
+            duration: 2000,
+          });
+          return;
+        }
+
+        this_inner.setData({
+          order_record_list: res.list,
+          isshowRecord: true
+        });
+      })
     },
 
     // 关闭日志面板
@@ -966,6 +973,7 @@ Component({
         isshowRecord: false
       });
     },
+    
 
     // 反馈
     toFeedbackList() {

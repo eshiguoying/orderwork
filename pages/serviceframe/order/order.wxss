@@ -21,16 +21,8 @@
 }
 
 .orderlist_empty .image image {
-  width: 120rpx;
-  height: 120rpx;
-}
-
-.orderlist_empty .lable {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #C2C2C2;
-  
+  width:  162rpx;
+  height: 128rpx;
 }
 
 .ordercontainer .order_item .deliverytype{

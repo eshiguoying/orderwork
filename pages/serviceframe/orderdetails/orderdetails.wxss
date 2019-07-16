@@ -30,7 +30,7 @@
 
 
 .btn-box{
-  height: 100rpx;
+  height: 120rpx;
   margin-left: 20rpx;
   margin-right: 20rpx;
   margin-top: 20rpx;
@@ -118,8 +118,8 @@
 }
 
 .for-upload-pics{
-  width: 80rpx;
-  height: 80rpx;
+  width: 60rpx;
+  height: 60rpx;
   margin-right: 10rpx;
 }
 

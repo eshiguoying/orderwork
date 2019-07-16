@@ -5,9 +5,9 @@ const request = require('../../../request')
 Component({
   properties: {
     // 这里定义了innerText属性，属性值可以在组件使用时指定
-    orderid: {
-      type: String,
-      value: "",
+    order_record_list: {
+      type: Array,
+      value: [],
     }
   },
 
@@ -20,7 +20,6 @@ Component({
     // 页面可用宽度
     windowW: App.globalData.windowWidth,
     logArr:[],
-    noData:false
   },
 
   attached() {
@@ -32,45 +31,59 @@ Component({
    */
   methods: {
     loadloginit() {
-      var that = this
+      var arr = []
 
-      wx.showLoading({
-        title: '加载中...',
-        mask: true
-      });
-      
-      request.HttpRequst('/v2/order/loglist', 'GET', { orderId: that.properties.orderid}).then(function (res) {
-        wx.hideLoading();
-        console.log(res)
+      // var arry = [
+      //   {
+      //     operateTime: "2019-06-14 14:47:05",
+      //     remark: '李爽将订单指派给李爽',
+      //   },
+      //   {
+      //     operateTime: "2019-06-18 14:47:05",
+      //     remark: "daen已指派订单",
+      //   },
+      //   {
+      //     operateTime: "2019-06-18 18:47:05",
+      //     remark: "李爽已接收订单",
+      //   },
+      // ];
 
-        if (res.list.length == 0) {
-          that.setData({
-            noData: true
-          })
+      // for (var i = 0; i < arry.length; ++i) {
+      //   var remark = arry[i].remark
+      //   var operateDate = arry[i].operateTime.substring(0, 10)
+      //   var operateHour = arry[i].operateTime.substring(11, 16)
 
-          return false
-        }
-        var arr = []
-        for (var i = 0; i < res.list.length; ++i) {
-          var remark = res.list[i].remark
-          var operateDate = res.list[i].operateTime.substring(0, 10)
-          var operateHour = res.list[i].operateTime.substring(11, 16)
+      //   arr.push({
+      //     remark: remark,
+      //     operateDate: operateDate,
+      //     operateHour: operateHour
+      //   })
+      // }
 
-          arr.push({
-            remark: remark,
-            operateDate: operateDate,
-            operateHour: operateHour
-          })
-        }
+      // this.setData({
+      //   logArr: arr
+      // })
 
-        that.setData({
-          logArr: arr
+      for (var i = 0; i < this.properties.order_record_list.length; ++i) {
+        var remark = this.properties.order_record_list[i].remark
+        var operateDate = this.properties.order_record_list[i].operateTime.substring(0, 10)
+        var operateHour = this.properties.order_record_list[i].operateTime.substring(11, 16)
+
+        arr.push({
+          remark: remark,
+          operateDate: operateDate,
+          operateHour: operateHour
         })
+      }
+
+      this.setData({
+        logArr: arr
       })
     },
 
     // 关闭日志面板
     closelogpanel() {
+      console.info('abcddsafasd');
       this.triggerEvent("closelogpanel")
     }
   },

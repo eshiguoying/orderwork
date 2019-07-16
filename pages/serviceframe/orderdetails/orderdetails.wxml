@@ -198,7 +198,7 @@
 
 <!-- 日志 -->
 <block wx:if="{{isshowRecord}}">
-  <log orderid="{{orderid}}" bind:closelogpanel="closelogpanel"/>
+  <log order_record_list="{{order_record_list}}" bind:closelogpanel="closelogpanel"/>
 </block>
 
 <!-- 反馈 -->
