@@ -29,15 +29,13 @@ Component({
     },
 
     toFeedbackList: function () {
-      var that = this
+      var that = this;
       if (that.data.feedback.trim() == '') {
-        wx.showModal({
-          content: '反馈内容不能为空',
-          confirmText: '确定',
-          confirmColor: '#fbc400',
-          showCancel: false,
-        })
-
+        wx.showToast({
+          title: '请填写反馈内容',
+          icon: 'none',
+          duration: 1000
+        });
         return false
       }
       var params = {
@@ -52,7 +50,7 @@ Component({
 
     // 关闭订单反馈面板
     closefeedbackpanel() {
-      that.triggerEvent("closefeedbackpanel")
+      this.triggerEvent("closefeedbackpanel")
     }
   },
 })

@@ -1,20 +1,17 @@
 <!--pages/feedback/feedback.wxml-->
 <view class="shadepanel" style="width:{{windowW}}px;height:{{windowH}}px">
-  <!-- <view class="feedback_container" style="width:{{windowW - 10}}px;">
-    <textarea placeholder='请输入反馈内容' placeholder-class='placeholder' class="feedback-con" bindinput='bindFeedbackInput' value='{{feedback}}'></textarea>
-    <view class="feedback-sure" bindtap='toFeedbackList'>确定</view>
-  </view> -->
-  <view class='feedback_container' style="width:{{windowW - 10}}px;">
+  <view class='feedback_container' style="width:{{windowW - 20}}px;">
+    <view class='but'>
+      <view class='close item' catchtap='closefeedbackpanel'>取消</view>
+      <view class='space'></view>
+      <view class='sure item' bindtap='toFeedbackList'>确定</view>
+    </view>
+
     <view class='input_body'>
-      <textarea placeholder='请输入反馈内容' 
-                placeholder-class='placeholder' 
+      <textarea placeholder='请输入反馈内容'
                 class="feedback-con" 
                 bindinput='bindFeedbackInput' 
                 value='{{feedback}}'></textarea>
-    </view>
-    <view class='but'>
-      <view class='close' catchtap='closefeedbackpanel'>取消</view>
-      <view class='sure' bindtap='toFeedbackList'>确定</view>
     </view>
   </view>
 

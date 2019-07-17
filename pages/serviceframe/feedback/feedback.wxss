@@ -1,4 +1,3 @@
-/* pages/feedback/feedback.wxss */
 .shadepanel {
   background-color: rgba(102, 101, 100, 0.7);
   
@@ -9,6 +8,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  font-size: 30rpx;
+  font-weight: 100;
 }
 
 .feedback_container {
@@ -20,43 +22,38 @@
   flex-direction: column;
 }
 
-.feedback_container .input_body {
+.feedback_container .but {
   width: 100%;
-  height: 400rpx;
+  height: 80rpx;
+
+  box-shadow: 1px 2px 4px #E5E5E5;
+
+  display: flex;
+}
+
+.feedback_container .but .item {
+  width: 90rpx;
+  height: 100%;
 
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.feedback_container .but {
-  width: 100%;
-  height: 100rpx;
+.feedback_container .but .space {
+  flex: 1;
 }
 
-.feedback-title{
-  width: 97%;
-  margin: 0 auto;
-  height: 60rpx;
-  line-height: 60rpx;
+.feedback_container .input_body {
+  width: 100%;
+  height: 420rpx;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.feedback-con{
-  width: 96%;
-  background: #fff;
-  margin: 0 auto;
-  padding: 5rpx;
-  border-radius: 6rpx;
-}
-.placeholder{
-  color: #ddd;
-}
-.feedback-sure{
-  height: 70rpx;
-  line-height: 70rpx;
-  color: #fff;
-  width: 97%;
-  margin: 30rpx auto;
-  background: #333;
-  border-radius: 6rpx;
-  text-align: center;
+
+.feedback_container .input_body .feedback-con {
+  width: 90%;
+  height: 90%;
 }
