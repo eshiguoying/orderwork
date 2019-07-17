@@ -35,7 +35,7 @@ Component({
     loadstafflist() {
       var this_ = this;
       request.HttpRequst('/v2/app-user/select', 'GET', { distributorId:  this.properties.distributorId}).then(function (res) {
-        
+        console.info(res.data);
         this_.setData({
           stafflist: res.data
         })

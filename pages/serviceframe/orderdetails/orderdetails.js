@@ -828,7 +828,7 @@ Component({
 
       console.log(params)
       request.HttpRequst('/v2/order/anewAppoint', 'POST', params).then(function (res) {
-        if(res.code != '0') {
+        if(res.code != 0) {
           wx.showToast({
             title: '未改派成功',
             icon: 'none',
