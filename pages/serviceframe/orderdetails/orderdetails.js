@@ -33,6 +33,13 @@ Component({
     workerClickIdx: -1,
     assignId: '',
     imgsArr: [],//上传图片数组
+
+    orderdetails:{
+      orderno:'',// 订单号
+      num: 1,// 行李数
+      flightNum: '',//航班号
+
+    },
     
 
     grayBgShow: false,
@@ -57,7 +64,7 @@ Component({
     destaddress: '',
     destaddrtype: '',
     status: '',
-    appUserDistributorId: '',
+
     appUserName: '',
     appUserMobile: '',
     qrArr: [],
@@ -67,9 +74,13 @@ Component({
     remark: '',
     level3Clicked: false,//初级取派员改派按钮权限，点击过改派名单的确定按钮后，改派按钮消失
     neadfetch: '',
-    FlightNum: '',//航班号
+
     baggageCodeList: [],//如果有行李待提取，下单时的行李编码
     baggageImgList: [],//如果有行李待提取，下单时的照片
+
+    orderallowstaff: false, // 订单是否分配取派员
+
+    distributorId: '',// 该订单所属的三级分销商
 
     // 是否打开员工
     isshowstafflistpanel:false,
@@ -79,40 +90,10 @@ Component({
   },
 
   attached() {
-    this.init_orderdetails();
+    this.loadorderdetails();
   },
 
   methods: {
-    // 是否跳转注册页面
-    init_orderdetails() {
-      var maxcirclu = 1;
-      var this_ = this;
-
-      var getToken = setInterval(function () {
-        if (maxcirclu <= 100) {
-          maxcirclu = maxcirclu + 1;
-
-          if (request.header.token) {
-            // 获取当前登录用户信息
-            this_.setData({
-              accountInfo: wx.getStorageSync('accountInfo')
-            })
-            
-            // 加载订单列表
-            this_.loadData(this_.properties.orderid);
-            
-            clearInterval(getToken);
-          }
-        } else {
-
-          // 结束循环
-          clearInterval(getToken);
-          return;
-
-        }
-      }, 10)
-    },
-
     stopPageScroll: function () {
       return false
     },
@@ -148,7 +129,7 @@ Component({
     callFunc: function (e) {
       var that = this
       //判断后台是否是退单状态
-      request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
+      request.HttpRequst('/v2/order/info/' + that.properties.orderid, 'GET', {}).then(function (res) {
         if (res.code == 401) {
           wx.showModal({
             content: '您没有权限进行操作',
@@ -180,6 +161,7 @@ Component({
         })
       })
     },
+
     // 扫描二维码
     scanCode: function () {
       var that = this
@@ -204,7 +186,7 @@ Component({
         return false
       }
       //判断后台是否是退单状态
-      request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
+      request.HttpRequst('/v2/order/info/' + that.properties.orderid, 'GET', {}).then(function (res) {
         if (res.code == 401) {//用户被禁用或删除
           wx.showModal({
             content: '您没有权限进行操作',
@@ -273,7 +255,7 @@ Component({
                 qrStr += res.result
 
                 var params = {
-                  orderId: that.data.orderId,
+                  orderId: that.properties.orderid,
                   qrCode: qrStr
                 }
 
@@ -284,7 +266,7 @@ Component({
 
                 request.HttpRequst('/v2/order/saveQR', 'POST', params).then(function () {
                   wx.hideLoading();
-                  that.loadData(that.data.orderId)
+                  that.loadorderdetails(that.properties.orderid)
                 })
               }
               else {
@@ -311,11 +293,12 @@ Component({
       })
     },
 
+
     //上传照片
     addPics: function () {
       var that = this
       //判断后台是否是退单状态
-      request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
+      request.HttpRequst('/v2/order/info/' + that.properties.orderid, 'GET', {}).then(function (res) {
         if (res.code == 401) {//用户被禁用或删除
           wx.showToast({
             title: '您没有权限进行操作',
@@ -407,7 +390,7 @@ Component({
           that.setData({
             upload_lugimg_succ_list: []
           })
-          that.loadData(that.data.orderId)
+          that.loadorderdetails(that.properties.orderid)
         }
       })
     },
@@ -432,7 +415,7 @@ Component({
         mask: true
       });
 
-      request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
+      request.HttpRequst('/v2/order/info/' + that.properties.orderid, 'GET', {}).then(function (res) {
         wx.hideLoading()
         if (res.code == 401) {//用户被禁用或删除
           wx.showModal({
@@ -505,7 +488,7 @@ Component({
 
         var params = {
           operateType: 'RECEIVE',
-          orderId: that.data.orderId
+          orderId: that.properties.orderid
         }
 
         request.HttpRequst('/v2/order/operate', 'POST', params).then(function (res) {
@@ -526,7 +509,7 @@ Component({
         mask: true
       });
       //判断后台是否是退单状态
-      request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
+      request.HttpRequst('/v2/order/info/' + that.properties.orderidd, 'GET', {}).then(function (res) {
         wx.hideLoading()
         if (res.code == 401) {//用户被禁用或删除
           wx.showModal({
@@ -576,7 +559,7 @@ Component({
         }
         var params = {
           operateType: 'DELIVERY',
-          orderId: that.data.orderId
+          orderId: that.properties.orderid
         }
 
         request.HttpRequst('/v2/order/operate', 'POST', params).then(function (res) {
@@ -596,7 +579,7 @@ Component({
         mask: true
       });
       //判断后台是否是退单状态
-      request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
+      request.HttpRequst('/v2/order/info/' + that.properties.orderid, 'GET', {}).then(function (res) {
         wx.hideLoading()
         if (res.code == 401) {//用户被禁用或删除
           wx.showModal({
@@ -649,7 +632,7 @@ Component({
 
         var params = {
           operateType: 'FINISH',
-          orderId: that.data.orderId
+          orderId: that.properties.orderid
         }
 
         request.HttpRequst('/v2/order/operate', 'POST', params).then(function (res) {
@@ -664,7 +647,7 @@ Component({
     toNavSend: function (e) {
       var that = this
       //判断后台是否是退单状态
-      request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
+      request.HttpRequst('/v2/order/info/' + that.properties.orderid, 'GET', {}).then(function (res) {
         if (res.code == 401) {//用户被禁用或删除
           wx.showModal({
             content: '您没有权限进行操作',
@@ -712,7 +695,7 @@ Component({
     toRecord: function () {
       var that = this
       //判断后台是否是退单状态
-      request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
+      request.HttpRequst('/v2/order/info/' + that.properties.orderid, 'GET', {}).then(function (res) {
         if (res.code == 401) {//用户被禁用或删除
           wx.showModal({
             content: '您没有权限进行操作',
@@ -746,7 +729,7 @@ Component({
     toFeedbackList: function (e) {
       var that = this
       //判断后台是否是退单状态
-      request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
+      request.HttpRequst('/v2/order/info/' + that.properties.orderid, 'GET', {}).then(function (res) {
         if (res.code == 401) {//用户被禁用或删除
           wx.showModal({
             content: '您没有权限进行操作',
@@ -782,7 +765,7 @@ Component({
     showPopResign: function () {
       var that = this
       //判断后台是否是退单状态
-      request.HttpRequst('/v2/order/info/' + that.data.orderId, 'GET', {}).then(function (res) {
+      request.HttpRequst('/v2/order/info/' + that.properties.orderid, 'GET', {}).then(function (res) {
         if (res.code == 401) {//用户被禁用或删除
           wx.showModal({
             content: '您没有权限进行操作',
@@ -798,6 +781,7 @@ Component({
 
           return false
         }
+
         if (res.data.order.iscanceled == '1' || res.data.order.status == 'REFUNDING') {
           wx.showModal({
             content: '退单中，请稍后进行操作',
@@ -810,6 +794,8 @@ Component({
         }
 
         that.setData({
+          req_distributorid: that.data.distributorId,
+          appoint_type :"anewAppoint",
           isshowstafflistpanel:true
         }) 
         
@@ -823,10 +809,10 @@ Component({
 
       var params = {
         userId: e.detail.id,
-        orderIds: that.data.orderId
+        orderIds: that.properties.orderid
       }
 
-      console.log(params)
+      
       request.HttpRequst('/v2/order/anewAppoint', 'POST', params).then(function (res) {
         if(res.code != 0) {
           wx.showToast({
@@ -837,7 +823,7 @@ Component({
           return;
         }
 
-        that.loadData(that.properties.orderid);
+        that.loadorderdetails(that.properties.orderid);
 
         // 关闭人员列表
         that.setData({
@@ -862,48 +848,50 @@ Component({
       this.triggerEvent("nonlowlevel_changeallow", { "orderindex": this.properties.orderIndex, allowuser:e.detail});
     },
 
-    //获取数据
-    loadData: function (orderId) {
-      var that = this
-      console.info(orderId);
-      request.HttpRequst('/v2/order/info/' + orderId, 'GET', {}).then(function (res) {
-        console.info(res);
-
+    // 加载订单详情信息
+    loadorderdetails: function () {
+      var this_ = this
+      request.HttpRequst('/v2/order/info/' + this_.properties.orderid, 'GET', {}).then(function (res) {
+        console.info(res.data);
         wx.hideLoading();
 
-        var curOrder = res.data
+        var curOrder = res.data;
 
-        
+        this_.setData({
+            orderno: res.data.order.orderno,
+            lugNum: res.data.order.num,
+            status: res.data.order.status,
 
-        that.setData({
-          customerName: curOrder.customer.name,
-          customerMobile: curOrder.customer.mobile,
-          customerIdno: curOrder.customer.idno,
-          orderId: curOrder.order.id,
-          orderno: curOrder.order.orderno,
-          contactSname: curOrder.orderContacter.sendername,
-          contactSmobile: curOrder.orderContacter.senderphone,
-          contactRname: curOrder.orderContacter.receivername,
-          contactRmobile: curOrder.orderContacter.receiverphone,
-          bagsNum: curOrder.order.num,
-          srcgps: curOrder.orderAddress.srcgps,
-          srcaddress: curOrder.orderAddress.srcaddress,
-          destgps: curOrder.orderAddress.destgps,
-          destaddress: curOrder.orderAddress.destaddress,
-          destaddrtype: curOrder.orderAddress.destaddrtype,
-          sendTime: curOrder.order.taketime.substring(0, 16),
-          takeTime: curOrder.order.sendtime.substring(0, 16),
-          status: curOrder.order.status,
-          appUserDistributorId: curOrder.appUser ? curOrder.appUser.distributor3rd : '',
-          appUserName: curOrder.appUser ? curOrder.appUser.name : '',
-          appUserMobile: curOrder.appUser ? curOrder.appUser.mobile : '',
-          imgsArr: curOrder.imgList ? curOrder.imgList : [],
-          remark: curOrder.order.remark ? curOrder.order.remark : '',
-          neadfetch: curOrder.order.neadfetch ? curOrder.order.neadfetch : '',
-          FlightNum: curOrder.orderFlight ? curOrder.orderFlight.takeflightno : '',
-          baggageCodeList: curOrder.baggageCodeList ? curOrder.baggageCodeList : [],
-          baggageImgList: curOrder.baggageImgList ? curOrder.baggageImgList : [],
-          level3Clicked: curOrder.primaryAnewAppoint ? curOrder.primaryAnewAppoint : false
+            neadfetch: res.data.order.neadfetch ? res.data.order.neadfetch : '',
+            flightNum: res.data.orderFlight ? curOrder.orderFlight.takeflightno : '',
+            baggageCodeList: res.data.baggageCodeList,
+            baggageImgList: res.data.baggageImgList,
+
+            customerName: res.data.customer.name,
+            customerMobile: res.data.customer.mobile,
+            customerIdno: res.data.customer.idno,
+            contactSname: res.data.orderContacter.sendername,
+            contactSmobile: res.data.orderContacter.senderphone,
+            contactRname: res.data.orderContacter.receivername,
+            contactRmobile: res.data.orderContacter.receiverphone,
+          
+            srcgps: res.data.orderAddress.srcgps,
+            srcaddress: res.data.orderAddress.srcaddress,
+            destgps: res.data.orderAddress.destgps,
+            destaddress: res.data.orderAddress.destaddress,
+            destaddrtype: res.data.orderAddress.destaddrtype,
+            sendTime: res.data.order.taketime.substring(0, 16),
+            takeTime: res.data.order.sendtime.substring(0, 16),
+          
+            imgsArr: res.data.imgList ? res.data.imgList : [],
+            remark: res.data.order.remark ? res.data.order.remark : '',
+            
+            level3Clicked: res.data.primaryAnewAppoint,
+            appUserName: res.data.appUser ? res.data.appUser.name : '',
+            appUserMobile: res.data.appUser ? res.data.appUser.mobile : '',
+            orderallowstaff: res.data.appUser? true : false,
+
+            distributorId: res.data.order.distributorId// 该订单所属三级分销商
         })
 
         if (curOrder.qr) {
@@ -995,7 +983,14 @@ Component({
       this.triggerEvent("closeorderdetailpanel")
     },
 
-    
+    // 指派
+    appointorder() {
+      this.setData({
+        req_distributorid: this.data.distributorId,
+        appoint_type: 'appoint',
+        isshowstafflistpanel: true
+      });
+    }
   },
 
 })

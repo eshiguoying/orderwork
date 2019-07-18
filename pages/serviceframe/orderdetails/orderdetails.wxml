@@ -6,9 +6,8 @@
       <image src='../../../images/left.png' mode='aspectFit' class='back' ></image>
     </view>
   </view>
-  
-  <scroll-view scroll-y style="width:{{windowW}}px;height:{{windowH - navH}}px">
-    <view class="btn-box">
+
+  <view class="btn-box">
       <view class='item'>
         <view class="btn status_noover" wx:if="{{status == 'PREPAID' || status == 'WAITPICK'}}" bindtap='getFunc'>接收</view>
         <view class="btn status_noover" wx:if="{{status == 'DELIVERYING'}}" bindtap='arriveFunc'>送达</view>
@@ -23,9 +22,9 @@
         <view class="btn backgc_torecord" data-orderId="{{orderId}}" bindtap='toRecord'>操作日志</view>
       </view>
     </view>
-
+  
+  <scroll-view scroll-y style="width:{{windowW}}px;height:{{windowH - navH - 60}}px">
     <view class='model'>
-      
       <view class='item'>
         <view class='lable'>订单编号</view>
         <view class='info'>{{orderno}}</view>
@@ -33,18 +32,27 @@
 
       <view class='item'>
         <view class='lable'>订单数量</view>
-        <view class='info'>{{bagsNum}}</view>
+        <view class='info'>{{lugNum}}</view>
+      </view>
+    </view>
+
+    <view class='model'>
+      <view class='item' wx:if="{{neadfetch == '1'}}">
+        <view class='lable'>航班编号</view>
+        <view class='info'>{{flightNum}}</view>
       </view>
 
       <view class='item' wx:if="{{neadfetch == '1'}}">
         <view class='lable'>行李编码</view>
         <view class='info'>
-          <block wx:for="{{baggageCodeList}}"><view class='qrview'>{{item.baggageCode}}</view></block>
+          <scroll-view scroll-x style="width:{{windowW-150}}px;">
+            <block wx:for="{{baggageCodeList}}">{{item.baggageCode}};</block>
+          </scroll-view>
+        </view>
       </view>
-      </view>
-      
+
       <view class='item'  wx:if="{{baggageImgList.length > 0}}">
-      <view class='lable'>客户拍照</view>
+        <view class='lable'>客户拍照</view>
         <view class='info'>
           <block wx:for="{{baggageImgList}}"
                 wx:for-index="idx"
@@ -52,11 +60,6 @@
             <image bindtap='previewImg1' class="for-upload-pics" src="{{item.imgurl}}"></image>
           </block>
         </view>
-      </view>
-
-      <view class='item' wx:if="{{neadfetch == '1'}}">
-        <view class='lable'>航班号</view>
-        <view class='info'>{{FlightNum}}</view>
       </view>
     </view>
 
@@ -66,65 +69,45 @@
         <view class='info'>{{customerName}}</view>
       </view>
       <view class='item'>
-        <view class='lable'>证件号</view>
+        <view class='lable'>客户证件</view>
         <view class='info'>{{customerIdno}}</view>
       </view>
       <view class='item' >
-        <view class='lable'>联系号码</view>
+        <view class='lable'>客户手机</view>
         <view class='info phone' data-mobile="{{customerMobile}}" bindtap='callFunc'>{{customerMobile}}</view>
       </view>
-    </view>
 
-    <block wx:if="{{customerName!=contactSname || customerMobile!=contactSmobile}}">
-      <block wx:if="{{contactSname == contactRname && contactSmobile == contactRmobile}}">
-        <view class='model linkperson' style='height:160rpx'>
+      <block wx:if="{{customerName!=contactSname || customerMobile!=contactSmobile}}">
+        <block wx:if="{{contactSname == contactRname && contactSmobile == contactRmobile}}">
           <view class='item'>
-            <view class='lable'>联系人</view>
+              <view class='lable'>联系人</view>
+              <view class='info'>{{contactSname}}</view>
+            </view>
+            <view class='item' >
+              <view class='lable'>联系号码</view>
+              <view class='info phone' data-mobile="{{contactSmobile}}" bindtap='callFunc'>{{contactSmobile}}</view>
+            </view>
+        </block>
+        <block wx:else>
+          <view class='item'>
+            <view class='lable'>寄人姓名</view>
             <view class='info'>{{contactSname}}</view>
           </view>
           <view class='item' >
-            <view class='lable'>联系号码</view>
-            <view class='info phone' data-mobile="{{contactSmobile}}" bindtap='callFunc'>{{contactSmobile}}</view>
-          </view>
-        </view>
-      </block>
-      <block wx:else>
-        <view class='model linkperson' style='height:320rpx'>
-          <view class='item'>
-            <view class='lable'>寄件人姓名</view>
-            <view class='info'>{{contactSname}}</view>
-          </view>
-          <view class='item' >
-            <view class='lable'>寄件人号码</view>
+            <view class='lable'>寄人手机</view>
             <view class='info phone' data-mobile="{{contactSmobile}}" bindtap='callFunc'>{{contactSmobile}}</view>
           </view>
           <view class='item'>
-              <view class='lable'>收件人姓名</view>
-              <view class='info phone' >{{contactRname}}</view>
+              <view class='lable'>收人姓名</view>
+              <view class='info' >{{contactRname}}</view>
           </view>
           <view class='item' >
-            <view class='lable'>收件人号码</view>
-            <view class='info' data-mobile="{{contactRmobile}}" bindtap='callFunc'>{{contactRmobile}}</view>
+            <view class='lable'>收人手机</view>
+            <view class='info phone' data-mobile="{{contactRmobile}}" bindtap='callFunc'>{{contactRmobile}}</view>
           </view>
-        </view>
+        </block>
       </block>
-    </block>
-
-
-    <view class='model'>
-      <view class='item'>
-        <view class='lable'>配送员</view>
-        <view class='info'>{{appUserName}}</view>
-        <view class='details_but'  wx:if="{{(accountInfo.appUser.level != 3 && appUserName != '') || (status == 'DELIVERYOVER' && accountInfo.appUser.level == 3 &&  appUserName != '' && !level3Clicked && (destaddrtype != 'HOUSE' ||destaddrtype != 'HOTEL'))}}" bindtap='showPopResign'>改派</view>
-      </view>
-      <view class='item' >
-        <view class='lable'>联系号码</view>
-        <view class='info phone'  wx:if="{{appUserMobile != ''}}" data-mobile="{{appUserMobile}}" bindtap='callFunc'>{{appUserMobile}}</view>
-      </view>
     </view>
-
-
-
 
     <view class='model'>
       <view class='item'>
@@ -135,12 +118,9 @@
         <view class='lable'>寄件地址</view>
         <view class='info phone'data-name="{{srcaddress}}" data-gps="{{srcgps}}" bindtap='toNavSend'>{{srcaddress}}</view>
       </view>
-    </view>
-
-    <view class='model'>
       <view class='item'>
         <view class='lable'>取件时间</view>
-        <view class='info'>{{sendTime}}</view>
+        <view class='info'>{{takeTime}}</view>
       </view>
       <view class='item' >
         <view class='lable'>取件地址</view>
@@ -148,23 +128,49 @@
       </view>
     </view>
 
-    
-  
+    <view class='model'>
+     <view class='item' wx:if="{{remark != ''}}">
+        <view class='lable'>备注信息</view>
+        <view class='info'>{{remark}}</view>
+      </view>
+    </view>
+
     <view class='model'>
       <view class='item'>
-        <view class='lable'>QR码</view>
-        <view class='info'>
-          <block wx:for="{{qrArr}}"><view class='qrview'>{{item}}</view></block>
-        </view>
-      <block wx:if="{{qrArr.length < bagsNum }}">
-        <view class='details_but' bindtap='scanCode'>扫描</view>
-      </block>
+        <view class='lable'>配送员</view>
+        <view class='info'>{{appUserName}}</view>
+
+        <block wx:if="{{accountInfo.appUser.level != 3}}">
+          <!-- 1、2级 -->
+          
+          <block wx:if="{{orderallowstaff}}">
+           <view class='details_but' catchtap ='showPopResign' >改派</view>
+          </block>
+          <block wx:elif="{{!orderallowstaff}}">
+            <view class='details_but' catchtap='appointorder' >指派</view>
+          </block>
+
+        </block>
+        <block wx:else>
+          <!-- 3级改派可以需要满足一定条件 -->
+           <block wx:if="{{status == 'DELIVERYOVER' && !level3Clicked && (destaddrtype != 'HOUSE' ||destaddrtype != 'HOTEL')}}">
+            <view class='details_but' catchtap ='showPopResign'>改派</view>
+           </block>
+        </block>
+      </view>
+
+      <view class='item' >
+        <view class='lable'>联系号码</view>
+        <view class='info phone'  
+              wx:if="{{appUserMobile != ''}}" 
+              data-mobile="{{appUserMobile}}" 
+              bindtap='callFunc'>{{appUserMobile}}</view>
       </view>
     </view>
 
     <view class='model lugphoto'>
       <view class='item'>
-        <view class='lable'>行李照片</view>
+        <view class='lable'>员工拍照</view>
         <view class='info'>
           <block wx:for="{{imgsArr}}" 
                 wx:for-index="idx" 
@@ -177,21 +183,24 @@
           <view class='details_but' bindtap='addPics'>拍照</view>
         </block>
       </view>
-    </view>
 
-    <block wx:if="{{remark != ''}}">
-      <view class='model remark' >
-        <view class='item'>
-          <view class='lable'>备注</view>
-          <view class='info'>{{remark}}</view>
+      <view class='item'>
+        <view class='lable'>QR码</view>
+        <view class='info'>
+          <block wx:for="{{qrArr}}"><view class='qrview'>{{item}}</view></block>
         </view>
+      <block wx:if="{{qrArr.length < bagsNum }}">
+        <view class='details_but' bindtap='scanCode'>扫描</view>
+      </block>
       </view>
-    </block>
+    </view>
+    
   </scroll-view>
 </view>
 
 <block wx:if="{{isshowstafflistpanel}}"> 
-  <stafflist distributorId="{{appUserDistributorId}}" 
+  <stafflist distributorId="{{req_distributorid}}"
+             appoint_type="{{appoint_type}}"
              bind:closestafflistpanel="closestafflistpanel" 
              bind:sure_changeallow_staff="sure_changeallow_staff"/>
 </block>

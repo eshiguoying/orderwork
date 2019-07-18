@@ -11,6 +11,11 @@ Component({
       type: String,
       value: '',
     },
+    // 改派 or 指派
+    appoint_type: {
+      type: String,
+      value: '',
+    }
   },
 
   data: {
@@ -40,7 +45,7 @@ Component({
           stafflist: res.data
         })
       })
-    },
+  },
 
 
     closestafflistpanel() {

@@ -59,8 +59,9 @@ Component ({
           let params = {
             distributorId: this.data.accountInfo.appUser.distributor2nd
           }
+          console.info(this.data.accountInfo.appUser.distributor2nd);
           request.HttpRequst('/v2/app-user/list', 'POST', params).then(res => {
-            // console.log(res)
+            console.log(res)
             wx.hideLoading();
             let tempList = []
             res.data.forEach((item) => {
@@ -73,7 +74,10 @@ Component ({
               tempObj.level = item.level
               tempObj.enable = item.isvalid == 'Y' ? true : false
               tempList.push(tempObj)
+             
             })
+            console.info("============");
+            console.info(tempList);
             this.setData({
               userList: tempList,
               filterUserList: tempList
