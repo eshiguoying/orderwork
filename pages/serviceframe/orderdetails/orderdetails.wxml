@@ -32,7 +32,7 @@
 
       <view class='item'>
         <view class='lable'>订单数量</view>
-        <view class='info'>{{lugNum}}</view>
+        <view class='info'>{{bagsNum}}</view>
       </view>
     </view>
 
