@@ -307,7 +307,9 @@
 <block wx:if="{{orderdetailshowflag}}">
   <orderdetails orderid="{{orderdetailsByorderid}}" 
                 orderIndex="{{orderIndex}}"
-                bind:closeorderdetailpanel="_closeorderdetailpanel" />
+                bind:closeorderdetailpanel="_closeorderdetailpanel"
+                bind:orderdetailappoint='_orderdetailappoint'
+                bind:refreshtap='refreshtap' />
 </block>
 
 

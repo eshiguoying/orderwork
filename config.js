@@ -53,6 +53,33 @@ var SREVICETYPE = {
   }
 };
 
+// 派送方式
+var APPOINT_TYPE = {
+  APPOINT: {
+    value: 'APPOINT',
+    name: '指派'
+  },
+  ANEWAPPOINT: {
+    value: 'ANEWAPPOINT',
+    name: '改派'
+  }
+};
+
+var LEVEL_TYPE = {
+  HIGH: {
+    value: '1',
+    name: '高级权限'
+  },
+  MIDDLE : {
+    value: '2',
+    name: '中级权限'
+  },
+  LOW: {
+    value: '3',
+    name: '低级权限'
+  }
+}
+
 // 全局配置
 module.exports = {
   // TODO 高德地图
@@ -73,7 +100,11 @@ module.exports = {
   // 地址类型
   addrType: ADDRTYPE,
   // 服务类型
-  serviceType: SREVICETYPE
+  serviceType: SREVICETYPE,
+  // 派送方式
+  appointType: APPOINT_TYPE,
+  // 级别等级
+  levelType: LEVEL_TYPE,
 };
 
 

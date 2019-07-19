@@ -918,6 +918,8 @@ Component({
 
     // 查询
     queryorderlist_but() {
+      console.info('abcd');
+
       var reqparam = this.data.queryorderlistReqPram;
       this.setData({
         orderlist: [],
@@ -1089,23 +1091,23 @@ Component({
       this.setData({
         orderdetailshowflag: false
       });
-    }
+    },
+
+    // 订单详情做指派操作后
+  _orderdetailappoint(e) {
+    var orderdetail = this.data.orderlist[e.detail.index];
+      this.setData({
+        ['orderlist[' + e.detail.index + '].order.status']: orderdetail.order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderdetail.order.status,
+        ['orderlist[' + e.detail.index + '].order.statusdesc']: orderdetail.order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderdetail.order.statusdesc,
+        ['orderlist[' + e.detail.index + '].charge']: e.detail.staff.name,
+        ['orderlist[' + e.detail.index + '].appUser']: e.detail.staff,
+      })
+    },
+
 
   },
   
-  // 订单详情改派，如果是低级人员则刷新订单列表
-  lowlevel_changeallow() {
-    this.closeorderdetailsbut();
-    this.queryorderlist_but();
-  },
-
-  // 订单详情改派，如果是中高级人员则刷新订单列表 
-  _nonlowlevel_changeallow(e) {
-    console.info("===============================");
-    this.setData({
-      ["orderlist[" + e.detail.orderindex + "]"]: e.detail.allowuser
-    })
-  },
-
+  
+  
   
 })

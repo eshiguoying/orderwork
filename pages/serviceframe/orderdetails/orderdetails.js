@@ -90,6 +90,9 @@ Component({
   },
 
   attached() {
+    this.setData({
+      accountInfo: wx.getStorageSync('accountInfo')
+    })
     this.loadorderdetails();
   },
 
@@ -199,7 +202,6 @@ Component({
               })
             }
           })
-
           return false
         }
         if (res.data.order.iscanceled == '1' || res.data.order.status == 'REFUNDING') {
@@ -509,7 +511,9 @@ Component({
         mask: true
       });
       //判断后台是否是退单状态
-      request.HttpRequst('/v2/order/info/' + that.properties.orderidd, 'GET', {}).then(function (res) {
+      request.HttpRequst('/v2/order/info/' + that.properties.orderid, 'GET', {}).then(function (res) {
+
+        console.info(res);
         wx.hideLoading()
         if (res.code == 401) {//用户被禁用或删除
           wx.showModal({
@@ -767,35 +771,25 @@ Component({
       //判断后台是否是退单状态
       request.HttpRequst('/v2/order/info/' + that.properties.orderid, 'GET', {}).then(function (res) {
         if (res.code == 401) {//用户被禁用或删除
-          wx.showModal({
-            content: '您没有权限进行操作',
-            confirmText: '确定',
-            confirmColor: '#fbc400',
-            showCancel: false,
-            success: function (res) {
-              wx.redirectTo({
-                url: '../reject/reject'
-              })
-            }
-          })
-
+          wx.showToast({
+            title: '您没有权限进行操作',
+            icon: 'none',
+            duration: 2000,
+          });
           return false
         }
 
         if (res.data.order.iscanceled == '1' || res.data.order.status == 'REFUNDING') {
-          wx.showModal({
-            content: '退单中，请稍后进行操作',
-            confirmText: '确定',
-            confirmColor: '#fbc400',
-            showCancel: false,
-          })
-
+          wx.showToast({
+            title: '退单中，请稍后进行操作',
+            icon: 'none',
+            duration: 2000,
+          });
           return false
         }
 
         that.setData({
           req_distributorid: that.data.distributorId,
-          appoint_type :"anewAppoint",
           isshowstafflistpanel:true
         }) 
         
@@ -805,49 +799,118 @@ Component({
     
     //改派方法
     sure_changeallow_staff: function (e) {
-      var that = this
+      var this_ = this
+  
+      request.HttpRequst('/v2/order/info/' + this_.properties.orderid, 'GET', {}).then(function (res) {
+        // 改派或者指派前，应该在查询一次订单详情，由此来确认到底是改派还是指派
+        if (res.code == 401) {//用户被禁用或删除
+          wx.showToast({
+            title: '您的账号已被禁用',
+            icon: 'none',
+            duration: 2000,
+          });
+          
+          wx.redirectTo({
+            url: '../reject/reject'
+          })
 
-      var params = {
-        userId: e.detail.id,
-        orderIds: that.properties.orderid
-      }
+          return false
+        }
 
-      
-      request.HttpRequst('/v2/order/anewAppoint', 'POST', params).then(function (res) {
         if(res.code != 0) {
           wx.showToast({
-            title: '未改派成功',
+            title: '系统报错，请重新操作',
             icon: 'none',
             duration: 2000,
           });
           return;
         }
 
-        that.loadorderdetails(that.properties.orderid);
-
-        // 关闭人员列表
-        that.setData({
-          isshowstafflistpanel: false
-        }) 
-
-        // 如果是三级
-        if (that.data.accountInfo.appUser.level == '3') {
-          // 改派给别人，所以要关闭订单详情列表，并且要刷新订单列表
-          that.lowlevel_changeallow();
-        } else {
-          that._nonlowlevel_changeallow(e);
+        if (res.data.order.iscanceled == '1' || res.data.order.status == config.orderStatus.REFUNDING.value) {
+          wx.showModal({
+            content: '退单中，请稍后进行操作',
+            confirmText: '确定',
+            confirmColor: '#fbc400',
+            showCancel: false,
+          })
+          return false
         }
-      })
+
+        var orderallowstaffFlag = res.data.appUser ? true : false;
+        var level = this_.data.accountInfo.appUser.level;
+        if (level != config.levelType.LOW.value && !orderallowstaffFlag) {
+          // 指派
+          var params = {
+            userId: e.detail.id,
+            orderIds: this_.properties.orderid
+          }
+          request.HttpRequst('/v2/order/appoint', 'POST', params).then(function (res) {
+            console.info(res);
+            if(res.code != 0) {
+              wx.showToast({
+                title: '未指派成功',
+                icon: 'none',
+                duration: 2000,
+              });
+              return;
+            }
+
+            // 刷新订单详情
+            this_.loadorderdetails();
+            // 更改订单列表
+            this_.triggerEvent("orderdetailappoint", { 'index': this_.properties.orderIndex, 'staff': res.appUser})
+          });
+        } else if (level != config.levelType.LOW.value && orderallowstaffFlag)  {
+          // 1、2级改派
+          var params = {
+            userId: e.detail.id,
+            orderIds: this_.properties.orderid
+          }
+          request.HttpRequst('/v2/order/anewAppoint', 'POST', params).then(function (res) {
+            if (res.code != 0) {
+              wx.showToast({
+                title: '未改派成功',
+                icon: 'none',
+                duration: 2000,
+              });
+              return;
+            }
+            // 刷新订单详情
+            this_.loadorderdetails();
+            // 更改订单订单详情
+            this_.triggerEvent("orderdetailappoint", { 'index': this_.properties.orderIndex, 'staff': res.appUser })
+          })
+
+        } else if (level == config.levelType.LOW.value && orderallowstaffFlag) {
+          // 3级改派
+          var params = {
+            userId: e.detail.id,
+            orderIds: this_.properties.orderid
+          }
+          request.HttpRequst('/v2/order/anewAppoint', 'POST', params).then(function (res) {
+            if (res.code != 0) {
+              wx.showToast({
+                title: '未改派成功',
+                icon: 'none',
+                duration: 2000,
+              });
+              return;
+            }
+            
+            // 刷新订单列表
+            this_.triggerEvent("refreshtap")
+            // 关闭订单详情
+            this_.closeorderdetailpanel();
+            
+          })
+        }
+      });
+
+      
+      
     },
 
-    lowlevel_changeallow() {
-      this.triggerEvent("lowlevel_changeallow");
-    },
-
-    _nonlowlevel_changeallow(e) {
-      this.triggerEvent("nonlowlevel_changeallow", { "orderindex": this.properties.orderIndex, allowuser:e.detail});
-    },
-
+   
     // 加载订单详情信息
     loadorderdetails: function () {
       var this_ = this
@@ -859,7 +922,7 @@ Component({
 
         this_.setData({
             orderno: res.data.order.orderno,
-            lugNum: res.data.order.num,
+            bagsNum: res.data.order.num,
             status: res.data.order.status,
 
             neadfetch: res.data.order.neadfetch ? res.data.order.neadfetch : '',
@@ -886,7 +949,7 @@ Component({
             imgsArr: res.data.imgList ? res.data.imgList : [],
             remark: res.data.order.remark ? res.data.order.remark : '',
             
-            level3Clicked: res.data.primaryAnewAppoint,
+            level3Clicked: false,
             appUserName: res.data.appUser ? res.data.appUser.name : '',
             appUserMobile: res.data.appUser ? res.data.appUser.mobile : '',
             orderallowstaff: res.data.appUser? true : false,
@@ -897,28 +960,28 @@ Component({
         if (curOrder.qr) {
           var qrStr = curOrder.qr.qrCode
           var arr = qrStr.split(",")
-          that.setData({
+          this_.setData({
             qrArr: arr
           })
         }
 
         var arrBigPic = []
         var num = 0;
-        for (var i = 0; i < that.data.imgsArr.length; ++i) {
-          arrBigPic.push(that.data.imgsArr[i].imgUrl)
+        for (var i = 0; i < this_.data.imgsArr.length; ++i) {
+          arrBigPic.push(this_.data.imgsArr[i].imgUrl)
         }
 
-        that.setData({
+        this_.setData({
           bigImgsArr: arrBigPic
         })
 
         var arrBigPic1 = []
         var num = 0;
-        for (var i = 0; i < that.data.baggageImgList.length; ++i) {
-          arrBigPic1.push(that.data.baggageImgList[i].imgurl)
+        for (var i = 0; i < this_.data.baggageImgList.length; ++i) {
+          arrBigPic1.push(this_.data.baggageImgList[i].imgurl)
         }
 
-        that.setData({
+        this_.setData({
           bigImgsArr1: arrBigPic1
         })
 
@@ -987,7 +1050,6 @@ Component({
     appointorder() {
       this.setData({
         req_distributorid: this.data.distributorId,
-        appoint_type: 'appoint',
         isshowstafflistpanel: true
       });
     }

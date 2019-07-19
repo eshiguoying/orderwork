@@ -200,7 +200,6 @@
 
 <block wx:if="{{isshowstafflistpanel}}"> 
   <stafflist distributorId="{{req_distributorid}}"
-             appoint_type="{{appoint_type}}"
              bind:closestafflistpanel="closestafflistpanel" 
              bind:sure_changeallow_staff="sure_changeallow_staff"/>
 </block>

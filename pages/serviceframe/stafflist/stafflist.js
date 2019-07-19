@@ -10,11 +10,6 @@ Component({
     distributorId: {
       type: String,
       value: '',
-    },
-    // 改派 or 指派
-    appoint_type: {
-      type: String,
-      value: '',
     }
   },
 
