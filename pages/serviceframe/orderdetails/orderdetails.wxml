@@ -169,7 +169,7 @@
     </view>
 
     <view class='model lugphoto'>
-      <view class='item'>
+      <view class='item' wx:if="{{orderallowstaff}}">
         <view class='lable'>员工拍照</view>
         <view class='info'>
           <block wx:for="{{imgsArr}}" 
@@ -184,7 +184,7 @@
         </block>
       </view>
 
-      <view class='item'>
+      <view class='item' wx:if="{{orderallowstaff}}">
         <view class='lable'>QR码</view>
         <view class='info'>
           <block wx:for="{{qrArr}}"><view class='qrview'>{{item}}</view></block>

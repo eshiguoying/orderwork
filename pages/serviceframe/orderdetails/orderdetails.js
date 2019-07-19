@@ -949,7 +949,7 @@ Component({
             imgsArr: res.data.imgList ? res.data.imgList : [],
             remark: res.data.order.remark ? res.data.order.remark : '',
             
-            level3Clicked: false,
+            level3Clicked: res.data.primaryAnewAppoint,
             appUserName: res.data.appUser ? res.data.appUser.name : '',
             appUserMobile: res.data.appUser ? res.data.appUser.mobile : '',
             orderallowstaff: res.data.appUser? true : false,
