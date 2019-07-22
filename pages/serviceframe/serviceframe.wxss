@@ -109,19 +109,19 @@
   transition-duration:0.2s
 }
 
-.goldservice {
+.report{
   transform: translate(0%, 85rpx);
   -webkit-transform: translate(0%, 85rpx);
   transition-duration:0.2s
 }
 
-.specialservice {
+.goldservice  {
   transform: translate(0%, 155rpx);
   -webkit-transform: translate(0%, 155rpx);
   transition-duration:0.2s
 }
 
-.business {
+.specialservice {
   transform: translate(0%, 225rpx);
   -webkit-transform: translate(0%, 225rpx);
   transition-duration:0.2s
@@ -133,9 +133,14 @@
   transition-duration:0.2s
 } */
 
-.report {
+.staffmanage {
  transform: translate(0%, 295rpx);
   -webkit-transform: translate(0%, 295rpx);
   transition-duration:0.2s
 }
 
+.my {
+  transform: translate(0%, 345rpx);
+  -webkit-transform: translate(0%, 345rpx);
+  transition-duration:0.2s
+}

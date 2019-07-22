@@ -1,0 +1,65 @@
+<!--user.wxml-->
+<view class="container">
+    <view class='querypanel'>
+      <view class='_search'>
+        <input class='order' placeholder='请输入取派员姓名' bindinput='search_name_input' value='{{search_name}}'></input>
+
+         <block wx:if="{{search_name.length > 0}}">
+            <view class='deleteinfo' catchtap='clearsearch_name' data-key='orderno' data-type='simple'>
+              <image src='../../../images/delete.png'></image>
+            </view>
+         </block>
+      </view>
+      <view class='showforbid'>
+
+      </view>
+    </view>
+
+    <view class='userinfopanel'>
+      <view class='edituser' data-edittype='OTHERS' catchtap="editUserInfo">编辑资料</view>
+
+      <view class='_body'>
+        <view class='item'>
+          <view class='lable'>姓名</view>
+          <view class='content'>
+            {{accountInfo.appUser.name}}
+          </view>
+        </view>
+
+        <view class='item'>
+          <view class='lable'>手机号</view>
+          <view class='content'>
+            {{accountInfo.appUser.mobile}}
+          </view>
+        </view>
+
+        <view class='item'>
+          <view class='lable'>三级分销商</view>
+          <view class='content'>
+            {{accountInfo.appUser.thirdname}}
+          </view>
+        </view>
+
+        <view class='item'>
+          <view class='lable'>工作方式</view>
+          <view class='content'>
+            <block wx:if="{{accountInfo.appUser.workType=='0'}}">
+              固定柜台
+            </block>
+            <block wx:else>
+              外勤
+            </block>
+          </view>
+        </view>
+      </view>
+    </view>
+</view>
+
+
+<!-- 反馈 -->
+<block wx:if="{{isshowuserEdit}}">
+  <userEdit userinfo="{{userinfo}}"
+            edittype="{{edittype}}"
+            bind:closeUserEditpanel="closeUserEditpanel"
+            bind:sureEditSuccess="sureEditSuccess"/>
+</block>

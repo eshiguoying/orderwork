@@ -2,10 +2,12 @@
   "navigationStyle": "custom",
   "usingComponents": {
     "order": "order/order",
+    "report": "report/report",
     "goldservice": "goldservice/goldservice",
     "specialservice": "specialservice/specialservice",
-    "user": "user/user",
-    "report": "report/report"
+    "staffmanage": "staffmanage/staffmanage",
+    "user": "user/user"
+    
   }
 }
 

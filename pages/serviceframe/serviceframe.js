@@ -20,7 +20,7 @@ Page({
     // 点击三条杠是否打开左侧弹出框
     open: false,
     // 默认登陆页面是 => 金牌配送
-    servicename: 'business',
+    servicename: 'staffmanage',
 
     
   },

@@ -16,17 +16,22 @@
         <view class="item"  bindtap='servicetap' data-service='order'>
           <text  class='item_text'>订单</text>
         </view>
-        <view class="item" bindtap='servicetap' data-service='goldservice'>
-          <text class='item_text' >金牌</text>
+        <view class="item" bindtap='servicetap' data-service='report'>
+          <text class='item_text' >报表</text>
         </view>
-        <view class="item" bindtap='servicetap' data-service='specialservice'>
+        <view class="item" bindtap='servicetap' data-service='goldservice'>
+          <text  class='item_text' >金牌</text>
+        </view>
+        <view class="item"  bindtap='servicetap' data-service='specialservice'>
           <text  class='item_text' >专车</text>
         </view>
-        <view class="item"  bindtap='servicetap' data-service='business'>
-          <text  class='item_text' >管理</text>
-        </view>
-        <view class="item"  bindtap='servicetap' data-service='report'>
-          <text  class='item_text'>报表</text>
+
+         <view class="item"  bindtap='servicetap' data-service='staffmanage'>
+          <text  class='item_text'>员工</text>
+         </view>
+
+        <view class="item"  bindtap='servicetap' data-service='my'>
+          <text  class='item_text'>我的</text>
         </view>
       </view> 
     </view>
@@ -38,6 +43,11 @@
     <block wx:if="{{servicename == 'order'}}">
       <order />
     </block>
+
+    <block wx:elif="{{servicename == 'report'}}">
+      <report />
+    </block>
+
     <block wx:elif="{{servicename == 'goldservice'}}">
       <!-- 金牌 -->
      <goldservice />
@@ -48,12 +58,14 @@
       <specialservice />
     </block>
      
-     <block wx:elif="{{servicename == 'business'}}">
+    <block wx:elif="{{servicename == 'staffmanage'}}">
+      <staffmanage />
+    </block>
+
+     <block wx:elif="{{servicename == 'my'}}">
       <user />
      </block>
      
-    <block wx:elif="{{servicename == 'report'}}">
-      <report />
-    </block>
+    
   </view>
 </view>
