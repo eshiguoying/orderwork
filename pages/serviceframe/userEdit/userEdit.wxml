@@ -9,27 +9,27 @@
   </view>
 
   <view class='_body'>
-    <view class='item'>
+    <view class='item' wx:if="{{userinfo.appUser.level == levelEnum.HIGH.value}}">
       <view class='lable'>姓名</view>
       <view class='content'>
-        <input type="text" placeholder="输入姓名姓名" bindinput="setName" value="{{userName}}"></input>
+        <input type="text" placeholder="输入姓名" bindinput="setName" value="{{userinfo.appUser.name}}"></input>
       </view>
     </view>
 
-    <view class='item'>
+    <view class='item' wx:if="{{userinfo.appUser.level == levelEnum.HIGH.value}}">
       <view class='lable'>手机号</view>
       <view class='content'>
-        <input type="text" placeholder="手机号" bindinput="setPhone" value="{{userPhone}}" />
+        <input type="text" placeholder="输入手机号" bindinput="setPhone" value="{{userinfo.appUser.mobile}}" />
       </view>
     </view>
 
-    <view class='item'>
+    <view class='item' wx:if="{{userinfo.appUser.level == levelEnum.HIGH.value}}">
       <view class='lable'>三级分销商</view>
       <view class='content'>
         <picker bindchange="changeDistributor" 
                 value="{{distributorIndex}}" 
                 range-key="name" 
-                range="{{distributorList}}" 
+                range="{{distributorList}}"
                 disabled="">
           <view>{{distributorList[distributorIndex].name}}</view>
         </picker>
@@ -40,8 +40,18 @@
       <view class='lable'>工作方式</view>
       <view class='content'>
         <view class='worktype'>
-          <view class='item  {{userWorkType == 0? "selected": ""}}' data-param="0" catchtap='changeWorktype'>固定柜台</view>
-          <view class='item {{userWorkType == 1? "selected": ""}}' data-param="1" catchtap='changeWorktype'>外勤</view>
+          <view class='item  {{userinfo.appUser.workType == 0? "selected": ""}}' data-param="0" catchtap='changeWorktype'>固定柜台</view>
+          <view class='item {{userinfo.appUser.workType == 1? "selected": ""}}' data-param="1" catchtap='changeWorktype'>外勤</view>
+        </view>
+      </view>
+    </view>
+
+     <view class='item' wx:if="{{userEditTypeEnum.OTHERS.value == edittype && userinfo.appUser.level == levelEnum.HIGH.value}}">
+      <view class='lable'>级别设置</view>
+      <view class='content'>
+        <view class='worktype'>
+          <view class='item  {{userinfo.appUser.level == "3"? "selected": ""}}' data-param="3" catchtap='changeLevel'>初级</view>
+          <view class='item {{userinfo.appUser.level == "2"? "selected": ""}}' data-param="2" catchtap='changeLevel'>中级</view>
         </view>
       </view>
     </view>

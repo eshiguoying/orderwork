@@ -78,7 +78,18 @@ var LEVEL_TYPE = {
     value: '3',
     name: '低级权限'
   }
-}
+};
+
+var USEREDIT_TYPE = {
+  MYSELF: {
+    value: 'MYSELF',
+    name: '我自己'
+  },
+  OTHERS: {
+    value: 'OTHERS',
+    name: '其他人'
+  }
+};
 
 // 全局配置
 module.exports = {
@@ -105,6 +116,8 @@ module.exports = {
   appointType: APPOINT_TYPE,
   // 级别等级
   levelType: LEVEL_TYPE,
+  // 人员编辑类型
+  userEditType: USEREDIT_TYPE
 };
 
 

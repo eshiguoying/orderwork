@@ -26,7 +26,7 @@
   width: 100%;
   height: 80rpx;
 
-  box-shadow: 1px 2px 4px #E5E5E5;
+  box-shadow: 0px 2px 10px #E5E5E5;
 
   display: flex;
 }
@@ -74,7 +74,7 @@
 
 .shadepanel .container ._body .item .content .worktype {
   width: 300rpx;
-  height: 70rpx;
+  height: 50rpx;
   
   display: flex;
   align-items: center;
@@ -82,7 +82,7 @@
 
 .shadepanel .container ._body .item .content .worktype .item {
   width: 150rpx;
-  height: 70rpx;
+  height: 50rpx;
 
   display: flex;
   justify-content: center;
@@ -93,8 +93,6 @@
 
   background-color: #FCFBF8;
   color: #07233F;
-
-  
 }
 
 .shadepanel .container ._body .item .content .worktype .selected {
@@ -103,69 +101,4 @@
 
   background-color: #07233F;
   color: #FCFBF8;
-}
-
-/**userEdit.wxss**/
-.form-item{
-  height: 100rpx;
-  margin: 10rpx 20rpx;
-  background-color: #fff;
-  border-radius: 10rpx;
-  color: #333;
-}
-.user-label{
-  float: left;
-  padding-left: 20rpx;
-  padding-right: 80rpx;
-}
-.input-name{
-  float: left;
-}
-.input-name input{
-  width: 500rpx;
-  height: 100rpx;
-}
-.input-name picker{
-  width: 400rpx;
-}
-
-.radio-level{
-  float: left;
-  margin-right: 40rpx;
-}
-.radio-icon{
-  width: 42rpx;
-  height: 42rpx;
-  border: 2rpx solid #ddd;
-  border-radius: 100%;
-}
-.radio-icon view{
-  width: 30rpx;
-  height: 30rpx;
-  border-radius: 100%;
-  margin: 6rpx auto;
-  background-color: #ddd;
-}
-.radio-icon.h{
-  border-color: #fcb400;
-}
-.radio-icon.h view{
-  background-color: #fcb400;
-}
-.radio-name{
-  float: left;
-  padding-left: 20rpx;
-}
-.submit-btn{
-  width: 710rpx;
-  height: 80rpx;
-  line-height: 80rpx;
-  text-align: center;
-  border-radius: 10rpx;
-  margin: 30rpx auto;
-  background-color: #231815;
-  color: #fff;
-}
-.input-name switch{
-  zoom: 0.6;
 }

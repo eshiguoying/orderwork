@@ -1,3 +1,61 @@
+.container {
+  font-size: 30rpx;
+  font-weight: 100;
+
+  
+}
+
+.userinfopanel {
+  margin: 20rpx;
+  padding: 20rpx;
+
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 10rpx;
+  
+  box-shadow: 0px 0px 10px 2px #E5E5E5;
+
+  position: relative;
+}
+
+.userinfopanel .edituser {
+  position: absolute;
+  right: 20rpx;
+  top: 20rpx;
+
+  width: 120rpx;
+  height: 60rpx;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1rpx solid #E5E5E5;
+  border-radius: 10rpx;
+}
+
+.userinfopanel ._body .item{
+  display: flex;
+  align-items: center;
+
+  height: 60rpx;
+}
+
+.userinfopanel ._body .item .lable{
+  width: 200rpx;
+
+  display: flex;
+  align-items: center;
+}
+
+.userinfopanel ._body .item .content{
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+}
+
 /**user.wxss**/
 /*顶部搜索*/
 .search-b{
