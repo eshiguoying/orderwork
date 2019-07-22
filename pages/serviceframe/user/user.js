@@ -31,6 +31,8 @@ Component ({
   },
 
   attached() {
+    
+
     this.init_user();
   },
 
@@ -76,7 +78,7 @@ Component ({
               tempList.push(tempObj)
              
             })
-            console.info("============");
+            console.info('----------------');
             console.info(tempList);
             this.setData({
               userList: tempList,
@@ -207,7 +209,16 @@ Component ({
           isshowuserEdit:true
         });
       }
+    },
+
+    // 关闭编辑面板
+    closeUserEditpanel() {
+      this.setData({
+        isshowuserEdit:false
+      });
     }
   },
+
+  
   
 })

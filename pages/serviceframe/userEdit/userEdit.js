@@ -23,7 +23,9 @@ Component({
     // 用户id
     userId: '',
     // 是否为修改本人信息
-    editMyself: false
+    editMyself: false,
+    //工作方式
+    userWorkType: 0
   },
 
   methods: {
@@ -45,6 +47,13 @@ Component({
         distributorIndex: e.detail.value
       })
     },
+    //修改取派员工作方式
+    changeWorktype: function (e) {
+      this.setData({
+        userWorkType: e.currentTarget.dataset.param
+      })
+    },
+
     // 修改指派员级别
     changeLevel: function (e) {
       this.setData({
@@ -101,7 +110,8 @@ Component({
           id: this.data.userId,
           mobile: this.data.userPhone,
           name: this.data.userName,
-          distributor_3rd: this.data.distributorList[this.data.distributorIndex].id
+          distributor_3rd: this.data.distributorList[this.data.distributorIndex].id,
+          work_type: this.data.userWorkType
         }
       } else {
         params = {
@@ -109,7 +119,8 @@ Component({
           id: this.data.userId,
           level: this.data.userLevel,
           mobile: this.data.userPhone,
-          name: this.data.userName
+          name: this.data.userName,
+          work_type: this.data.userWorkType
         }
       }
       // console.log(params)
@@ -124,6 +135,7 @@ Component({
           let tempInfo = wx.getStorageSync('accountInfo');
           tempInfo.appUser.mobile = this.data.userPhone
           tempInfo.appUser.name = this.data.userName
+          tempInfo.appUser.workType = this.data.userWorkType
           tempInfo.appUser.thirdname = this.data.distributorList[this.data.distributorIndex].name
           if (this.data.editMyself) {
             wx.setStorage({
@@ -141,27 +153,33 @@ Component({
           }, 1500)
         }
       })
+    },
+
+    closeUserEditpanel() {
+      this.triggerEvent("closeUserEditpanel")
     }
   },
 
-  attached: function(){
+  attached: function () {
     // 回显用户信息
     let userInfo = wx.getStorageSync('editUserInfo');
-    if(userInfo.type){
+    if (userInfo.type) {
       let accountInfo = wx.getStorageSync('accountInfo').appUser;
       // 修改登录人信息-只能修改姓名+手机号+分销商
       this.setData({
         userName: accountInfo.name,
         userPhone: accountInfo.mobile,
         userId: accountInfo.id,
+        userWorkType: accountInfo.workType,
         editMyself: true
       })
-    } else{
+    } else {
       this.setData({
         userName: userInfo.name,
         userPhone: userInfo.phone,
         userLevel: userInfo.level ? userInfo.level : '3',
-        userId: userInfo.id
+        userId: userInfo.id,
+        userWorkType: userInfo.workType
       })
     }
     wx.showLoading({
@@ -172,13 +190,13 @@ Component({
     request.HttpRequst('/v2/distributor/ownerList', 'GET', '').then(res => {
       // console.log(res.list)
       wx.hideLoading();
-      let tempList = [{id: 'none', name: '待分配'}]
+      let tempList = [{ id: 'none', name: '待分配' }]
       this.setData({
         distributorList: tempList.concat(res.list)
       })
       // 回显分销商信息
       this.data.distributorList.forEach((item, index) => {
-        if(item.name == userInfo.distributor){
+        if (item.name == userInfo.distributor) {
           this.setData({
             distributorIndex: index
           })

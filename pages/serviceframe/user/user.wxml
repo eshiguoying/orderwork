@@ -12,6 +12,12 @@
       <view class="info-msg">
         <text>所属三级分销商：{{accountInfo.appUser.thirdname}}</text>
       </view>
+      <view class="info-msg" wx:if="{{accountInfo.appUser.workType=='0'}}">
+        <text>工作方式：固定柜台</text>
+      </view>
+      <view class="info-msg" wx:if="{{accountInfo.appUser.workType=='1'}}">
+        <text>工作方式：外勤</text>
+      </view>
       <view class="info-msg">
         <text>注册码：{{accountInfo.registerCode}}</text>
       </view>
@@ -28,7 +34,7 @@
     </view>
   </view>
   <!--用户列表-->
-  <scroll-view scroll-y class="user-list" style='height:{{wrapperH}}px;'>
+  <scroll-view scroll-y class="user-list" style='height:{{350}}px;'>
     <block wx:for="{{filterUserList}}" wx:key="*this">
       <!--启用数据-->
       <view class="user-item" wx:if="{{item.enable}}" >
@@ -74,9 +80,11 @@
       <view class="noresult-list-msg">没有相关数据</view>
     </view>
   </scroll-view>
+  <custarbar tarbar-nav="user" />
 </view>
+
 
 <!-- 反馈 -->
 <block wx:if="{{isshowuserEdit}}">
-  <userEdit />
+  <userEdit bind:closeUserEditpanel="closeUserEditpanel"/>
 </block>
