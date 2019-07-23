@@ -197,7 +197,6 @@ Component ({
 
     // 编辑成功回调
     sureEditSuccess(e) {
-      console.info(e);
       this.setData({
         ['stafflist_2rdall[' + e.detail.index + ']']: e.detail.userinfo
       })
