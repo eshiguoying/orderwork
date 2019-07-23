@@ -49,7 +49,7 @@ Component ({
       console.info(e);
       this.setData({
         edittype: e.currentTarget.dataset.edittype,
-        userinfo: this.data.accountInfo,
+        userinfo: this.data.accountInfo.appUser,
         isshowuserEdit: true
       });
     },

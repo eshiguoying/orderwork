@@ -13,63 +13,66 @@
       <view class='showforbid' catchtap='isshowonlystartuser'>
         <view class='but {{onlyshowstartuserflag? "yes":"no"}}'>
           <block wx:if="{{onlyshowstartuserflag}}">
-            是
+            <image src='../../../images/selected.png'></image>
           </block>
           <block wx:else>
-            否
+            <image src='../../../images/nonselected.png'></image>
           </block>
         </view>
         <view class='lable'>仅显示启用用户</view>
       </view>
     </view>
     
-    <view class='list'>
-      <block wx:for="{{stafflist_2rdall_screenlater}}">
-      <view class='userinfopanel'>
-        <view class='levelTypetab {{"level_" + levelTypeEnum[item.level].value}}'>
-          {{levelTypeEnum[item.level].name}}
-          <block wx:if="{{!levelTypeEnum[item.level].name}}">
-            无
-          </block>
-        </view>
+    <view class='list' style="height:{{windowH - 50}}px">
+      <block wx:for="{{stafflist_2rdall}}">
+      <block wx:if="{{item.showflag}}">
+          <view class='userinfopanel {{item.isvalid == isvalidTypeEnum.N.value? "nonedit": ""}}'>
 
-        <view class='edituser' data-edittype='OTHERS' data-index="{{index}}" catchtap="editUserInfo">编辑资料</view>
+            <view class='edituser' data-edittype='OTHERS' data-index="{{index}}" catchtap="editUserInfo">编辑资料</view>
 
-        <view class='startuserbut' >
-          <view class='item {{item.isvalid == isvalidTypeEnum.Y.value? "selected": ""}}'>启动</view>
-          <view class='item item.isvalid == isvalidTypeEnum.N.value? "stop": ""'>禁止</view>
-        </view>
+            <view class='startuserbut' data-param='{{item}}' data-index='{{index}}' catchtap="enableUser">
+              <view class='item {{item.isvalid == isvalidTypeEnum.Y.value? "selected": ""}}'>启动</view>
+              <view class='item {{item.isvalid == isvalidTypeEnum.N.value? "selected": ""}}'>禁止</view>
+            </view>
 
-        <view class='_body'>
-          <view class='item'>
-            <view class='lable'>姓名</view>
-            <view class='content'>
-              {{item.name}}
+            <view class='_body'>
+              <view class='item'>
+                <view class='lable'>级别</view>
+                <view class='content'>
+                  {{levelTypeEnum[item.level].name}}
+                </view>
+              </view>
+
+              <view class='item'>
+                <view class='lable'>姓名</view>
+                <view class='content'>
+                  {{item.name}}
+                </view>
+              </view>
+
+              <view class='item'>
+                <view class='lable'>手机号</view>
+                <view class='content'>
+                  {{item.mobile}}
+                </view>
+              </view>
+
+              <view class='item'>
+                <view class='lable'>三级分销商</view>
+                <view class='content'>
+                  {{item.thirdname}}
+                </view>
+              </view>
+
+              <view class='item'>
+                <view class='lable'>工作方式</view>
+                <view class='content'>
+                  {{workTypeEnum[item.workType].name}}
+                </view>
+              </view>
             </view>
           </view>
-
-          <view class='item'>
-            <view class='lable'>手机号</view>
-            <view class='content'>
-              {{item.mobile}}
-            </view>
-          </view>
-
-          <view class='item'>
-            <view class='lable'>三级分销商</view>
-            <view class='content'>
-              {{item.thirdname}}
-            </view>
-          </view>
-
-          <view class='item'>
-            <view class='lable'>工作方式</view>
-            <view class='content'>
-              {{workTypeEnum[item.workType].name}}
-            </view>
-          </view>
-        </view>
-      </view>
+      </block>
       </block>
       
     </view>
@@ -80,6 +83,7 @@
 <block wx:if="{{isshowuserEdit}}">
   <userEdit userinfo="{{userinfo}}"
             edittype="{{edittype}}"
+            editlaterindex="{{editlaterindex}}"
             bind:closeUserEditpanel="closeUserEditpanel"
             bind:sureEditSuccess="sureEditSuccess"/>
 </block>

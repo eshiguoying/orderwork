@@ -23,8 +23,6 @@ Component ({
     onlyshowstartuserflag: true,
     // 2级分销商下的所有员工信息
     stafflist_2rdall: [],
-    // 筛选过后员工列表
-    stafflist_2rdall_screenlater: [],
 
   },
 
@@ -78,21 +76,49 @@ Component ({
         distributorId: this.data.accountInfo.appUser.distributor2nd
       }
       request.HttpRequst('/v2/app-user/list', 'POST', params).then(res => {
-        console.info(res.data);
-        this_.setData({
-          stafflist_2rdall: res.data,
-          stafflist_2rdall_screenlater: res.data
-        });
+        console.info(res);
+        if(res.code == 0 && res.data.length > 0) {
+          this_.setData({
+            stafflist_2rdall: res.data
+          });
+          this_.screenstafflist();
+        }
       })
+    },
+
+    // 筛选
+    screenstafflist() {
+
+      var stafflist_2rdall = this.data.stafflist_2rdall;
+      
+      for (var i = 0; i < stafflist_2rdall.length; i++) {
+        if (this.data.search_name && stafflist_2rdall[i].name.indexOf(this.data.search_name) == -1) {
+          stafflist_2rdall[i].showflag = false;
+          continue;
+        }
+        if (this.data.onlyshowstartuserflag && stafflist_2rdall[i].isvalid == config.isvalidType.N.value) {
+          stafflist_2rdall[i].showflag = false;
+          continue;
+        }
+        stafflist_2rdall[i].showflag = true;
+      }
+      console.info("====");
+      console.info(stafflist_2rdall);
+      this.setData({
+        stafflist_2rdall: []
+      });
+      this.setData({
+        stafflist_2rdall: stafflist_2rdall
+      });
     },
 
     // 实时筛选
     search_name_input(e) {
-
-
       this.setData({
         search_name: e.detail.value
       });
+
+      this.screenstafflist();
     },
 
     // 清空搜索条件
@@ -100,50 +126,67 @@ Component ({
       this.setData({
         search_name: ''
       });
+
+      this.screenstafflist();
     },
 
     // 编辑用户
     editUserInfo(e) {
-      console.info(e);
+      var userinfo = this.data.stafflist_2rdall[e.currentTarget.dataset.index];
+      if(userinfo.isvalid == config.isvalidType.N.value) {
+        return;
+      }
+
       this.setData({
+        editlaterindex: e.currentTarget.dataset.index,
         edittype: e.currentTarget.dataset.edittype,
-        userinfo: this.data.accountInfo,
+        userinfo: userinfo,
         isshowuserEdit: true
       });
     },
+  
 
     // 是否仅显示启动的用户
     isshowonlystartuser() {
       this.setData({
         onlyshowstartuserflag: !this.data.onlyshowstartuserflag
       });
+
+      this.screenstafflist();
+    },
+
+    // 切换用户状态
+    enableUser: function (e) {
+      var this_ = this;
+      wx.showLoading({
+        mask: true
+      });
+      console.info(e);
+      let params = {
+        "id": e.currentTarget.dataset.param.id,
+        "isvalid": e.currentTarget.dataset.param.isvalid == config.isvalidType.Y.value? config.isvalidType.N.value:config.isvalidType.Y.value,
+      }
+      request.HttpRequst('/v2/app-user/operate', 'PUT', params).then(res => {
+        console.info(res);
+        wx.hideLoading();
+        if (res.code != 0) {
+          wx.showToast({
+            title: res.msg,
+            icon: 'none',
+            duration: 3000
+          });
+         return;
+        } 
+
+        this_.setData({
+          ['stafflist_2rdall[' + e.currentTarget.dataset.index +'].isvalid']: params.isvalid
+        });
+
+        this_.screenstafflist();
+      })
     },
     
-    // 编辑用户
-    linkToEdit: function (e) {
-      if (e.currentTarget.dataset.enable) {
-        if (e.currentTarget.dataset.param == 'myself') {
-          // 要修改登录人信息-只能修改姓名与手机号
-          wx.setStorage({
-            key: 'editUserInfo',
-            data: {
-              type: 'myself',
-              distributor: this.data.accountInfo.appUser.thirdname
-            }
-          });
-        } else {
-          wx.setStorage({
-            key: 'editUserInfo',
-            data: e.currentTarget.dataset.param
-          });
-        }
-
-        this.setData({
-          userinfo: this.data.accountInfo,
-          isshowuserEdit:true
-        });
-      }
-    },
+    
 
     // 关闭编辑面板
     closeUserEditpanel() {
@@ -153,9 +196,10 @@ Component ({
     },
 
     // 编辑成功回调
-    sureEditSuccess() {
+    sureEditSuccess(e) {
+      console.info(e);
       this.setData({
-        accountInfo: wx.getStorageSync('accountInfo')
+        ['stafflist_2rdall[' + e.detail.index + ']']: e.detail.userinfo
       })
     }
   },

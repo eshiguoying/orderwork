@@ -63,17 +63,11 @@
   justify-content: center;
   align-items: center;
 
-  font-weight: bold;
 }
 
-.querypanel .showforbid .yes {
-  color: #fCFBF8;
-  background-color: #005B66; 
-}
-
-.querypanel .showforbid .no {
-  color: #fCFBF8;
-  background-color: #ED666C; 
+.querypanel .showforbid image {
+  width: 50rpx;
+  height: 50rpx;
 }
 
 .querypanel .showforbid .lable{
@@ -118,6 +112,10 @@
   box-shadow: 0px 0px 10px 2px #E5E5E5;
 
   position: relative;
+}
+
+.nonedit {
+  background-color: #D3D4D6;
 }
 
 .userinfopanel .edituser {
@@ -165,50 +163,6 @@
   color: #fCFBF8;
   background-color: #07233F;
 }
-
-.userinfopanel .levelTypetab {
-  position: absolute;
-  left: 20rpx;
-  top: 0rpx;
-
-  width: 60rpx;
-  height: 30rpx;
-
-  
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 28rpx;
-
-  border-radius: 10rpx;
-  
-  background-color: rgba(174,173,173, 0.2);
-  color: #AEADAD;
-  font-weight: bold;
-  border: 1rpx solid #AEADAD;
-}
-
-/* .userinfopanel .level_1 {
-  color: #fCFBF8;
-  
-}
-
-.userinfopanel .level_2 {
-  color: #fCFBF8;
-  background-color: #ED666C;
-  border: 1rpx solid #ED666C;
-  
-  
-}
-
-.userinfopanel .level_3 {
-  color: #fCFBF8;
-  background-color: #9F68AC;
-  border: 1rpx solid #9F68AC;
-} */
-
 
 .userinfopanel ._body .item{
   display: flex;
