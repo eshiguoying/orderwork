@@ -1,8 +1,8 @@
 <!--user.wxml-->
-<view class="container">
+<view class="container" style="width:{{windowW}}px;height:{{windowH}}px">
     <view class='querypanel'>
       <view class='_search'>
-        <input class='order' placeholder='请输入取派员姓名' bindinput='search_name_input' value='{{search_name}}'></input>
+        <input placeholder='请输入取派员姓名' bindinput='search_name_input' value='{{search_name}}'></input>
 
          <block wx:if="{{search_name.length > 0}}">
             <view class='deleteinfo' catchtap='clearsearch_name' data-key='orderno' data-type='simple'>
@@ -10,48 +10,68 @@
             </view>
          </block>
       </view>
-      <view class='showforbid'>
-
+      <view class='showforbid' catchtap='isshowonlystartuser'>
+        <view class='but {{onlyshowstartuserflag? "yes":"no"}}'>
+          <block wx:if="{{onlyshowstartuserflag}}">
+            是
+          </block>
+          <block wx:else>
+            否
+          </block>
+        </view>
+        <view class='lable'>仅显示启用用户</view>
       </view>
     </view>
-
-    <view class='userinfopanel'>
-      <view class='edituser' data-edittype='OTHERS' catchtap="editUserInfo">编辑资料</view>
-
-      <view class='_body'>
-        <view class='item'>
-          <view class='lable'>姓名</view>
-          <view class='content'>
-            {{accountInfo.appUser.name}}
-          </view>
+    
+    <view class='list'>
+      <block wx:for="{{stafflist_2rdall_screenlater}}">
+      <view class='userinfopanel'>
+        <view class='levelTypetab {{"level_" + levelTypeEnum[item.level].value}}'>
+          {{levelTypeEnum[item.level].name}}
+          <block wx:if="{{!levelTypeEnum[item.level].name}}">
+            无
+          </block>
         </view>
 
-        <view class='item'>
-          <view class='lable'>手机号</view>
-          <view class='content'>
-            {{accountInfo.appUser.mobile}}
-          </view>
+        <view class='edituser' data-edittype='OTHERS' data-index="{{index}}" catchtap="editUserInfo">编辑资料</view>
+
+        <view class='startuserbut' >
+          <view class='item {{item.isvalid == isvalidTypeEnum.Y.value? "selected": ""}}'>启动</view>
+          <view class='item item.isvalid == isvalidTypeEnum.N.value? "stop": ""'>禁止</view>
         </view>
 
-        <view class='item'>
-          <view class='lable'>三级分销商</view>
-          <view class='content'>
-            {{accountInfo.appUser.thirdname}}
+        <view class='_body'>
+          <view class='item'>
+            <view class='lable'>姓名</view>
+            <view class='content'>
+              {{item.name}}
+            </view>
           </view>
-        </view>
 
-        <view class='item'>
-          <view class='lable'>工作方式</view>
-          <view class='content'>
-            <block wx:if="{{accountInfo.appUser.workType=='0'}}">
-              固定柜台
-            </block>
-            <block wx:else>
-              外勤
-            </block>
+          <view class='item'>
+            <view class='lable'>手机号</view>
+            <view class='content'>
+              {{item.mobile}}
+            </view>
+          </view>
+
+          <view class='item'>
+            <view class='lable'>三级分销商</view>
+            <view class='content'>
+              {{item.thirdname}}
+            </view>
+          </view>
+
+          <view class='item'>
+            <view class='lable'>工作方式</view>
+            <view class='content'>
+              {{workTypeEnum[item.workType].name}}
+            </view>
           </view>
         </view>
       </view>
+      </block>
+      
     </view>
 </view>
 

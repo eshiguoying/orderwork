@@ -1,12 +1,26 @@
 // pages/orderDetail/orderDetail.js
+const App = getApp();
 const request = require('../../../request')
+const config = require('../../../config')
 
 Component ({
   data: {
+    // 页面可用高度
+    windowH: App.globalData.windowHeight,
+    // 页面可用宽度
+    windowW: App.globalData.windowWidth,
+    // 工作方式
+    workTypeEnum: config.workType,
+    // 等级类型枚举
+    levelTypeEnum: config.levelType,
+    // 是否启动枚举
+    isvalidTypeEnum: config.isvalidType,
     // 登录用户信息
     accountInfo: {},
     // 搜索条件
     search_name: '',
+    // 是否仅显示启动用户
+    onlyshowstartuserflag: true,
     // 2级分销商下的所有员工信息
     stafflist_2rdall: [],
     // 筛选过后员工列表
@@ -64,6 +78,7 @@ Component ({
         distributorId: this.data.accountInfo.appUser.distributor2nd
       }
       request.HttpRequst('/v2/app-user/list', 'POST', params).then(res => {
+        console.info(res.data);
         this_.setData({
           stafflist_2rdall: res.data,
           stafflist_2rdall_screenlater: res.data
@@ -94,6 +109,13 @@ Component ({
         edittype: e.currentTarget.dataset.edittype,
         userinfo: this.data.accountInfo,
         isshowuserEdit: true
+      });
+    },
+
+    // 是否仅显示启动的用户
+    isshowonlystartuser() {
+      this.setData({
+        onlyshowstartuserflag: !this.data.onlyshowstartuserflag
       });
     },
     

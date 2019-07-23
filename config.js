@@ -68,15 +68,27 @@ var APPOINT_TYPE = {
 var LEVEL_TYPE = {
   HIGH: {
     value: '1',
-    name: '高级权限'
+    name: '高级'
   },
   MIDDLE : {
     value: '2',
-    name: '中级权限'
+    name: '中级'
   },
   LOW: {
     value: '3',
-    name: '低级权限'
+    name: '初级'
+  },
+  1: {
+    value: '1',
+    name: '高级'
+  },
+  2: {
+    value: '2',
+    name: '中级'
+  },
+  3: {
+    value: '3',
+    name: '初级'
   }
 };
 
@@ -90,6 +102,28 @@ var USEREDIT_TYPE = {
     name: '其他人'
   }
 };
+
+var ISVALID_TYPE = {
+  Y: {
+    value: 'Y',
+    name: '启动'
+  },
+  N: {
+    value: 'N',
+    name: '禁止'
+  }
+};
+
+var WORKTYPE = {
+  0: {
+    value: '0',
+    name: '固定柜台'
+  },
+  1: {
+    value: '1',
+    name: '外勤'
+  }
+}
 
 // 全局配置
 module.exports = {
@@ -117,7 +151,11 @@ module.exports = {
   // 级别等级
   levelType: LEVEL_TYPE,
   // 人员编辑类型
-  userEditType: USEREDIT_TYPE
+  userEditType: USEREDIT_TYPE,
+  // 工作方式
+  workType: WORKTYPE,
+  // 是否启动
+  isvalidType: ISVALID_TYPE,
 };
 
 

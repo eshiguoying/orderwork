@@ -1,20 +1,18 @@
 .container {
   font-size: 30rpx;
   font-weight: 100;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .querypanel {
   height: 80rpx;
-  
-  box-shadow: 0px 2px 10px #E5E5E5;
 
   display: flex;
   align-items: center;
   
-  padding-left: 20rpx;
-  padding-right: 20rpx;
-
-  border-radius: 10rpx;
+  padding: 20rpx;
 }
 
 .querypanel ._search{
@@ -28,14 +26,60 @@
   padding-left: 20rpx;
   padding-right: 20rpx;
 
-  border: 1rp solid #2a82e4;
+  border-radius: 10rpx;
+
+  box-shadow: 0px 0px 10px 2px #E5E5E5;
 }
 
+.querypanel ._search input{
+  flex: 1;
+}
+
+
 .querypanel .showforbid{
-  width: 150rpx;
+  margin-left: 20rpx;
+
+  width: 300rpx;
   height: 80rpx;
+
+  border-radius: 10rpx;
   
-  border: 1rp solid #2a82e4;
+  /* box-shadow: 0px 0px 10px 2px #E5E5E5; */
+
+  display: flex;
+  align-items: center;
+
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}
+
+.querypanel .showforbid .but{
+  width: 50rpx;
+  height: 50rpx;
+
+  border-radius: 10rpx;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: bold;
+}
+
+.querypanel .showforbid .yes {
+  color: #fCFBF8;
+  background-color: #005B66; 
+}
+
+.querypanel .showforbid .no {
+  color: #fCFBF8;
+  background-color: #ED666C; 
+}
+
+.querypanel .showforbid .lable{
+  flex: 1;
+
+  margin-left: 20rpx;
 }
 
 .querypanel ._search .deleteinfo {
@@ -51,9 +95,20 @@
   height: 30rpx;
 }
 
+.list {
+  flex: 1;
+
+  overflow-y: scroll;
+
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  padding-top: 20rpx;
+}
+
 .userinfopanel {
-  margin: 20rpx;
   padding: 20rpx;
+
+  margin-bottom: 20rpx;
 
   display: flex;
   flex-direction: column;
@@ -80,6 +135,80 @@
   border: 1rpx solid #E5E5E5;
   border-radius: 10rpx;
 }
+
+.userinfopanel .startuserbut {
+  position: absolute;
+  right: 20rpx;
+  bottom: 20rpx;
+
+  width: 120rpx;
+  height: 60rpx;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1rpx solid #07233F;
+  border-radius: 10rpx;
+}
+
+.userinfopanel .startuserbut .item {
+  flex: 1;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userinfopanel .startuserbut .selected {
+  color: #fCFBF8;
+  background-color: #07233F;
+}
+
+.userinfopanel .levelTypetab {
+  position: absolute;
+  left: 20rpx;
+  top: 0rpx;
+
+  width: 60rpx;
+  height: 30rpx;
+
+  
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 28rpx;
+
+  border-radius: 10rpx;
+  
+  background-color: rgba(174,173,173, 0.2);
+  color: #AEADAD;
+  font-weight: bold;
+  border: 1rpx solid #AEADAD;
+}
+
+/* .userinfopanel .level_1 {
+  color: #fCFBF8;
+  
+}
+
+.userinfopanel .level_2 {
+  color: #fCFBF8;
+  background-color: #ED666C;
+  border: 1rpx solid #ED666C;
+  
+  
+}
+
+.userinfopanel .level_3 {
+  color: #fCFBF8;
+  background-color: #9F68AC;
+  border: 1rpx solid #9F68AC;
+} */
+
 
 .userinfopanel ._body .item{
   display: flex;
