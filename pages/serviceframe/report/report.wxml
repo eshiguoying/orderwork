@@ -1,38 +1,107 @@
 <!--logs.wxml-->
 <view class="container">
-  <view id="querybox" class="query-box" bindtap='showQueryLayer'>
-    <view class="query-font">筛选</view>
-    <image src='../../../images/query-arrow.png' class="arrow"></image>
-  </view>
-  <view class="total">
-    <view class="total-order">订单总量：<label>{{orderTotal}}</label></view>
-    <view class="total-bag">行李总件数：<label>{{baggageTotal}}</label></view>
-  </view>
-  <view class="report-table">
-    <view class="report-row">
-      <view class="report-col">日期</view>
-      <view class="report-col">订单数</view>
-      <view class="report-col">行李件数</view>
-    </view>
-    <view class="report-row" wx:for="{{reportArr}}">
-      <view class="report-col">{{item.orderDate}}</view>
-      <view class="report-col">{{item.orderCount}}</view>
-      <view class="report-col">{{item.baggageNum}}</view>
-    </view>
-  </view>
- 
-  <!-- <view class="gray-layer {{grayBgShow?'show':'hide'}} {{grayBgStatus?'fadeIn':'fadeOut'}}" catchtouchmove='stopPageScroll' bindtap='hideQueryLayer'></view>
-  <view class="query-pop {{reportQueryShow?'show':'hide'}} {{reportQueryStatus?'slideDown':'slideUp'}}">
-    <view class="query-line">
-      <view class="query-title">开始时间:</view>
-      <view class="time" bindtap='showStartTime'>{{startTimeShow}}</view>
-    </view>
-    <view class="query-line">
-      <view class="query-title">结束时间:</view>
-      <view class="time" bindtap='showEndTime'>{{endTimeShow}}</view>
-    </view>
-    <view class="query-btn-sure" bindtap='sureFunc'>确定</view>
-  </view> -->
+  
+  <view class='reportbody'  style='width:{{windowW}}px;height:{{windowH - 50}}px' >
+    
 
+    <view class='_body'>
+      <view class='_head'>
+        <view class='item'>日期</view>
+        <view class='item'>订单数</view>
+        <view class='item'>行李数</view>
+      </view>
+      <view class='list'>
+        <scroll-view   scroll-y  style='height:{{windowH - 200}}px' >
+          <block wx:for="{{reportArr}}">
+            <view class='datestatistics'>
+            <view class='item'>{{item.orderDate}}</view>
+            <view class='item'>{{item.orderCount}}</view>
+            <view class='item'>{{item.baggageNum}}</view>
+          </view>
+          </block>
+        </scroll-view>
+      </view>
+    </view>
+
+    <view class='total'>
+      <view class='item'>订单总数：{{orderTotal}}</view>
+      <view class='item'>订单行李总数： {{baggageTotal}}</view>
+    </view>
+  </view>
+  
+ <view class='floatpanel' style='width:{{windowW}}px;'>
+    <view class='refreshbut item' catchtap='refreshtap'>
+      <image src='../../../images/refresh_24.png'></image>
+    </view>
+    <view class='filtrate item'>
+      <view class='veri' catchtap='screenchoice'>筛选</view>
+    </view>
+  </view>
  
+</view>
+
+<view class="screenpanal" style='width:{{windowW}}px;transform: translate({{screenchoiceflag?  0 : windowW}}px, 0%)'>
+    <view class='head'>
+        <view class='item cancal_'  catchtap='cancalorderparam'>取消</view>
+        <view class='reset_' catchtap='resetorderparam'>重置</view>
+        <view class='item sure_' catchtap='queryorderlist_but'>确定</view>
+    </view>
+    <view class='query_body'>
+      <view class='margin_body'> 
+        <view class='line starttimebody' bindtap='showStartTime'>
+           <input class='item starttime' placeholder='订单开始时间' disabled='true' value='{{queryorderlistReqPram.startTimeShow}}'></input>
+           
+           <block wx:if="{{queryorderlistReqPram.startTimeShow.length > 0}}">
+              <view class='deleteinfo' catchtap='deletequeryparam' data-key='startTimeShow' data-type='other'>
+                <image src='../../../images/delete.png'></image>
+              </view>
+           </block>
+
+        </view>
+
+        <view class='line endtimebody' bindtap='showEndTime'>
+           <input class='item endtime' placeholder='订单结束时间' disabled='true' value='{{queryorderlistReqPram.endTimeShow}}'></input>
+        
+          <block wx:if="{{queryorderlistReqPram.endTimeShow.length > 0}}">
+              <view class='deleteinfo' catchtap='deletequeryparam' data-key='endTimeShow' data-type='other'>
+                <image src='../../../images/delete.png'></image>
+              </view>
+          </block>
+
+        </view>
+        
+        <!-- 选择时间 -->
+        <view class="canlendar-layer {{showStartTime? '':'canlendar_hide'}}">
+          <view class="head__" data-type="start">
+            <view class='space'></view>
+            <view class='cancel' catchtap='canlendar_cancal_but' data-type='start'>x</view>
+          </view>
+
+          <view class='datebody_'>
+            <canlendar id="canlendar" 
+                      select-year="{{queryorderlistReqPram.s_year}}"  
+                      select-month="{{queryorderlistReqPram.s_month}}"  
+                      select-day="{{queryorderlistReqPram.s_day}}" 
+                      type="start" 
+                      bind:selectDayEvent="_selectDayEvent" />
+          </view>
+
+        </view>
+
+         <view class="canlendar-layer {{showEndTime? '':'canlendar_hide'}}">
+            <view class="head__" data-type="start">
+              <view class='space'></view>
+              <view class='cancel' catchtap='canlendar_cancal_but' data-type='end'>x</view>
+            </view>
+
+            <canlendar id="canlendar2" 
+                       select-year="{{queryorderlistReqPram.e_year}}"  
+                       select-month="{{queryorderlistReqPram.e_month}}"  
+                       select-day="{{queryorderlistReqPram.e_day}}" 
+                       type="end" 
+                       bind:selectDayEvent="_selectDayEvent" />
+        </view>
+
+      </view>
+    </view>
 </view>

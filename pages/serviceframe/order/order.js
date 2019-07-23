@@ -918,7 +918,6 @@ Component({
 
     // 查询
     queryorderlist_but() {
-      console.info('abcd');
 
       var reqparam = this.data.queryorderlistReqPram;
       this.setData({

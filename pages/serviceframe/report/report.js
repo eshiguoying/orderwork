@@ -1,156 +1,259 @@
 //logs.js
+const App = getApp();
 const util = require('../../../utils/util.js')
 const request = require('../../../request')
 
 Component ({
   data: {
-    wrapperH1:0,
-    grayBgStatus:false,
-    grayBgShow:false,
-    reportQueryShow:false,
-    reportQueryStatus:false,
-    showStartTime:false,
-    showEndTime:false,
-    s_year: '',
-    s_month: '',
-    s_day: '',
-    e_year: '',
-    e_month: '',
-    e_day: '',
-    startTime: '',//筛选条件，开始时间
-    endTime: '',//筛选条件，开始时间
-    startTimeShow: '',//筛选条件，开始时间显示
-    endTimeShow: '',//筛选条件，结束时间显示
+    // 页面可用高度
+    windowH: App.globalData.windowHeight,
+    // 页面可用宽度
+    windowW: App.globalData.windowWidth,
+
     reportArr:[],
     orderTotal:0,
-    baggageTotal:0
+    baggageTotal:0,
+
+    // 零时组装请求参数
+    queryorderlistReqPram: {
+      startTimeShow: '',
+      s_year: '',
+      s_month: '',
+      s_day: '',
+      endTimeShow: '',
+      e_year: '',
+      e_month: '',
+      e_day: '',
+      beginDate: '',// 开始时间
+      endDate: '',//结束时间
+    },
+    // 最终组装请求参数
+    queryorderlistReqPram_official: {
+      startTimeShow: '',
+      s_year: '',
+      s_month: '',
+      s_day: '',
+      endTimeShow: '',
+      e_year: '',
+      e_month: '',
+      e_day: '',
+      beginDate: '',// 开始时间
+      endDate: '',//结束时间
+    },
+    // 是否打开筛选页面
+    screenchoiceflag: false,
   },
 
-  attached: function () {
-    var that = this
-
-    wx.showLoading({
-      title: '加载中...',
-      mask: true
-    })
-
-    // 获取系统信息
-    wx.getSystemInfo({
-      success: function (phoneRes) {
-        that.setData({
-          wrapperH1: phoneRes.windowHeight - 50
-        })
-      },
-    })
-
-    var startDate = that.calStartDate(-7)
-    var s_year = startDate.getFullYear()
-    var s_month = startDate.getMonth() + 1;
-    if (s_month < 10) {
-      s_month = '0' + s_month
-    }
-    var s_day = startDate.getDate();
-    if (s_day < 10) {
-      s_day = '0' + s_day
-    }
-
-    var date = new Date();
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    if (month < 10) {
-      month = '0' + month
-    }
-    var day = date.getDate();
-    if (day < 10) {
-      day = '0' + day
-    }
-
-    that.setData({
-      startTime: s_year + '-' + s_month + '-' + s_day + ' 00:00:00',
-      endTime: year + '-' + month + '-' + day + ' 23:59:59',
-      startTimeShow: s_year + '.' + s_month + '.' + s_day,
-      endTimeShow: year + '.' + month + '.' + day,
-      s_year: s_year,
-      s_month: s_month,
-      s_day: s_day,
-      e_year: year,
-      e_month: month,
-      e_day: day
-    })
-
-    var params = {
-      beginDate: that.data.startTime,
-      endDate: that.data.endTime
-    }
-
-    that.loadData(that, params)
-
-    this.canlendar = this.selectComponent("#canlendar");
-    this.canlendar.init(3);
-    this.canlendar2 = this.selectComponent("#canlendar2");
-    this.canlendar2.init(3);
+  attached() {
+    this.init_screen_time();
+    this.init_report();
   },
+  
 
   methods:{
-    stopPageScroll: function () {
-      return false
+    // 是否跳转注册页面
+    init_report() {
+      var maxcirclu = 1;
+      var this_ = this;
+
+      var getToken = setInterval(function () {
+        if (maxcirclu <= 100) {
+          maxcirclu = maxcirclu + 1;
+
+          if (request.header.token) {
+            
+            this_.loadReportData(this_.data.queryorderlistReqPram_official);
+
+            clearInterval(getToken);
+          }
+        } else {
+          wx.showToast({
+            title: '未查询出订单,请尝试刷新',
+            icon: 'none',
+            duration: 1000
+          });
+
+          // 结束循环
+          clearInterval(getToken);
+          return;
+
+        }
+      }, 10)
     },
+
+    init_screen_time() {
+      var endDate = new Date();
+      var startDate = new Date();
+      startDate.setDate(startDate.getDate() - 7);
+
+      var s_year = startDate.getFullYear()
+      var s_month = startDate.getMonth() + 1;
+      if (s_month < 10) {
+        s_month = '0' + s_month
+      }
+      var s_day = startDate.getDate();
+      if (s_day < 10) {
+        s_day = '0' + s_day
+      }
+
+      var e_year = endDate.getFullYear();
+      var e_month = endDate.getMonth() + 1;
+      if (e_month < 10) {
+        e_month = '0' + e_month
+      }
+      var e_day = endDate.getDate();
+      if (e_day < 10) {
+        e_day = '0' + e_day
+      }
+
+      this.setData({
+        ['queryorderlistReqPram.beginDate']: s_year + '-' + s_month + '-' + s_day + ' 00:00:00',
+        ['queryorderlistReqPram.startTimeShow']: s_year + '.' + s_month + '.' + s_day,
+        ['queryorderlistReqPram.s_year']: s_year,
+        ['queryorderlistReqPram.s_month']: s_month,
+        ['queryorderlistReqPram.s_day']: s_day,
+        ['queryorderlistReqPram.endDate']: e_year + '-' + e_month + '-' + e_day + ' 23:59:59',
+        ['queryorderlistReqPram.endTimeShow']: e_year + '.' + e_month + '.' + e_day,
+        ['queryorderlistReqPram.e_year']: e_year,
+        ['queryorderlistReqPram.e_month']: e_month,
+        ['queryorderlistReqPram.e_day']: e_day,
+
+        ['queryorderlistReqPram_official.beginDate']: s_year + '-' + s_month + '-' + s_day + ' 00:00:00',
+        ['queryorderlistReqPram_official.startTimeShow']: s_year + '.' + s_month + '.' + s_day,
+        ['queryorderlistReqPram_official.s_year']: s_year,
+        ['queryorderlistReqPram_official.s_month']: s_month,
+        ['queryorderlistReqPram_official.s_day']: s_day,
+        ['queryorderlistReqPram_official.endDate']: e_year + '-' + e_month + '-' + e_day + ' 23:59:59',
+        ['queryorderlistReqPram_official.endTimeShow']: e_year + '.' + e_month + '.' + e_day,
+        ['queryorderlistReqPram_official.e_year']: e_year,
+        ['queryorderlistReqPram_official.e_month']: e_month,
+        ['queryorderlistReqPram_official.e_day']: e_day,
+      })
+    },
+
+    //加载数据
+    loadReportData(params) {
+      var this_ = this
+
+      request.HttpRequst('/v2/order/report', 'POST', params).then(function (res) {
+        console.log(res)
+        wx.hideLoading();
+
+        if (res.reports) {
+          this_.setData({
+            reportArr: res.reports,
+            baggageTotal: res.baggageTotal,
+            orderTotal: res.orderTotal
+          })
+        }
+      })
+    },
+    // 打开筛选接口
+    screenchoice() {
+      this.setData({
+        screenchoiceflag: true
+      });
+    },
+
     //显示开始日期弹层
     showStartTime() {
+      var canlendar = this.selectComponent("#canlendar");
+      canlendar.init(3);
+
       this.setData({
         showStartTime: true
       })
 
-      this.canlendar.toViewFunc(parseInt(this.data.s_month))
+      canlendar.toViewFunc(parseInt(this.data.s_month))
     },
-    //隐藏开始日期弹层
-    hideStartTime() {
-      this.setData({
-        showStartTime: false
-      })
-    },
-    //显示结束日期弹层
-    showEndTime() {
-      this.setData({
-        showEndTime: true
-      })
 
-      this.canlendar2.toViewFunc(parseInt(this.data.e_month))
+    canlendar_cancal_but(e) {
+      if (e.currentTarget.dataset.type == 'start') {
+        this.setData({
+          ['queryorderlistReqPram.beginDate']: '',
+          startTime: '',
+          startTimeShow: '',
+          s_year: '',
+          s_month: '',
+          s_day: '',
+
+          showStartTime: false,
+        })
+      } else {
+        this.setData({
+          ['queryorderlistReqPram.endDate']: '',
+          endTime: '',
+          endTimeShow: '',
+          e_year: '',
+          e_month: '',
+          e_day: '',
+
+          showEndTime: false,
+        });
+      }
+
+
     },
-    //隐藏结束日期弹层
-    hideEndTime() {
-      this.setData({
-        showEndTime: false
-      })
-    },
+
+    // 选择日期
     _selectDayEvent: function (e) {
       var data = e.detail.currentTarget.dataset
 
-      this.hideStartTime()
-      this.hideEndTime()
-
       var month = data.month < 10 ? '0' + data.month : data.month
       var day = data.day < 10 ? '0' + data.day : data.day
-
+      var type = data.type
       if (data.type == 'start') {
         this.setData({
-          startTime: data.year + '-' + month + '-' + day + ' 00:00:00',
-          startTimeShow: data.year + '.' + month + '.' + day,
-          s_year: data.year,
-          s_month: data.month,
-          s_day: data.day
+          ['queryorderlistReqPram.beginDate']: data.year + '-' + month + '-' + day + ' 00:00:00',
+          ['queryorderlistReqPram.startTimeShow']: data.year + '.' + month + '.' + day,
+          ['queryorderlistReqPram.s_year']: data.year,
+          ['queryorderlistReqPram.s_month']: data.month,
+          ['queryorderlistReqPram.s_day']: data.day,
+          ['queryorderlistReqPram.endDate']: data.year + '-' + month + '-' + day + ' 23:59:59',
+          ['queryorderlistReqPram.endTimeShow']: data.year + '.' + month + '.' + day,
+          ['queryorderlistReqPram.e_year']: data.year,
+          ['queryorderlistReqPram.e_month']: data.month,
+          ['queryorderlistReqPram.e_day']: data.day,
         })
       }
+
       if (data.type == 'end') {
+        if (this.data.startTimeShow > data.year + '.' + month + '.' + day && this.data.startTimeShow != '请选择') {
+          wx.showToast({
+            title: '结束时间不小于开始时间',
+            icon: 'none',
+            duration: 2000,
+          });
+          return false
+        }
+
         this.setData({
-          endTime: data.year + '-' + month + '-' + day + ' 23:59:59',
-          endTimeShow: data.year + '.' + month + '.' + day,
-          e_year: data.year,
-          e_month: data.month,
-          e_day: data.day
+          ['queryorderlistReqPram.endDate']: data.year + '-' + month + '-' + day + ' 23:59:59',
+          ['queryorderlistReqPram.endTimeShow']: data.year + '.' + month + '.' + day,
+          ['queryorderlistReqPram.e_year']: data.year,
+          ['queryorderlistReqPram.e_month']: data.month,
+          ['queryorderlistReqPram.e_day']: data.day,
         })
       }
+
+      this.setData({
+        showStartTime: false,
+        showEndTime: false,
+      })
     },
+
+    //显示结束日期弹层
+    showEndTime() {
+      var canlendar2 = this.selectComponent("#canlendar2");
+      canlendar2.init(3);
+      canlendar2.toViewFunc(parseInt(this.data.e_month))
+
+      this.setData({
+        showEndTime: true
+      })
+    },
+
+
     //显示筛选弹层
     showQueryLayer: function () {
       this.setData({
@@ -196,31 +299,85 @@ Component ({
 
       this.hideQueryLayer()
     },
-    //加载数据
-    loadData: function (that, params) {
-      var that = this
+    
 
-      console.log(params)
 
-      request.HttpRequst('/v2/order/report', 'POST', params).then(function (res) {
-        console.log(res)
-        wx.hideLoading();
+    // 查询
+    queryorderlist_but() {
 
-        if (res.reports) {
-          that.setData({
-            reportArr: res.reports,
-            baggageTotal: res.baggageTotal,
-            orderTotal: res.orderTotal
-          })
-        }
+      var reqparam = this.data.queryorderlistReqPram;
+      this.setData({
+
+        screenchoiceflag: false,
+      
+        ['queryorderlistReqPram_official.startTimeShow']: reqparam.startTimeShow,
+        ['queryorderlistReqPram_official.s_year']: reqparam.s_year,
+        ['queryorderlistReqPram_official.s_month']: reqparam.s_month,
+        ['queryorderlistReqPram_official.s_day']: reqparam.s_day,
+        ['queryorderlistReqPram_official.endTimeShow']: reqparam.endTimeShow,
+        ['queryorderlistReqPram_official.e_year']: reqparam.e_year,
+        ['queryorderlistReqPram_official.e_month']: reqparam.e_month,
+        ['queryorderlistReqPram_official.e_day']: reqparam.e_day,
+        ['queryorderlistReqPram_official.beginDate']: reqparam.beginDate,
+        ['queryorderlistReqPram_official.endDate']: reqparam.endDate,
+
+       
+      });
+
+
+      this.loadReportData(this.data.queryorderlistReqPram_official);
+    },
+
+    // 重置
+    resetorderparam() {
+      var restvalue = {
+        startTimeShow: '',
+        s_year: '',
+        s_month: '',
+        s_day: '',
+        endTimeShow: '',
+        e_year: '',
+        e_month: '',
+        e_day: '',
+        beginDate: '',// 开始时间
+        endDate: '',//结束时间
+      }
+
+      this.setData({
+        queryorderlistReqPram: restvalue,
+        showStartTime: false,
+        showEndTime: false,
+      });
+    },
+
+    cancalorderparam() {
+      var reqparam = this.data.queryorderlistReqPram_official;
+
+      this.setData({
+        screenchoiceflag: false,
+        showStartTime: false,
+        showEndTime: false,
+        
+
+        ['queryorderlistReqPram.startTimeShow']: reqparam.startTimeShow,
+        ['queryorderlistReqPram.s_year']: reqparam.s_year,
+        ['queryorderlistReqPram.s_month']: reqparam.s_month,
+        ['queryorderlistReqPram.s_day']: reqparam.s_day,
+        ['queryorderlistReqPram.endTimeShow']: reqparam.endTimeShow,
+        ['queryorderlistReqPram.e_year']: reqparam.e_year,
+        ['queryorderlistReqPram.e_month']: reqparam.e_month,
+        ['queryorderlistReqPram.e_day']: reqparam.e_day,
+        ['queryorderlistReqPram.beginDate']: reqparam.beginDate,
+        ['queryorderlistReqPram.endDate']: reqparam.endDate,
       })
     },
-    calStartDate: function (num) {
-      var date = new Date()
-      var date2 = new Date(date);
 
-      date2.setDate(date.getDate() + num)
-      return date2
+    // 刷新
+    refreshtap() {
+      // 弹出加载页面
+      wx.showLoading();
+      // 查询订单列表信息
+      this.loadReportData(this.data.queryorderlistReqPram_official);
     },
   },
   

@@ -1,177 +1,339 @@
-.query-box{
-  height: 70rpx;
-  background: #fff;
+.reportbody {
+  border: 1rpx solid #FCFBF8;
+  box-sizing:  border-box;
+
+  padding: 20rpx;
+
+  display: flex;
+  flex-direction: column;
+
+  font-size: 30rpx;
+  font-weight: 100;
 }
-.query-font{
-  height: 80rpx;
-  line-height: 80rpx;
-  margin-left: 10rpx;
-  float: left;
-}
-.query-box .arrow{
-  float: right;
-  width: 20rpx;
-  height: 14rpx;
-  margin: 28rpx 10rpx;
-}
-.total{
-  height: 50rpx;
-  margin: 30rpx 0 10rpx 0;
-}
-.total-order{
-  float: left;
-  margin-left: 20rpx;
-}
-.total-bag{
-  float: left;
-  margin-left: 50rpx;
-}
-.total label{
-  font-size: 40rpx;
-  color: #fbc400;
-}
-.report-table{
-  clear: both;
-  width: 97%;
-  margin: 0 auto;
-  overflow: hidden;
-  background: #fff;
-  border-radius: 6rpx;
-}
-.report-row{
-  width: 96%;
-  margin: 0 auto;
-  height: 70rpx;
-  line-height: 70rpx;
-  clear: both;
-  border-bottom: solid 1px #eee;
-}
-.report-col{
-  float: left;
-  width: 30%;
-  text-align: center;
-}
-.gray-layer{
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  opacity: .5;
-  z-index: 1000;
-}
-.query-pop{
-  width: 100%;
-  height: 160rpx;
-  background: #fff;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1001;
-  overflow: hidden;
-}
-.query-line{
-  height: 80rpx;
-}
-.query-title{
-  width: 150rpx;
-  height: 80rpx;
-  line-height: 80rpx;
-  float: left;
-  margin-left: 20rpx;
-}
-.time{
-  float: left;
-  height: 80rpx;
-  line-height: 80rpx;
-  width: 150rpx;
-  text-decoration: underline;
-  text-decoration-color: #ddd;
-}
-.query-btn-sure{
-  width: 140rpx;
+
+.reportbody .total {
   height: 60rpx;
-  line-height: 60rpx;
+  
+  padding: 20rpx;
+
+  box-shadow: 0px 0px 10px 2px #E5E5E5;
+
+  border-radius: 10rpx;
+
+  display: flex;
+}
+
+
+.reportbody .total .item {
+  flex: 1;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: bold;
+}
+
+._body {
+  flex: 1;
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 0px 0px 10px 2px #E5E5E5;
+  border-radius: 10rpx;
+}
+
+.reportbody ._body ._head {
+  width: 100%;
+  height: 60rpx;
+
+  display: flex;
+}
+
+._body ._head .item {
+  flex: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+._body .list {
+  flex: 1;
+}
+
+.datestatistics {
+  height: 60rpx;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.datestatistics .item {
+  flex: 1;
+
+  height: 80rpx;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.floatpanel {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 100rpx;
+  border-radius: 10rpx;
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5,1px -2px 4px #E5E5E5; 
+  display: flex;
+}
+
+.floatpanel .item {
+  flex: 1;
+  /* border: 1rpx dashed #E5E5E5; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* font-size: 30rpx;
+  font-weight: 100; */
+}
+
+.floatpanel .item .veri {
+  width: 100%;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  font-size: 30rpx;
+  font-weight: 100;
+  border-left: 1rpx dashed #E5E5E5;
+  box-sizing: border-box;
+}
+
+.floatpanel image {
+  width: 35rpx;
+  height: 35rpx;
+}
+
+/* start */
+.screenpanalshade {
+  position: fixed;
+  bottom:0;
+  z-index: 119;
+  background-color: rgba(158,157,157, 0.5)
+}
+
+.screenpanal {
+  height: 850rpx;
+  position: fixed;
+  bottom: 0;
+  z-index: 120;
+  background-color: #FCFBF8;
+  transition-duration:0.2s;
+  display: flex;
+  box-shadow: 1px -1px 4px #E5E5E5;
+  flex-direction: column;
+}
+
+.screenpanal .head {
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  font-size:30rpx;
+  font-weight: 100;
+  box-shadow: 1px 1px 4px #E5E5E5;
+}
+
+
+.screenpanal .head .item {
+  width: 90rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.screenpanal .head .reset_ {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.screenpanal .query_body {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.screenpanal .query_body .margin_body {
+  width: 90%;
+  height: 90%;
+  font-size: 30rpx;
+  font-weight: 100;
+}
+
+
+.screenpanal .query_body .margin_body .line {
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+  position: relative;
+  font-size: 30rpx;
+  font-weight: 100;
+  box-shadow: 1px 1px 4px #E5E5E5;
+}
+
+.screenpanal .query_body .margin_body .line .deleteinfo {
+  width: 70rpx;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.screenpanal .query_body .margin_body .line .deleteinfo image {
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.screenpanal .query_body .margin_body .line .item {
+  flex: 1;
+  margin-left: 10rpx;
+  height: 100%;
+}
+
+.screenpanal .query_body .margin_body .line .list{
   position: absolute;
-  right: 30rpx;
-  top: 50rpx;
-  font-size: 28rpx;
-  border: solid 1px #f6ebc3;
-  border-radius: 6rpx;
-  background: #fef4d1;
-  color:#fbc400;
-  text-align: center;
+  top: 80rpx;
+  left:0rpx;
+  width: 200rpx;
+  height: 240rpx;
+  background-color: #FCFBF8;
+  box-shadow: 1px 1px 4px #E5E5E5,1px -1px 4px #E5E5E5,-1px 1px 4px #E5E5E5;
+  display: flex;
+  flex-direction: column;
+  /* border: 1rpx dashed #D5D5D3; */
 }
-.fadeIn{
-  animation: fadeIn .3s;
+
+.screenpanal .query_body .margin_body .line .nosee {
+  z-index: -200;
+  visibility: hidden;
 }
-.fadeOut{
-  animation: fadeOut .3s;
+
+.screenpanal .query_body .margin_body .line .list .cancel {
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 2px 4px #E5E5E5;
 }
-.slideDown{
-  animation: slideDown .3s;
+
+.screenpanal .query_body .margin_body .line .list .srcoll_list{
+  height: 240rpx;
+  display: flex;
+  flex-direction: column;
 }
-.slideUp{
-  animation: slideUp .3s;
+
+.screenpanal .query_body .margin_body .line .list .srcoll_list .item_{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 80rpx;
+  margin-left: 10rpx;
 }
-@keyframes fadeIn{
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: .5;
-    }
+
+
+.screenpanal .query_body .margin_body .line .trileveldistri_list {
+  z-index: 10;
 }
-@keyframes fadeOut{
-    from {
-        opacity: .5;
-    }
-    to {
-        opacity: 0;
-    }
+
+.screenpanal .query_body .margin_body .line .counter_list {
+  z-index: 9;
 }
-@keyframes slideDown{
-    from {
-        height: 0;
-    }
-    to {
-        height: 160rpx;
-    }
+
+.screenpanal .query_body .margin_body .line .orderofficer_list {
+  z-index: 8;
 }
-@keyframes slideUp{
-    from {
-        height: 160rpx;
-    }
-    to {
-        height: 0;
-    }
+
+.screenpanal .query_body .margin_body .line .statusbody {
+  display: flex;
+  align-items: center;
 }
+
+.screenpanal .query_body .margin_body .line .statusbody .status {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.screenpanal .query_body .margin_body .line .statusbody .status .check{
+  width: 20rpx;
+  height: 20rpx;
+  border: 1rpx solid #07233F;
+}
+
+
+.screenpanal .query_body .margin_body .line .statusbody .status .selected{
+  background-color: #07233F;
+}
+
+.screenpanal .query_body .margin_body .line .statusbody .veri {
+  border-left: 1rpx solid #CBCCCD;
+  height: 30rpx;
+}
+
 .canlendar-layer{
   width: 100%;
   height: 100%;
-  background: #fff;
+  background: #FCFBF8;
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 1003;
+  z-index: 11;
+  border-top: 1rpx solid #E5E5E5;
+  display: flex;
+  flex-direction: column;
 }
-.can-title{
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-}
-.canlendar-layer .close{
-  position: absolute;
-  top: 0rpx;
-  right: 0rpx;
-  width: 80rpx;
+
+.canlendar-layer .head__ {
+  display: flex;
+  width: 100%;
   height: 80rpx;
-  z-index: 1004;
-  text-align: center;
 }
-.canlendar-layer image{
-  width: 25rpx;
-  height: 24rpx;
-  margin-top: 28rpx;
+
+.canlendar-layer .datebody_ {
+  flex: 1;
+} 
+
+.canlendar-layer .head__ .space {
+  flex: 1;
+}
+
+.canlendar-layer .head__ .cancel {
+  width: 90rpx;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.canlendar_hide {
+  display: none;
 }
