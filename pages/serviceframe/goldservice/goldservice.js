@@ -207,28 +207,35 @@ Component({
 
     // 高德地图识别当前城市信息
     getCurrCity() {
-      var this_ = this;
-      // 通过高德地图api把经纬度转换为城市
-      const myAmapFun = new amapFile.AMapWX({ key: config.map.key });
-      myAmapFun.getRegeo({
-        success: data => {
-          let cityName = data[0].regeocodeData.addressComponent.city;
+      // var this_ = this;
+      // // 通过高德地图api把经纬度转换为城市
+      // const myAmapFun = new amapFile.AMapWX({ key: config.map.key });
+      // myAmapFun.getRegeo({
+      //   success: data => {
+      //     let cityName = data[0].regeocodeData.addressComponent.city;
 
-          if (cityName == '') {
-            cityName = data[0].regeocodeData.addressComponent.province
-          }
+      //     if (cityName == '') {
+      //       cityName = data[0].regeocodeData.addressComponent.province
+      //     }
 
-          const temp_ = data[0].regeocodeData.addressComponent.adcode;
-          var citycode = temp_.substring(0, 4) + '00';
+      //     const temp_ = data[0].regeocodeData.addressComponent.adcode;
+      //     var citycode = temp_.substring(0, 4) + '00';
 
-          this.setData({
-            ['ordermaininfo.sendaddrinfo.cityname']: cityName,
-            ['ordermaininfo.sendaddrinfo.citycode']: citycode,
-            ['ordermaininfo.takeaddrinfo.cityname']: cityName,
-            ['ordermaininfo.takeaddrinfo.citycode']: citycode,
-          });
-        }
-      })
+      //     this.setData({
+      //       ['ordermaininfo.sendaddrinfo.cityname']: cityName,
+      //       ['ordermaininfo.sendaddrinfo.citycode']: citycode,
+      //       ['ordermaininfo.takeaddrinfo.cityname']: cityName,
+      //       ['ordermaininfo.takeaddrinfo.citycode']: citycode,
+      //     });
+      //   }
+      // })
+
+      this.setData({
+        ['ordermaininfo.sendaddrinfo.cityname']: "上海市",
+        ['ordermaininfo.sendaddrinfo.citycode']: "310100",
+        ['ordermaininfo.takeaddrinfo.cityname']: "上海市",
+        ['ordermaininfo.takeaddrinfo.citycode']: "310100",
+      });
     },
 
     // 寄送地址类型
