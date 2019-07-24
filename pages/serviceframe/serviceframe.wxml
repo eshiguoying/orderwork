@@ -7,34 +7,27 @@
   </view>
 
    <view class="listbar {{open? 'c-state1' : 'c-state2'}}" style='height:{{windowH}}px;'>
-    <view class='listbar_second_level'>
-      <view class='scroll_signs'>
-        <view class='action_block {{servicename}}'></view>
-      </view>
-     
-      <view class='signs'>
-        <view class="item"  bindtap='servicetap' data-service='order'>
-          <text  class='item_text'>订单</text>
-        </view>
-        <view class="item" bindtap='servicetap' data-service='report'>
-          <text class='item_text' >报表</text>
-        </view>
-        <view class="item" bindtap='servicetap' data-service='goldservice'>
-          <text  class='item_text' >金牌</text>
-        </view>
-        <view class="item"  bindtap='servicetap' data-service='specialservice'>
-          <text  class='item_text' >专车</text>
-        </view>
+    <view class='listbar_second_level'> 
+       <view class='signs'>
+        <block wx:for="{{menulistByLevel[accountInfo.appUser.level]}}">
+          <view class="item"  
+                bindtap='servicetap'
+                data-index="{{index}}"
+                data-service='{{item.menuitemcode}}'>
+            <text class='item_text'>{{item.menuitemname}}</text>
+          </view>
 
-         <view class="item"  bindtap='servicetap' data-service='staffmanage'>
-          <text  class='item_text'>员工</text>
-         </view>
-
-        <view class="item"  bindtap='servicetap' data-service='my'>
-          <text  class='item_text'>我的</text>
-        </view>
+        </block>
       </view> 
+
+      <view class='scroll_signs'>
+        <view class='action_block {{servicename}}'
+              style='transform: translate(0%, {{34 + menuserial*80}}rpx);-webkit-transform: translate(0%, {{34 + menuserial*80}}rpx);'></view>
+      </view>
+      
+
     </view>
+
   </view> 
   
   <view class='shadebar' bindtap='cancallistbar'  style="height:{{windowH}}px;display:{{open? '':'none'}}" ></view>

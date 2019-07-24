@@ -12,7 +12,9 @@
 .nav{
   display: flex;
   align-items: center;
-  box-shadow: 1px 2px 4px #E5E5E5;
+
+  border-bottom: 1rpx solid #E5E5E5;
+  box-sizing:  border-box;
 }
 
 .nav_imagecontainer {

@@ -77,6 +77,7 @@ App({
           
           // 是否已注册
           if (res.isReg) {
+
             // 已注册
             // 把用户信息存到缓存中
             wx.setStorage({

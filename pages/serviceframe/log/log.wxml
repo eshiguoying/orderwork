@@ -1,7 +1,7 @@
 <!--pages/record/record.wxml-->
-<view class="shadepanel" style="width:{{windowW}}px;height:{{navH + titlebarH +windowH}}px">
+<view class="shadepanel" style="width:{{windowW}}px;height:{{navH + titlebarH + windowH}}px">
   <view class='nav_head' style='height:{{navH}}px;'></view>
-  <view class='nav bg-white' style='height: {{titlebarH}}px;'>
+  <view class='nav bg-white' style='height:{{titlebarH}}px;'>
     <view class='nav_imagecontainer' bindtap='closelogpanel'>
       <image src='../../../images/left.png' mode='aspectFit' class='back' ></image>
     </view>

@@ -2,9 +2,6 @@ const App = getApp();
 
 const request = require('../../request');
 const config = require('../../config');
-// const addrselect = require('addrselect/addrselect');
-// // 高德地图引用
-const amapFile = require('../../thirdparty/js/amap-wx.js');
 
 Page({
   data : {
@@ -16,11 +13,39 @@ Page({
     windowH: App.globalData.windowHeight,
     // 页面可用宽度
     windowW: App.globalData.windowWidth,
-    
+    // 登陆人员信息
+    accountInfo: {},
     // 点击三条杠是否打开左侧弹出框
     open: false,
     // 默认登陆页面是 => 金牌配送
-    servicename: 'report',
+    servicename: 'order',
+    // 菜单序号
+    menuserial: 0,
+    // 根据登陆人员登记确定菜单
+    menulistByLevel: {
+      1: [
+        { 'menuitemcode': 'order', 'menuitemname': '订单',},
+        { 'menuitemcode': 'report', 'menuitemname': '报表',},
+        { 'menuitemcode': 'goldservice', 'menuitemname': '金牌',},
+        { 'menuitemcode': 'specialservice', 'menuitemname': '专车',},
+        { 'menuitemcode': 'staffmanage', 'menuitemname': '员工',},
+        { 'menuitemcode': 'my', 'menuitemname': '我的'},
+      ],
+      2: [
+        { 'menuitemcode': 'order', 'menuitemname': '订单'},
+        { 'menuitemcode': 'report', 'menuitemname': '报表'},
+        { 'menuitemcode': 'goldservice', 'menuitemname': '金牌'},
+        { 'menuitemcode': 'specialservice', 'menuitemname': '专车'},
+        { 'menuitemcode': 'my', 'menuitemname': '我的'},
+      ],
+      3: [
+        { 'menuitemcode': 'order', 'menuitemname': '订单'},
+        { 'menuitemcode': 'my', 'menuitemname': '我的'}
+      ],
+    },
+
+    
+
 
     
   },
@@ -44,11 +69,19 @@ Page({
           })
           return false
         }
+
+        console.info("===========================");
+        // 获取当前登录用户信息
+        this_.setData({
+          accountInfo: wx.getStorageSync('accountInfo')
+        })
+
+        console.info(this_.data.accountInfo);
+        
         clearInterval(getToken);
       }
     }, 10)
   },
-
 
   // 点击菜单加载按钮，左侧菜单弹出或收回
   navBack() {
@@ -74,6 +107,7 @@ Page({
   servicetap: function (param) {
     this.setData({
       open: false,
+      menuserial: param.currentTarget.dataset.index,
       servicename: param.currentTarget.dataset.service
     });
   }

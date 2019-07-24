@@ -17,7 +17,7 @@
         </view>
 
         <view class='order_body' catchtap='loadorderdetails' data-id='{{orderItem.order.id}}' data-index='{{index}}'>
-          <view class='body' style='width:{{windowW - 35}}px;' >
+          <view class='body'>
             <view class='cusinfo_'>
               <view class='item_'>
                 <view class='photo '>

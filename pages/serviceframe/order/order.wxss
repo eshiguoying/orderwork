@@ -1,13 +1,21 @@
+.ordercontainer {
+  font-size: 30rpx;
+  font-weight: 300;
+}
+
 .ordercontainer .order_item {
   display: flex;
-  margin-top: 5rpx;
-  margin-bottom: 20rpx;
-  margin-left: 15rpx;
-  margin-right: 15rpx;
+
+   margin-top: 20rpx;
+   margin-left: 20rpx;
+   margin-right: 20rpx;
+
   height: 360rpx;
-  background-color: #FCFBF8;
-  box-shadow: 1px 1px 4px #E5E5E5, -1px 1px 4px #E5E5E5;
-  border-radius: 5rpx;
+  
+  box-shadow: 0px 0px 5px 2px #E5E5E5;
+
+  border-radius: 10rpx;
+  
   position: relative;
 }
 
@@ -16,8 +24,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 30rpx;
-  font-weight: bold;
 }
 
 .orderlist_empty .image image {
@@ -36,9 +42,6 @@
  display: flex;
  align-items: center;
  justify-content: center;
- 
- font-size: 30rpx;
- font-weight: 100;
  
  border-bottom-right-radius: 10rpx;
  border-bottom-left-radius: 10rpx
@@ -83,16 +86,20 @@
 
 .ordercontainer .order_item .order_body {
  flex: 1;
+
  display: flex;
  align-items: center;
  justify-content: center;
+
+ padding: 20rpx;
 }
 
 .order_body .body  {
+  width: 100%;
+  height: 100%;
+
   display: flex;
   flex-direction: column;
-  
-  height: 290rpx;
 }
 
 .order_body .body .cusinfo_ {
@@ -105,8 +112,6 @@
   flex: 1;
   display: flex;
   align-items: center;
-  font-size: 28rpx;
-  font-weight: 100;
 }
 
 .order_body .body .cusinfo_ .photo{
@@ -133,8 +138,6 @@
   height: 100%;
   display: flex;
   align-items: center;
-  font-size: 28rpx;
-  font-weight: 100;
 }
 
 
@@ -174,8 +177,6 @@
   height: 100%;
   display: flex;
   align-items: center;
-  font-size: 28rpx;
-  font-weight: 100;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
@@ -222,14 +223,12 @@
 .ordercontainer .order_item .addr_time_item  .addrtype .addrtype_{
   flex: 1;
   height: 80rpx;
-  font-size: 30rpx;
   display: flex;
   align-items: center;
 }
 
 .ordercontainer .order_item .addr_time_item .time {
   flex: 1;
-  font-size: 30rpx;
   display: flex;
 }
 
@@ -263,8 +262,6 @@
   width: 35rpx;
   height: 35rpx;
   border: 1rpx solid #CBCCCD;
-  font-size: 30rpx;
-  font-weight: 100;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -295,8 +292,6 @@
   width: 35rpx;
   height: 35rpx;
   border: 3rpx solid #CBCCCD;
-  font-size: 30rpx;
-  font-weight: 100;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -306,13 +301,11 @@
   margin-left: 10rpx;
   width: 450rpx;
   height: 100%;
-  font-size: 30rpx;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
   display: flex;
   align-items: center;
-  font-weight: 100;
   color: #ACABAB;
 }
 
@@ -321,8 +314,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  font-size: 30rpx;
-  font-weight: 100;
 }
 
 .ordercontainer .order_item .other_item .blongworker{
@@ -374,19 +365,6 @@
   color: #ACABAB;
 }
 
-
-
-.ordercontainer .order_item .orderdetailbut {
-  width: 20rpx;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #CBCCCD;
-  font-size: 35rpx;
-  font-weight: 100;
-}
-
 .floatpanel {
   position: fixed;
   left: 0;
@@ -400,12 +378,9 @@
 
 .floatpanel .item {
   flex: 1;
-  /* border: 1rpx dashed #E5E5E5; */
   display: flex;
   align-items: center;
   justify-content: center;
-  /* font-size: 30rpx;
-  font-weight: 100; */
 }
 
 .floatpanel .item .veri {
@@ -413,9 +388,7 @@
   height: 50rpx;
   display: flex;
   align-items: center;
-  justify-content: center; 
-  font-size: 30rpx;
-  font-weight: 100;
+  justify-content: center;
   border-left: 1rpx dashed #E5E5E5;
   box-sizing: border-box;
 }
@@ -443,8 +416,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30rpx;
-  font-weight: 100;
 }
 
 .mulchoicepanal .batch_changesend .veri {
@@ -454,8 +425,6 @@
   align-items: center;
   justify-content: center;
   border-left: 1rpx solid #E5E5E5;
-  font-size: 30rpx;
-  font-weight: 100;
 }
 
 .mulchoicepanal .batch_orderstatus_change {
@@ -472,8 +441,6 @@
   align-items: center;
   justify-content: center;
   border-left: 1rpx solid #E5E5E5;
-  font-size: 30rpx;
-  font-weight: 100;
 }
 
 .mulchoicepanal .cancelmulchoice {
@@ -488,9 +455,7 @@
 .mulchoicepanal .cancelmulchoice .veri {
   width: 120rpx;
   height: 30rpx;
-  font-size: 30rpx;
   color: #9F9E9E;
-  font-weight: 100;
   border-left: 1rpx solid #E5E5E5;
   display: flex;
   align-items: center;
@@ -500,7 +465,6 @@
 .mulchoicepanal .mulchoiceflag {
   flex: 1;
   height: 100%;
-  font-size: 30rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -539,8 +503,6 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  font-size:30rpx;
-  font-weight: 100;
   box-shadow: 1px 1px 4px #E5E5E5;
 }
 
@@ -567,8 +529,6 @@
 .shadepanel .staffinfolist .body .stafflistscroll {
   width: 500rpx;
   height: 480rpx;
-  font-size: 30rpx;
-  font-weight: 100;
 }
 
 .shadepanel .staffinfolist .body .stafflistscroll .staffinfo{
@@ -616,8 +576,6 @@
   width: 100%;
   height: 80rpx;
   display: flex;
-  font-size:30rpx;
-  font-weight: 100;
   box-shadow: 1px 1px 4px #E5E5E5;
 }
 
@@ -649,8 +607,6 @@
 .screenpanal .query_body .margin_body {
   width: 90%;
   height: 90%;
-  font-size: 30rpx;
-  font-weight: 100;
 }
 
 
@@ -661,8 +617,6 @@
   align-items: center;
   margin-bottom: 30rpx;
   position: relative;
-  font-size: 30rpx;
-  font-weight: 100;
   box-shadow: 1px 1px 4px #E5E5E5;
 }
 
@@ -820,27 +774,6 @@
   width: 100%;
   height: 80rpx;
   position: relative;
-}
-
-.orderdetailspanal .head .cancal {
-  position: absolute;
-  width: 80rpx;
-  height: 80rpx;
-  right: 10rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 30rpx;
-  font-weight: bold;
-}
-
-.orderdetailspanal .head .cancal image { 
-  width: 40rpx;
-  height: 40rpx;
-}
-
-.orderdetailspanal .orderdetails_body {
-  flex: 1;
 }
 
 
