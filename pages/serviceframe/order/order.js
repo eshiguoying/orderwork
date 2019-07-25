@@ -278,8 +278,12 @@ Component({
     // 下拉加载数据;
     bindDownLoad: function () {
       if (this.data.queryorderlistReqPram_official.pageIndex > this.data.queryorderlistReqPram_official.totalPage) {
+        this.setData({
+          allloadflog:true
+        });
+
         return false
-      }
+      } 
 
       this.loadOrderlist(this.data.queryorderlistReqPram_official)
     },

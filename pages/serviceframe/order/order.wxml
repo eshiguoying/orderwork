@@ -72,6 +72,16 @@
         </view>
         </view>
     </block>
+    <block wx:if="{{loadingflog}}">
+      <view class="loadingpanel">
+        加载中...
+      </view>
+    </block>
+    <block wx:if="{{allloadflog}}">
+      <view class="allloadpanel">
+        全部加载完成
+      </view>
+    </block>
   </block>
   <block wx:else>
     <view class='orderlist_empty' style='width:{{windowW}}px;height:{{windowH - 50}}px' >
