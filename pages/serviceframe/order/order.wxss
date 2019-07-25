@@ -139,6 +139,7 @@
   align-items: center;
 }
 
+
 .order_body .body .cusinfo_ .photo{
   width: 40rpx;
   height: 40rpx;
@@ -148,14 +149,22 @@
 }
 
 .order_body .body .cusinfo_ .photo image {
-  width: 25rpx;
-  height: 25rpx;
+  width: 32rpx;
+  height: 32rpx;
 }
 
 .order_body .body .cusinfo_ .info {
   display: flex;
   align-items: center;
   justify-items: center;
+}
+
+.order_body .body .cusinfo_ .lugnummould {
+  width: 160rpx;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
 }
 
 .order_body .body .cusinfo_ .orderstatus {
@@ -165,13 +174,10 @@
   align-items: center;
 }
 
-
 .order_body .body .item {
   flex: 1;
   display: flex;
   align-items: center;
-   
-   
 }
 
 .order_body .body .item .photo {
@@ -199,16 +205,22 @@
 
 .order_body .body .item .info {
   flex: 1;
+
   height: 100%;
+  
   display: flex;
   align-items: center;
+
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
 }
 
-
-
+.order_body .body .item .addr {
+  color: #4395FD;
+  font-weight: bold;
+  text-decoration:underline;
+}
 
 .ordercontainer .order_item .space{
   width: 10rpx;

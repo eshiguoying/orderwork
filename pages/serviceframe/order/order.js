@@ -169,15 +169,15 @@ Component({
 
     // 加载订单列表数据
     loadOrderlist(param) {
+      // 弹出加载页面
+      wx.showLoading();
 
       var this_ = this
-
-      console.info(param);
       request.HttpRequst('/v2/order/list', 'POST', param).then(function (res) {
         console.info(res);
-
         // 隐藏加载框
         wx.hideLoading();
+
         // 未成功加载
         if (res.code == 500) {
           this_.setData({ orderlist: [] })
@@ -219,7 +219,7 @@ Component({
               id: list[i].order.id,
               // isvalid: list[i].order.isvalid,
               // mobile: list[i].order.mobile,
-              // name: list[i].order.name,
+              name: list[i].order.name,
               num: list[i].order.num,
               // orderno: list[i].order.orderno,
               taketime: list[i].order.taketime,
@@ -241,7 +241,7 @@ Component({
               destaddrtypedesc: list[i].destType,
               // destcityid: list[i].orderAddress.destcityid,
               // destcityname: list[i].orderAddress.destcityname,
-              // destgps: list[i].orderAddress.destgps,
+              destgps: list[i].orderAddress.destgps,
               // destprovid: list[i].orderAddress.destprovid,
               // destprovname: list[i].orderAddress.destprovname,
               // orderid: list[i].orderAddress.orderid,
@@ -251,11 +251,11 @@ Component({
               // srcaddressid: list[i].orderAddress.srcaddressid,
               // srccityid: list[i].orderAddress.srccityid,
               // srccityname: list[i].orderAddress.srccityname,
-              // srcgps: list[i].orderAddress.srcgps,
+              srcgps: list[i].orderAddress.srcgps,
               // srcprovid: list[i].orderAddress.srcprovid,
               // srcprovname: list[i].orderAddress.srcprovname
             },
-            charge: list[i].appUser ? list[i].appUser.name : '无',
+            charge: list[i].appUser ? list[i].appUser.name : '未分配',
             appUser: list[i].appUser ? list[i].appUser : {},
             selected: true,
           }
@@ -279,9 +279,8 @@ Component({
     bindDownLoad: function () {
       if (this.data.queryorderlistReqPram_official.pageIndex > this.data.queryorderlistReqPram_official.totalPage) {
         this.setData({
-          allloadflog:true
+          allloadflag: true,
         });
-
         return false
       } 
 
@@ -290,10 +289,9 @@ Component({
 
     // 刷新
     refreshtap() {
-      // 弹出加载页面
-      wx.showLoading();
       // 刷新订单列表的目标：携带筛选条件重新查询一边,并且页数回到第一页
       this.setData({
+        allloadflag: false,
         orderlist: [],
         ['queryorderlistReqPram.pageIndex']: 1,
         ['queryorderlistReqPram_official.pageIndex']: 1,
@@ -497,6 +495,7 @@ Component({
               this_.setData({
                 orderlist: []
               });
+
               this_.loadOrderlist(this_.data.queryorderlistReqPram_official);
             }
 
@@ -925,6 +924,7 @@ Component({
 
       var reqparam = this.data.queryorderlistReqPram;
       this.setData({
+        allloadflag: false,
         orderlist: [],
 
         screenchoiceflag: false,
@@ -1107,7 +1107,24 @@ Component({
       })
     },
 
+    //地址导航
+    toNavSend: function (e) {
+      console.info('ad');
+      var name = e.currentTarget.dataset.name
+      var gps = JSON.parse(e.currentTarget.dataset.gps.replace(/\'/g, "\""))
 
+      wx.getLocation({//获取当前经纬度
+        type: 'wgs84', //返回可以用于wx.openLocation的经纬度，官方提示bug: iOS 6.3.30 type 参数不生效，只会返回 wgs84 类型的坐标信息
+        success: function (res) {
+          wx.openLocation({//​使用微信内置地图查看位置。
+            latitude: Number(gps.lat),//要去的纬度-地址
+            longitude: Number(gps.lng),//要去的经度-地址
+            name: name,
+            address: name
+          })
+        }
+      })
+    },
   },
   
   

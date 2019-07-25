@@ -23,20 +23,23 @@
                 <view class='photo '>
                   <image src='../../../images/cus.png'></image>
                 </view>
-                <view class='info'>测试用</view>
+                <view class='info'>{{orderItem.order.name}}</view>
               </view>
-              <view class='item_'>
-                <view class='photo'>
-                  <image src='../../../images/lug.png'></image>
-                </view>
-                <view class='info'>{{orderItem.order.num}}件</view>
-              </view>
+              
               <view class='item_'>
                 <view class='photo'>
                   <image src='../../../images/staff.png'></image>
                 </view>
                 <view class='info'>{{orderItem.charge}}</view>
               </view>
+
+              <view class='lugnummould'>
+                <view class='photo'>
+                  <image src='../../../images/lug.png'></image>
+                </view>
+                <view class='info'>{{orderItem.order.num}}件</view>
+              </view>
+
               <view class='orderstatus'>
                 <view class='info'>{{orderItem.order.statusdesc}}</view>
                 <view class='photo'>
@@ -62,24 +65,31 @@
             </view>
             <view class='item'>
               <view class='photo send_'>●</view>
-              <view class='info'>{{orderItem.orderAddress.srcaddress}}</view>
+              <view class='info addr' 
+                    style='width:{{windowW - 60}}px;'
+                    data-name="{{orderItem.orderAddress.srcaddress}}" 
+                    data-gps="{{orderItem.orderAddress.srcgps}}" 
+                    catchtap='toNavSend'>
+                  {{orderItem.orderAddress.srcaddress}}
+              </view>
             </view>
             <view class='item'>
               <view class='photo take_'>●</view>
-              <view class='info'>{{orderItem.orderAddress.destaddress}}</view>
+              <view class='info addr' 
+                    style='width:{{windowW - 60}}px;'
+                    data-name="{{orderItem.orderAddress.destaddress}}" 
+                    data-gps="{{orderItem.orderAddress.destgps}}" 
+                    catchtap='toNavSend'>
+                  {{orderItem.orderAddress.destaddress}}
+              </view>
             </view>
           </view>
         </view>
         </view>
     </block>
-    <block wx:if="{{loadingflog}}">
-      <view class="loadingpanel">
-        加载中...
-      </view>
-    </block>
-    <block wx:if="{{allloadflog}}">
+    <block wx:if="{{allloadflag}}">
       <view class="allloadpanel">
-        全部加载完成
+        已全部加载
       </view>
     </block>
   </block>
