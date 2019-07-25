@@ -1109,20 +1109,14 @@ Component({
 
     //地址导航
     toNavSend: function (e) {
-      console.info('ad');
       var name = e.currentTarget.dataset.name
       var gps = JSON.parse(e.currentTarget.dataset.gps.replace(/\'/g, "\""))
 
-      wx.getLocation({//获取当前经纬度
-        type: 'wgs84', //返回可以用于wx.openLocation的经纬度，官方提示bug: iOS 6.3.30 type 参数不生效，只会返回 wgs84 类型的坐标信息
-        success: function (res) {
-          wx.openLocation({//​使用微信内置地图查看位置。
-            latitude: Number(gps.lat),//要去的纬度-地址
-            longitude: Number(gps.lng),//要去的经度-地址
-            name: name,
-            address: name
-          })
-        }
+      wx.openLocation({//​使用微信内置地图查看位置。
+        latitude: Number(gps.lat),//要去的纬度-地址
+        longitude: Number(gps.lng),//要去的经度-地址
+        name: name,
+        address: name
       })
     },
   },
