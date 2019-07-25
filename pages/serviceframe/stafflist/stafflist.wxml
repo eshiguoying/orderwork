@@ -8,7 +8,7 @@
         <view class='item sure_' catchtap='sure_changeallow_staff'>确定</view>
       </view>
       <view class='body'>
-        <scroll-view class='stafflistscroll' scroll-y >
+        <scroll-view class='stafflistscroll' scroll-y style='height:{{stafflist.length*80}}rpx;'>
           <block wx:for="{{stafflist}}" wx:for-index="idx">
             <view class="staffinfo {{selectedstaff_index == idx? 'on': ''}}" 
                   catchtap='selectedstaff' data-id="{{item.id}}" data-index='{{idx}}'>

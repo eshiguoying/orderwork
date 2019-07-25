@@ -141,7 +141,7 @@
                    catchtap='showtrileveldistribution' value='{{queryorderlistReqPram.distributorname}}' placeholder='三级分销商'></input>
            
             <view class="list trileveldistri_list  {{isviewtrileveldistri? '' : 'nosee'}}" >
-              <scroll-view class='srcoll_list' scroll-y style='width:{{distributorArr.length*80}}rpx;width:{{windowW - 20}}px;'>
+              <scroll-view class='srcoll_list' scroll-y style='height:{{distributorArr.length*80}}rpx;width:{{windowW - 20}}px;'>
                 <block wx:for="{{distributorArr}}">
                   <view class='item_'  data-id="{{item.id}}" data-name="{{item.name}}" bindtap='selectDistributor'>
                     {{item.name}}
@@ -167,7 +167,7 @@
                     catchtap='showcounterbody' 
                     value='{{queryorderlistReqPram.countername}}' placeholder='柜台'></input>
             <view class="list counter_list  {{isviewcounter? '' : 'nosee'}}">
-              <scroll-view class='srcoll_list' scroll-y style='width:{{counterArr.length*80}}rpx;width:{{windowW - 20}}px;'>
+              <scroll-view class='srcoll_list' scroll-y style='height:{{counterArr.length*80}}rpx;width:{{windowW - 20}}px;'>
                 <block wx:for="{{counterArr}}">
                   <view class='item_'  data-id="{{item.id}}" data-name="{{item.servicecentername}}" bindtap='selectCounter'>
                     {{item.servicecentername}}
@@ -193,7 +193,7 @@
                    catchtap='showofficerbody' 
                    value='{{queryorderlistReqPram.username}}' placeholder='订单负责人'></input>
             <view class="list orderofficer_list  {{isviewofficerbody? '' : 'nosee'}}">
-              <scroll-view class='srcoll_list' scroll-y style='width:{{orderChargeArr.length*80}}rpx;width:{{windowW - 20}}px;'>
+              <scroll-view class='srcoll_list' scroll-y style='height:{{orderChargeArr.length*80}}rpx;width:{{windowW - 20}}px;'>
                 <block wx:for="{{orderChargeArr}}">
                   <view class='item_'  data-id="{{item.id}}" data-name="{{item.name}}" bindtap='selectOrderCharge'>
                     {{item.name}}
