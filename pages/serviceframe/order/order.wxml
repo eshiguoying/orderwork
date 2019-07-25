@@ -124,8 +124,7 @@
         <view class='item sure_' catchtap='queryorderlist_but'>确定</view>
     </view>
     <view class='query_body'>
-      <view class='margin_body'>
-        <view class='line orderbody'>
+        <view class='line orderbody' style='width:{{windowW - 20}}px;' >
            <input class='item orderno' placeholder='订单号' bindinput='orderno_input' value='{{queryorderlistReqPram.orderno}}'></input>
            
            <block wx:if="{{queryorderlistReqPram.orderno.length > 0}}">
@@ -136,13 +135,13 @@
         </view>
 
         <block wx:if="{{accountInfo.appUser.level == 1}}">
-          <view class='line trileveldistribody'>
+          <view class='line trileveldistribody' style='width:{{windowW - 20}}px'>
             <input class='item'
                    disabled='true' 
                    catchtap='showtrileveldistribution' value='{{queryorderlistReqPram.distributorname}}' placeholder='三级分销商'></input>
            
-            <view class="list trileveldistri_list  {{isviewtrileveldistri? '' : 'nosee'}}">
-              <scroll-view class='srcoll_list' scroll-y>
+            <view class="list trileveldistri_list  {{isviewtrileveldistri? '' : 'nosee'}}" >
+              <scroll-view class='srcoll_list' scroll-y style='width:{{distributorArr.length*80}}rpx;width:{{windowW - 20}}px;'>
                 <block wx:for="{{distributorArr}}">
                   <view class='item_'  data-id="{{item.id}}" data-name="{{item.name}}" bindtap='selectDistributor'>
                     {{item.name}}
@@ -162,13 +161,13 @@
 
         <!-- 柜台 -->
         <block wx:if="{{counterArr.length != 0}}">
-          <view class='line counterbody'>
+          <view class='line counterbody' style='width:{{windowW - 20}}px;'>
             <input class='item' 
                     disabled='true'
                     catchtap='showcounterbody' 
                     value='{{queryorderlistReqPram.countername}}' placeholder='柜台'></input>
             <view class="list counter_list  {{isviewcounter? '' : 'nosee'}}">
-              <scroll-view class='srcoll_list' scroll-y>
+              <scroll-view class='srcoll_list' scroll-y style='width:{{counterArr.length*80}}rpx;width:{{windowW - 20}}px;'>
                 <block wx:for="{{counterArr}}">
                   <view class='item_'  data-id="{{item.id}}" data-name="{{item.servicecentername}}" bindtap='selectCounter'>
                     {{item.servicecentername}}
@@ -188,13 +187,13 @@
       <!-- 订单负责人 -->
        <block wx:if="{{accountInfo.appUser.level != 3}}"> 
         <block wx:if="{{orderChargeArr.length != 0}}">
-          <view class='line orderofficerbody'>
+          <view class='line orderofficerbody' style='width:{{windowW - 20}}px;'>
             <input class='item' 
                    disabled='true'
                    catchtap='showofficerbody' 
                    value='{{queryorderlistReqPram.username}}' placeholder='订单负责人'></input>
             <view class="list orderofficer_list  {{isviewofficerbody? '' : 'nosee'}}">
-              <scroll-view class='srcoll_list' scroll-y>
+              <scroll-view class='srcoll_list' scroll-y style='width:{{orderChargeArr.length*80}}rpx;width:{{windowW - 20}}px;'>
                 <block wx:for="{{orderChargeArr}}">
                   <view class='item_'  data-id="{{item.id}}" data-name="{{item.name}}" bindtap='selectOrderCharge'>
                     {{item.name}}
@@ -212,7 +211,7 @@
         </block>
        </block>
 
-        <view class='line orderstatus'>
+        <view class='line orderstatus' style='width:{{windowW - 20}}px;'>
           <view class='item statusbody'>
             <view class='status'  data-status="待分配" data-code="PREPAID" bindtap='checkTap'>
               <view class="check {{queryorderlistReqPram.PREPAID ? 'selected' : ''}}"></view>
@@ -241,7 +240,7 @@
           </view>
         </view>
 
-        <view class='line starttimebody' bindtap='showStartTime'>
+        <view class='line starttimebody' bindtap='showStartTime' style='width:{{windowW - 20}}px;'>
            <input class='item starttime' placeholder='订单开始时间' disabled='true' value='{{queryorderlistReqPram.startTimeShow}}'></input>
            
            <block wx:if="{{queryorderlistReqPram.startTimeShow.length > 0}}">
@@ -252,7 +251,7 @@
 
         </view>
 
-        <view class='line endtimebody' bindtap='showEndTime'>
+        <view class='line endtimebody' bindtap='showEndTime' style='width:{{windowW - 20}}px;'>
            <input class='item endtime' placeholder='订单结束时间' disabled='true' value='{{queryorderlistReqPram.endTimeShow}}'></input>
         
           <block wx:if="{{queryorderlistReqPram.endTimeShow.length > 0}}">
@@ -295,7 +294,6 @@
                        bind:selectDayEvent="_selectDayEvent" />
         </view>
 
-      </view>
     </view>
 </view>
 
