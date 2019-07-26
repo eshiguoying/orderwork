@@ -5,11 +5,13 @@
 
 .ordercontainer .order_item {
   display: flex;
-  margin-top: 20rpx;
+  
+  margin-top: 30rpx;
   margin-left: 20rpx;
   margin-right: 20rpx;
-  height: 360rpx;
+
   box-shadow: 0px 0px 5px 2px #D2CFCF;
+  
   border-radius: 10rpx;
   position: relative;
 }
@@ -41,8 +43,8 @@
  top: 0;
  left: 22rpx;
 
- width: 40rpx;
- height: 40rpx;
+ width: 50rpx;
+ height: 50rpx;
 
  display: flex;
  align-items: center;
@@ -114,96 +116,86 @@
 
 
 .ordercontainer .order_item .order_body {
- flex: 1;
  padding: 20rpx;
+ padding-top: 40rpx;
+ 
+ display: flex;
+ flex-direction: column;
 }
 
-.order_body .body  {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.order_body .body .cusinfo_ {
-  height: 100rpx;
+.ordercontainer .order_item .order_body .cusinfo_ {
+  height: 80rpx;
   
   display: flex;
   align-items: center;
 }
 
-.order_body .body .cusinfo_ .item_ {
+.order_body .cusinfo_ .item_ {
   flex: 1;
+
   display: flex;
   align-items: center;
 }
 
 
-.order_body .body .cusinfo_ .photo{
-  width: 40rpx;
-  height: 40rpx;
+.order_body .cusinfo_ .photo{
+  width: 45rpx;
+  height: 45rpx;
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.order_body .body .cusinfo_ .photo image {
+.order_body .cusinfo_ .photo image {
   width: 32rpx;
   height: 32rpx;
 }
 
-.order_body .body .cusinfo_ .info {
-  display: flex;
-  align-items: center;
-  justify-items: center;
-}
-
-.order_body .body .cusinfo_ .lugnummould {
-  width: 160rpx;
-  height: 100%;
-
+.order_body .cusinfo_ .info {
   display: flex;
   align-items: center;
 }
 
-.order_body .body .cusinfo_ .orderstatus {
-  width: 130rpx;
-  height: 100%;
+.order_body .cusinfo_ .orderstatus {
+  width: 140rpx;
+
   display: flex;
   align-items: center;
 }
 
-.order_body .body .item {
-  flex: 1;
+.order_body .item {
+  height: 60rpx;
+
   display: flex;
   align-items: center;
 }
 
-.order_body .body .item .photo {
-  width: 40rpx;
-  height: 40rpx;
+.order_body .item .photo {
+  width: 45rpx;
+  height: 45rpx;
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.order_body .body .item .send_ {
+.order_body .item .send_ {
   font-size: 20rpx;
   color: #ED676D;
 }
 
-.order_body .body .item .take_ {
+.order_body .item .take_ {
   font-size: 20rpx;
   color: #015C67;
 }
 
-.order_body .body .item .photo image {
-  width: 25rpx;
-  height: 25rpx;
+.order_body .item .photo image {
+  width: 32rpx;
+  height: 32rpx;
 }
 
-.order_body .body .item .info {
+.order_body .item .info {
   flex: 1;
 
   height: 100%;
@@ -216,181 +208,22 @@
   white-space: nowrap;
 }
 
-.order_body .body .item .addr {
+.order_body .item .addr {
   color: #4395FD;
   font-weight: bold;
   text-decoration:underline;
 }
 
-.ordercontainer .order_item .space{
-  width: 10rpx;
-  height: 100%;
-}
-.ordercontainer .order_item .addr_time_item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.ordercontainer .order_item .addr_time_item  .addrtype {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.ordercontainer .order_item .addr_time_item  .addrtype .addrtype_{
-  flex: 1;
-  height: 80rpx;
-  display: flex;
-  align-items: center;
-}
-
-.ordercontainer .order_item .addr_time_item .time {
-  flex: 1;
-  display: flex;
-}
-
-.ordercontainer .order_item .addr_time_item  .time .sendtime {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-.ordercontainer .order_item .addr_time_item .time .taketime {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.ordercontainer .order_item .addr_time_item  .addr {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.ordercontainer .order_item .addr_time_item  .addr .sendaddr{
-  flex: 1;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.ordercontainer .order_item .addr_time_item  .addr .sendaddr .hint{
-  width: 35rpx;
-  height: 35rpx;
-  border: 1rpx solid #CBCCCD;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ordercontainer .order_item .addr_time_item  .addr .sendaddr .detail{
-  margin-left: 10rpx;
-  width: 450rpx;
-  height: 100%;
-  font-size: 30rpx;
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  font-weight: 100;
-  color: #ACABAB;
-}
-
-.ordercontainer .order_item .addr_time_item  .takeaddr{
-  flex: 1;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.ordercontainer .order_item .addr_time_item  .addr .takeaddr .hint{
-  width: 35rpx;
-  height: 35rpx;
-  border: 3rpx solid #CBCCCD;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ordercontainer .order_item .addr_time_item  .addr .takeaddr .detail{
-  margin-left: 10rpx;
-  width: 450rpx;
-  height: 100%;
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  color: #ACABAB;
-}
-
-.ordercontainer .order_item .other_item {
-  width: 110rpx;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.ordercontainer .order_item .other_item .blongworker{
-  flex: 1;
-  display: flex;
-  align-items: center;
-
-}
-
-.ordercontainer .order_item .other_item .lugnum_ {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.ordercontainer .order_item .other_item .orderstatus {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  font-weight: 400;
-}
-
-.ordercontainer .order_item .other_item .PREPAID {
-  color: #ED666C;
-}
-
-/* 待提取 */
-.ordercontainer .order_item .other_item .WAITPICK {
-  color: #ED666C;
-}
-
-/* 配送中 */
-.ordercontainer .order_item .other_item .DELIVERYING {
-  color: #005B66;
-}
-
-/* 已送达 */
-.ordercontainer .order_item .other_item .DELIVERYOVER {
-  color: #75B591;
-}
-
-/* 已完成 */
-.ordercontainer .order_item .other_item .COMPLETED {
-  color: #9F68AC;
-}
-
-/* 退款中 */
-.ordercontainer .order_item .other_item .REFUNDING {
-  color: #ACABAB;
-}
-
+/* 刷新，筛选面板 */
 .floatpanel {
   height: 100rpx;
+  
   position: fixed;
   left: 0;
   bottom: 0;
+  
   border-radius: 10rpx;
   background-color: #FCFBF8;
-
   box-shadow: 0px -1px 5px #D2CFCF; 
   display: flex;
 }
@@ -420,29 +253,40 @@
   height: 35rpx;
 }
 
-
-
+/* 多选面板 */
 .mulchoicepanal {
   height: 100rpx;
+  
   position: fixed;
   bottom: 0;
   z-index: 120;
+  
   background-color: #FCFBF8;
   transition-duration:0.2s;
   display: flex;
 }
 
-.mulchoicepanal .batch_changesend {
+.mulchoicepanal .mulchoiceflag {
   flex: 1;
   height: 100%;
+ 
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.mulchoicepanal .batch_changesend {
+  flex: 1;
+  height: 100%;
+ 
+  display: flex;
+  align-items: center;
+}
+
 .mulchoicepanal .batch_changesend .veri {
   width:100%;
   height: 30rpx;
+ 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -452,6 +296,7 @@
 .mulchoicepanal .batch_orderstatus_change {
   flex: 1;
   height: 100%;
+ 
   display: flex;
   align-items: center;
 }
@@ -459,37 +304,33 @@
 .mulchoicepanal .batch_orderstatus_change .veri {
   width:100%;
   height: 30rpx;
+  
   display: flex;
   align-items: center;
   justify-content: center;
+  
   border-left: 1rpx solid #E5E5E5;
 }
 
 .mulchoicepanal .cancelmulchoice {
   width: 120rpx;
   height: 100%;
+  
   display: flex;
   align-items: center;
 }
-
-
 
 .mulchoicepanal .cancelmulchoice .veri {
   width: 120rpx;
   height: 30rpx;
+  
   color: #9F9E9E;
-  border-left: 1rpx solid #E5E5E5;
+  
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-.mulchoicepanal .mulchoiceflag {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-left: 1rpx solid #E5E5E5;
 }
 
 .space_ {
@@ -497,7 +338,7 @@
   height: 100%;
 }
 
-/* start */
+/* 筛选面板 */
 .screenpanalshade {
   position: fixed;
   bottom:0;
@@ -507,7 +348,6 @@
 }
 
 .screenpanal {
-  
   position: fixed;
   bottom: 0;
   z-index: 120;
@@ -522,6 +362,7 @@
 .screenpanal .head {
   width: 100%;
   height: 80rpx;
+  
   display: flex;
   box-shadow: 0px 1px 5px #D2CFCF;
 }
@@ -538,6 +379,7 @@
 .screenpanal .head .reset_ {
   flex: 1;
   height: 100%;
+  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -546,20 +388,23 @@
 
 .screenpanal .query_body .line {
   margin: 20rpx;
-
+  margin-bottom: 30rpx;
+  
   height: 80rpx;
   
   display: flex;
   align-items: center;
-  margin-bottom: 30rpx;
-  position: relative;
+ 
+  
   border-radius: 10rpx;
   box-shadow: 0px 0px 5px 2px #D2CFCF;
+
+  position: relative;
 }
 
 .screenpanal .query_body .line .deleteinfo {
   width: 70rpx;
-  height: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -572,6 +417,7 @@
 
 .screenpanal .query_body .line .item {
   flex: 1;
+ 
   margin-left: 20rpx;
   height: 100%;
 }
@@ -580,13 +426,12 @@
   position: absolute;
   top: 80rpx;
   left:0rpx;
-  
+
+  width: 200rpx;
+
   background-color: #FCFBF8;
 
   box-shadow: 0px 0px 5px 2px #D2CFCF;
-  
-  display: flex;
-  flex-direction: column;
 }
 
 .screenpanal .query_body .line .nosee {
@@ -595,6 +440,7 @@
 }
 
 .screenpanal .query_body .line .list .srcoll_list{
+  width: 200rpx;
   max-height: 240rpx;
 
   display: flex;
@@ -604,12 +450,10 @@
 .screenpanal .query_body .line .list .srcoll_list .item_{
   display: flex;
   align-items: center;
-  
-  width: 200rpx;
+
   height: 80rpx;
 
   margin-left: 20rpx;
-  margin-right: 20rpx;
 }
 
 
@@ -627,13 +471,12 @@
 
 .screenpanal .query_body .line .statusbody {
   display: flex;
-  align-items: center;
 }
 
 .screenpanal .query_body .line .statusbody .status {
   flex: 1;
+  
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
@@ -643,14 +486,8 @@
   border: 1rpx solid #07233F;
 }
 
-
 .screenpanal .query_body .line .statusbody .status .selected{
   background-color: #07233F;
-}
-
-.screenpanal .query_body .line .statusbody .veri {
-  border-left: 1rpx solid #CBCCCD;
-  height: 30rpx;
 }
 
 .canlendar-layer{

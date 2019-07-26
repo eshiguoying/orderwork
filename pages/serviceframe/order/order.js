@@ -311,8 +311,6 @@ Component({
           duration: 2000,
         });
         return;
-
-        return;
       }
 
       this.setData({
@@ -628,13 +626,15 @@ Component({
     screenchoice() {
       var this_ = this;
 
-
-      //三级分销商接口 高级
-      if (this_.data.accountInfo.appUser.level == 1) {
+      if (this_.data.accountInfo.appUser.level == config.levelType.HIGH.value) {
+        //三级分销商接口 高级
         request.HttpRequst('/v2/distributor/ownerList', 'GET', {}).then(function (res) {
-          this_.setData({
-            distributorArr: res.list
-          });
+          if(res.code == config.resCode.success.value) {
+            this_.setData({
+              distributorArr: res.list
+            });
+          }
+          
         })
 
         // 订单负责人接口 高级

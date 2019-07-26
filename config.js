@@ -123,7 +123,15 @@ var WORKTYPE = {
     value: '1',
     name: '外勤'
   }
+};
+
+var RESCODE = {
+  success: {
+    value: 0,
+    name: '成功'
+  }
 }
+
 
 // 全局配置
 module.exports = {
@@ -156,6 +164,8 @@ module.exports = {
   workType: WORKTYPE,
   // 是否启动
   isvalidType: ISVALID_TYPE,
+  // 返回的编码
+  resCode: RESCODE,
 };
 
 

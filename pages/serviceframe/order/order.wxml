@@ -17,7 +17,6 @@
         </view>
 
         <view class='order_body' catchtap='loadorderdetails' data-id='{{orderItem.order.id}}' data-index='{{index}}'>
-          <view class='body'>
             <view class='cusinfo_'>
               <view class='item_'>
                 <view class='photo '>
@@ -33,7 +32,7 @@
                 <view class='info'>{{orderItem.charge}}</view>
               </view>
 
-              <view class='lugnummould'>
+              <view class='item_ lugnummould'>
                 <view class='photo'>
                   <image src='../../../images/lug.png'></image>
                 </view>
@@ -65,27 +64,29 @@
             </view>
             <view class='item'>
               <view class='photo send_'>●</view>
-              <view class='info addr' 
-                    style='width:{{windowW - 60}}px;'
-                    data-name="{{orderItem.orderAddress.srcaddress}}" 
-                    data-gps="{{orderItem.orderAddress.srcgps}}" 
-                    catchtap='toNavSend'>
-                  {{orderItem.orderAddress.srcaddress}}
+              <view class='info' style='width:{{windowW - 80}}px;'>
+                  <view class="addr"
+                        data-name="{{orderItem.orderAddress.srcaddress}}" 
+                        data-gps="{{orderItem.orderAddress.srcgps}}" 
+                        catchtap='toNavSend'>
+                    {{orderItem.orderAddress.srcaddress}}
+                  </view>
               </view>
             </view>
             <view class='item'>
               <view class='photo take_'>●</view>
-              <view class='info addr' 
-                    style='width:{{windowW - 60}}px;'
+              <view class='info' style='width:{{windowW - 60}}px;'>
+                <view class="addr"
                     data-name="{{orderItem.orderAddress.destaddress}}" 
                     data-gps="{{orderItem.orderAddress.destgps}}" 
                     catchtap='toNavSend'>
-                  {{orderItem.orderAddress.destaddress}}
+                   {{orderItem.orderAddress.destaddress}}
+                </view>
               </view>
             </view>
-          </view>
+          
         </view>
-        </view>
+      </view>
     </block>
     <block wx:if="{{allloadflag}}">
       <view class="allloadpanel">
@@ -237,22 +238,18 @@
               <view class="check {{queryorderlistReqPram.PREPAID ? 'selected' : ''}}"></view>
               <label class="order-pop-status">待分配</label>
             </view>
-              <view class='veri'></view>
             <view class='status' data-status="待提取" data-code="WAITPICK" bindtap='checkTap'>
                <view class="check {{queryorderlistReqPram.WAITPICK ? 'selected' : ''}}"></view>
                <label class="order-pop-status">待提取</label>
             </view>
-              <view class='veri'></view>
             <view class='status' data-status="配送中" data-code="DELIVERYING" bindtap='checkTap'>
                <view class="check {{queryorderlistReqPram.DELIVERYING ? 'selected' : ''}}"></view>
                <label class="order-pop-status">配送中</label>              
             </view>
-              <view class='veri'></view>
             <view class='status' data-status="已送达" data-code="DELIVERYOVER" bindtap='checkTap'>
               <view class="check {{queryorderlistReqPram.DELIVERYOVER ? 'selected' : ''}}"></view>
               <label class="order-pop-status">已送达</label>
             </view>
-              <view class='veri'></view>
             <view class='status' data-status="已完成" data-code="COMPLETED" bindtap='checkTap'>
               <view class="check {{queryorderlistReqPram.COMPLETED ? 'selected' : ''}}"></view>
               <label class="order-pop-status">已完成</label>
