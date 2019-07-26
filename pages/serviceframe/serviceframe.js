@@ -43,10 +43,6 @@ Page({
         { 'menuitemcode': 'my', 'menuitemname': '我的'}
       ],
     },
-
-    
-
-
     
   },
 
@@ -70,7 +66,6 @@ Page({
           return false
         }
 
-        console.info("===========================");
         // 获取当前登录用户信息
         this_.setData({
           accountInfo: wx.getStorageSync('accountInfo')

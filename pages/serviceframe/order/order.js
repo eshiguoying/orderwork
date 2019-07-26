@@ -633,21 +633,20 @@ Component({
             this_.setData({
               distributorArr: res.list
             });
-          }
-          
+          } 
         })
 
         // 订单负责人接口 高级
-        console.info(this_.data.accountInfo.appUser.distributor2nd);
         var params = {
           distributorId: this_.data.accountInfo.appUser.distributor2nd,
           isvalid: 'Y'
         }
         request.HttpRequst('/v2/app-user/list', 'POST', params).then(function (res) {
-          console.info(res);
-          this_.setData({
-            orderChargeArr: res.data
-          })
+          if (res.code == config.resCode.success.value) {
+            this_.setData({
+              orderChargeArr: res.data
+            })
+          } 
         })
       }
 
@@ -655,21 +654,25 @@ Component({
       if (this_.data.accountInfo.appUser.distributor3rd) {
         var counterParams = this_.data.accountInfo.appUser.distributor3rd
         request.HttpRequst('/v2/counter/listByDistributor', 'POST', counterParams).then(function (res) {
-          this_.setData({
-            counterArr: res.counters
-          })
+          if (res.code == config.resCode.success.value) {
+            this_.setData({
+              counterArr: res.counters
+            })
+          } 
         })
       }
 
       //订单负责人接口 中级
-      if (this_.data.accountInfo.appUser.level == 2) {
+      if (this_.data.accountInfo.appUser.level != config.levelType.LOW.value) {
         var params = {
           distributorId: this_.data.accountInfo.appUser.distributor3rd,
         }
         request.HttpRequst('/v2/app-user/select', 'GET', params).then(function (res) {
-          this_.setData({
-            orderChargeArr: res.data
-          })
+          if (res.code == config.resCode.success.value) {
+            this_.setData({
+              orderChargeArr: res.data
+            })
+          }
         })
       }
 
@@ -976,8 +979,7 @@ Component({
 
       this.setData({
         queryorderlistReqPram: restvalue,
-        showStartTime: false,
-        showEndTime: false,
+        showCanlendarPanelflag: false,
       });
     },
 
@@ -986,8 +988,7 @@ Component({
 
       this.setData({
         screenchoiceflag: false,
-        showStartTime: false,
-        showEndTime: false,
+        showCanlendarPanelflag: false,
         ['queryorderlistReqPram.orderno']: reqparam.orderno,
         ['queryorderlistReqPram.distributorname']: reqparam.distributorname,
         ['queryorderlistReqPram.distributorId']: reqparam.distributorId,
