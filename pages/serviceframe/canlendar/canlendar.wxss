@@ -1,15 +1,16 @@
 /* pages/canlendar/canlendar.wxss */
 .canlendarBgView{
-  width: 100%;
   height: 100%;
+
   background: #FCFBF8;
   
   position: absolute;
   left: 0;
-  top: 0;
+  bottom: 0;
   z-index: 11;
 
   border-top: 1rpx solid #E5E5E5;
+  
   display: flex;
   flex-direction: column;
 }
@@ -20,9 +21,9 @@
   height: 80rpx;
 }
 
-.canlendarBgView .datebody_ {
+.content {
   flex: 1;
-} 
+}
 
 .canlendarBgView .head__ .space {
   flex: 1;
@@ -48,9 +49,11 @@
   float: left;
   text-align: center;
 }
+
 .canlendarView{
   clear: both;
 }
+
 .canlendarTopView{
   height: 80rpx;
   line-height: 80rpx;

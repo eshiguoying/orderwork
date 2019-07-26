@@ -205,9 +205,8 @@
           </view>
         </block>
 
-      <!-- 订单负责人 -->
-       <block wx:if="{{accountInfo.appUser.level != 3}}"> 
-        <block wx:if="{{orderChargeArr.length != 0}}">
+       <!-- 订单负责人 -->
+       <block wx:if="{{accountInfo.appUser.level != 3}}">
           <view class='line orderofficerbody' style='width:{{windowW - 20}}px;'>
             <input class='item' 
                    disabled='true'
@@ -229,7 +228,6 @@
               </view>
             </block>
         </view>
-        </block>
        </block>
 
         <view class='line orderstatus' style='width:{{windowW - 20}}px;'>
@@ -292,6 +290,7 @@
               select-month="{{select_month}}"  
               select-day="{{select_day}}" 
               type="{{timetype}}"
+              
               bind:selectDayEvent="_selectDayEvent"
               bind:canlendar_cancal_but="canlendar_cancal_but"/>
         </block>
