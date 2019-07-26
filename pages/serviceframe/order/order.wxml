@@ -115,28 +115,8 @@
   </view>
 </view>
 
-<view class="mulchoicepanal" style='width:{{windowW}}px;transform: translate({{multiplechoiceflag?  0 : windowW}}px, 0%)'>
-    <view class='mulchoiceflag' catchtap='mulchoiceflag'>
-      <block wx:if="{{mulchoiceflag}}">
-        取消全选
-      </block>
-       <block wx:else>
-          全选
-      </block>
-    </view>
-    
-    <view class='batch_changesend' catchtap='batchchangesendtap'>
-      <view class='veri'>
-        批量改派
-      </view>
-    </view>
-
-    <view class='batch_orderstatus_change'><view class='veri'>批量状态更改</view></view>
-    <view class='cancelmulchoice' catchtap='mutlchoice_cancal'>
-      <view class='veri'>取消</view>
-    </view>
-</view>
-
+<!-- 筛选时遮罩 -->
+<view class='screenpanalshade' style="width:{{windowW}}px;height:{{windowH}}px;display:{{screenchoiceflag? '':'none'}}" ></view>
 
 <view class="screenpanal" style='width:{{windowW}}px;transform: translate({{screenchoiceflag?  0 : windowW}}px, 0%)'>
     <view class='head'>
@@ -298,8 +278,27 @@
     </view>
 </view>
 
-<!-- 筛选时遮罩 -->
-<view class='screenpanalshade' style="width:{{windowW}}px;height:{{windowH}}px;display:{{screenchoiceflag? '':'none'}}" ></view>
+<view class="mulchoicepanal" style='width:{{windowW}}px;transform: translate({{multiplechoiceflag?  0 : windowW}}px, 0%)'>
+    <view class='mulchoiceflag' catchtap='mulchoiceflag'>
+      <block wx:if="{{mulchoiceflag}}">
+        取消全选
+      </block>
+       <block wx:else>
+          全选
+      </block>
+    </view>
+    
+    <view class='batch_changesend' catchtap='batchchangesendtap'>
+      <view class='veri'>
+        批量改派
+      </view>
+    </view>
+
+    <view class='batch_orderstatus_change'><view class='veri'>批量状态更改</view></view>
+    <view class='cancelmulchoice' catchtap='mutlchoice_cancal'>
+      <view class='veri'>取消</view>
+    </view>
+</view>
 
 
 <!-- 订单详情 -->
@@ -311,7 +310,7 @@
                 bind:refreshtap='refreshtap' />
 </block>
 
-
+<!-- 取派员加载 -->
 <block wx:if="{{isshowstafflistpanel}}"> 
   <stafflist distributorId="{{distributor3rd}}" 
              bind:closestafflistpanel="closestafflistpanel" 

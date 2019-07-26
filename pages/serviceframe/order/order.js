@@ -45,6 +45,7 @@ Component({
       endDate: '',//结束时间
       pageIndex: 1, // 默认第一页
       totalPage: 0,// 页面总数;
+      totalCount: 0,// 订单总数
     },
     // 最终组装请求参数
     queryorderlistReqPram_official: {
@@ -74,6 +75,7 @@ Component({
       endDate: '',//结束时间
       pageIndex: 1, // 默认第一页
       totalPage: 0,// 页面总数;
+      totalCount: 0,// 订单总数
     },
     // 是否打开筛选页面
     screenchoiceflag: false,
@@ -96,12 +98,60 @@ Component({
 
   // 组件生命周期函数-在组件实例进入页面节点树时执行
   attached() {
-    // 筛选开始时间，结束时间
-    this.init_screen_time();
     this.init_order();
   },
 
   methods: {
+    // 初始化筛选中的时间
+    init_screen_time() {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      if (month < 10) {
+        month = '0' + month
+      }
+      var day = date.getDate();
+      if (day < 10) {
+        day = '0' + day
+      }
+
+      var date2 = new Date(date);
+      date2.setDate(date.getDate() + 2);
+      var e_year = date2.getFullYear();
+      var e_month = date2.getMonth() + 1;
+      if (e_month < 10) {
+        e_month = '0' + e_month
+      }
+      var e_day = date2.getDate();
+      if (e_day < 10) {
+        e_day = '0' + e_day
+      }
+
+      this.setData({
+        ['queryorderlistReqPram.beginDate']: year + '-' + month + '-' + day + ' 00:00:00',
+        ['queryorderlistReqPram.startTimeShow']: year + '.' + month + '.' + day,
+        ['queryorderlistReqPram.s_year']: year,
+        ['queryorderlistReqPram.s_month']: month,
+        ['queryorderlistReqPram.s_day']: day,
+        ['queryorderlistReqPram.endDate']: e_year + '-' + e_month + '-' + e_day + ' 23:59:59',
+        ['queryorderlistReqPram.endTimeShow']: e_year + '.' + e_month + '.' + e_day,
+        ['queryorderlistReqPram.e_year']: e_year,
+        ['queryorderlistReqPram.e_month']: e_month,
+        ['queryorderlistReqPram.e_day']: e_day,
+
+        ['queryorderlistReqPram_official.beginDate']: year + '-' + month + '-' + day + ' 00:00:00',
+        ['queryorderlistReqPram_official.startTimeShow']: year + '.' + month + '.' + day,
+        ['queryorderlistReqPram_official.s_year']: year,
+        ['queryorderlistReqPram_official.s_month']: month,
+        ['queryorderlistReqPram_official.s_day']: day,
+        ['queryorderlistReqPram_official.endDate']: e_year + '-' + e_month + '-' + e_day + ' 23:59:59',
+        ['queryorderlistReqPram_official.endTimeShow']: e_year + '.' + e_month + '.' + e_day,
+        ['queryorderlistReqPram_official.e_year']: e_year,
+        ['queryorderlistReqPram_official.e_month']: e_month,
+        ['queryorderlistReqPram_official.e_day']: e_day,
+      })
+    },
+
     // 是否跳转注册页面
     init_order() {
       var maxcirclu = 1;
@@ -117,7 +167,7 @@ Component({
               accountInfo: wx.getStorageSync('accountInfo')
             })
 
-            // 订单信息,加载订单列表
+            this_.init_screen_time();
             this_.loadOrderlist(this_.data.queryorderlistReqPram_official);
 
             clearInterval(getToken);
@@ -135,36 +185,6 @@ Component({
           
         }
       }, 10)
-    },
-
-    // 选择
-    picthupone(e) {
-      // 退单中的信息无法选择
-      var orderinfo = this.data.orderlist[e.currentTarget.dataset.index];
-      if (orderinfo.order.iscanceled == '1' || orderinfo.order.status == config.orderStatus.REFUNDING.value) {
-        wx.showToast({
-          title: '正在退单中',
-          icon: 'none',
-          duration: 1000
-        });
-        return;
-      }
-
-      orderinfo.selected = !orderinfo.selected;
-
-      var selectedorderlist = this.data.selectedorderlist;
-
-      if (orderinfo.selected) {
-        selectedorderlist.splice(e.currentTarget.dataset.index, 1);
-      } else {
-        selectedorderlist[e.currentTarget.dataset.index] = orderinfo;
-      }
-
-      this.setData({
-        selectedorderlist: selectedorderlist,
-        ["orderlist[" + e.currentTarget.dataset.index + "].selected"]: orderinfo.selected,
-      });
-
     },
 
     // 加载订单列表数据
@@ -191,7 +211,7 @@ Component({
    
         if(res.code != 0) {
           wx.showToast({
-            title: '加载订单失败，重新刷新',
+            title: '加载订单失败，请刷新',
             icon: 'none',
             duration: 2000,
           });
@@ -209,51 +229,25 @@ Component({
         for (var i = 0; i < list.length; ++i) {
           var oneItem = {
             order: {
-              // actualmoney: list[i].order.actualmoney,
-              // addtime: list[i].order.addtime,
-              // channel: list[i].order.channel,
-              // cusid: list[i].order.cusid,
-              // cutmoney: list[i].order.cutmoney,
-              distributorId: list[i].order.distributorId,
-              // fetchcode: list[i].order.fetchcode,
-              id: list[i].order.id,
-              // isvalid: list[i].order.isvalid,
-              // mobile: list[i].order.mobile,
-              name: list[i].order.name,
-              num: list[i].order.num,
-              // orderno: list[i].order.orderno,
-              taketime: list[i].order.taketime,
-              taketimepart: list[i].order.taketime.substring(5, 16),
               serviceType: list[i].order.serviceType,
               serviceTypeDesc: config.serviceType[list[i].order.serviceType].name,
+              id: list[i].order.id,
+              name: list[i].order.name,
+              num: list[i].order.num,
               status: list[i].order.status,
               statusdesc: config.orderStatus[list[i].order.status].name,// 订单状态描述
-              iscanceled: list[i].order.iscanceled,
-              sendtime: list[i].order.sendtime,
+              distributorId: list[i].order.distributorId,
+              taketimepart: list[i].order.taketime.substring(5, 16),
               sendtimepart: list[i].order.sendtime.substring(5, 16),
-              // totalmoney: list[i].order.totalmoney,
-              // type: list[i].order.type,
-              // neadfeach: list[i].order.neadfetch
+              iscanceled: list[i].order.iscanceled,
             },
             orderAddress: {
-              destaddress: list[i].orderAddress.destaddress,
-              destaddrtype: list[i].orderAddress.destaddrtype,
-              destaddrtypedesc: list[i].destType,
-              // destcityid: list[i].orderAddress.destcityid,
-              // destcityname: list[i].orderAddress.destcityname,
-              destgps: list[i].orderAddress.destgps,
-              // destprovid: list[i].orderAddress.destprovid,
-              // destprovname: list[i].orderAddress.destprovname,
-              // orderid: list[i].orderAddress.orderid,
-              srcaddress: list[i].orderAddress.srcaddress,
-              srcaddrtype: list[i].orderAddress.srcaddrtype,
               srcaddrtypedesc: list[i].srcType,
-              // srcaddressid: list[i].orderAddress.srcaddressid,
-              // srccityid: list[i].orderAddress.srccityid,
-              // srccityname: list[i].orderAddress.srccityname,
+              srcaddress: list[i].orderAddress.srcaddress,
               srcgps: list[i].orderAddress.srcgps,
-              // srcprovid: list[i].orderAddress.srcprovid,
-              // srcprovname: list[i].orderAddress.srcprovname
+              destaddrtypedesc: list[i].destType,
+              destaddress: list[i].orderAddress.destaddress,
+              destgps: list[i].orderAddress.destgps,
             },
             charge: list[i].appUser ? list[i].appUser.name : '未分配',
             appUser: list[i].appUser ? list[i].appUser : {},
@@ -269,12 +263,226 @@ Component({
           ["queryorderlistReqPram.pageIndex"]: this_.data.queryorderlistReqPram.pageIndex + 1,
           ["queryorderlistReqPram_official.pageIndex"]: this_.data.queryorderlistReqPram_official.pageIndex + 1,
           ["queryorderlistReqPram.totalPage"]: res.result.totalPage,
+          ["queryorderlistReqPram.totalCount"]: res.result.totalCount,
           ["queryorderlistReqPram_official.totalPage"]: res.result.totalPage,
+          ["queryorderlistReqPram_official.totalCount"]: res.result.totalCount,
         })
 
       })
     },
 
+    // 地址导航
+    toNavSend: function (e) {
+      var name = e.currentTarget.dataset.name
+      var gps = JSON.parse(e.currentTarget.dataset.gps.replace(/\'/g, "\""))
+
+      wx.openLocation({//​使用微信内置地图查看位置。
+        latitude: Number(gps.lat),//要去的纬度-地址
+        longitude: Number(gps.lng),//要去的经度-地址
+        name: name,
+        address: name
+      })
+    },
+
+    // 根据筛选条件，刷新订单列表
+    refreshtap() {
+      // 刷新订单列表的目标：携带筛选条件重新查询一边,并且页数回到第一页
+      this.setData({
+        allloadflag: false,
+        orderlist: [],
+        ['queryorderlistReqPram.pageIndex']: 1,
+        ['queryorderlistReqPram_official.pageIndex']: 1,
+        ['queryorderlistReqPram.totalPage']: 0,
+        ['queryorderlistReqPram.totalCount']: 0,
+        ['queryorderlistReqPram_official.totalPage']: 0,
+        ['queryorderlistReqPram_official.totalCount']: 0,
+      });
+      // 查询订单列表信息
+      this.loadOrderlist(this.data.queryorderlistReqPram_official);
+    },
+
+    // 打开筛选接口
+    screenchoice() {
+      var this_ = this;
+
+      if (this_.data.accountInfo.appUser.level == config.levelType.HIGH.value) {
+        //三级分销商接口 高级
+        request.HttpRequst('/v2/distributor/ownerList', 'GET', {}).then(function (res) {
+          if (res.code == config.resCode.success.value) {
+            this_.setData({
+              distributorArr: res.list
+            });
+          }
+        })
+
+        // 订单负责人接口 高级
+        var params = {
+          distributorId: this_.data.accountInfo.appUser.distributor2nd,
+          isvalid: 'Y'
+        }
+        request.HttpRequst('/v2/app-user/list', 'POST', params).then(function (res) {
+          if (res.code == config.resCode.success.value) {
+            this_.setData({
+              orderChargeArr: res.data
+            })
+          }
+        })
+      }
+
+      //柜台服务中心接口参数 TODO 高级不应该查询出所有的柜台信息嘛？
+      if (this_.data.accountInfo.appUser.distributor3rd) {
+        var counterParams = this_.data.accountInfo.appUser.distributor3rd
+        request.HttpRequst('/v2/counter/listByDistributor', 'POST', counterParams).then(function (res) {
+          if (res.code == config.resCode.success.value) {
+            this_.setData({
+              counterArr: res.counters
+            })
+          }
+        })
+      }
+
+      //订单负责人接口 中级
+      if (this_.data.accountInfo.appUser.level != config.levelType.LOW.value) {
+        var params = {
+          distributorId: this_.data.accountInfo.appUser.distributor3rd,
+        }
+        request.HttpRequst('/v2/app-user/select', 'GET', params).then(function (res) {
+          if (res.code == config.resCode.success.value) {
+            this_.setData({
+              orderChargeArr: res.data
+            })
+          }
+        })
+      }
+
+      this_.setData({
+        screenchoiceflag: true
+      });
+    },
+
+    // 取消筛选面板编辑
+    cancalorderparam() {
+      var reqparam = this.data.queryorderlistReqPram_official;
+
+      this.setData({
+        screenchoiceflag: false,
+        showCanlendarPanelflag: false,
+        ['queryorderlistReqPram.orderno']: reqparam.orderno,
+        ['queryorderlistReqPram.distributorname']: reqparam.distributorname,
+        ['queryorderlistReqPram.distributorId']: reqparam.distributorId,
+        ['queryorderlistReqPram.countername']: reqparam.countername,
+        ['queryorderlistReqPram.counterId']: reqparam.counterId,
+        ['queryorderlistReqPram.username']: reqparam.username,
+        ['queryorderlistReqPram.userId']: reqparam.userId,
+
+        ['queryorderlistReqPram.PREPAID']: reqparam.PREPAID,
+        ['queryorderlistReqPram.WAITPICK']: reqparam.WAITPICK,
+        ['queryorderlistReqPram.DELIVERYING']: reqparam.DELIVERYING,
+        ['queryorderlistReqPram.DELIVERYOVER']: reqparam.DELIVERYOVER,
+        ['queryorderlistReqPram.COMPLETED']: reqparam.COMPLETED,
+        ['queryorderlistReqPram.statuslist']: reqparam.statuslist,
+        ['queryorderlistReqPram.status']: reqparam.status,
+
+        ['queryorderlistReqPram.startTimeShow']: reqparam.startTimeShow,
+        ['queryorderlistReqPram.s_year']: reqparam.s_year,
+        ['queryorderlistReqPram.s_month']: reqparam.s_month,
+        ['queryorderlistReqPram.s_day']: reqparam.s_day,
+        ['queryorderlistReqPram.endTimeShow']: reqparam.endTimeShow,
+        ['queryorderlistReqPram.e_year']: reqparam.e_year,
+        ['queryorderlistReqPram.e_month']: reqparam.e_month,
+        ['queryorderlistReqPram.e_day']: reqparam.e_day,
+        ['queryorderlistReqPram.beginDate']: reqparam.beginDate,
+        ['queryorderlistReqPram.endDate']: reqparam.endDate,
+
+        ['queryorderlistReqPram.pageIndex']: reqparam.pageIndex,
+        ['queryorderlistReqPram.totalPage']: reqparam.totalPage,
+        ['queryorderlistReqPram.totalCount']: reqparam.totalCount,
+      })
+    },
+
+    // 重置筛选条件
+    resetorderparam() {
+      var restvalue = {
+        orderno: '',// 订单号
+        distributorname: '', // 分销商name
+        distributorId: '',// 分销商id
+        countername: '',// 柜台name
+        counterId: '',// 柜台id
+        username: '',// 订单负责人名称
+        userId: '', // 用户id
+        PREPAID: false,// 待分配是否选中
+        WAITPICK: false,// 待提取是否被选中
+        DELIVERYING: false,// 配送中是否被选中
+        DELIVERYOVER: false,// 已送达是否被选中
+        COMPLETED: false,// 已完成是否被选中
+        statuslist: [],// 订单状态列表
+        status: '',// 订单状态
+        startTimeShow: '',
+        s_year: '',
+        s_month: '',
+        s_day: '',
+        endTimeShow: '',
+        e_year: '',
+        e_month: '',
+        e_day: '',
+        beginDate: '',// 开始时间
+        endDate: '',//结束时间
+        pageIndex: 1, // 默认第一页
+        totalPage: 0,// 订单总数 
+        totalCount: 0 //订单总数
+      }
+
+      this.setData({
+        queryorderlistReqPram: restvalue,
+        showCanlendarPanelflag: false,
+      });
+    },
+
+    // 根据筛选条件查询订单列表
+    queryorderlist_but() {
+      var reqparam = this.data.queryorderlistReqPram;
+      this.setData({
+        allloadflag: false,
+        orderlist: [],
+        screenchoiceflag: false,
+        showCanlendarPanelflag: false,
+
+        ['queryorderlistReqPram_official.orderno']: reqparam.orderno,
+        ['queryorderlistReqPram_official.distributorname']: reqparam.distributorname,
+        ['queryorderlistReqPram_official.distributorId']: reqparam.distributorId,
+        ['queryorderlistReqPram_official.countername']: reqparam.countername,
+        ['queryorderlistReqPram_official.counterId']: reqparam.counterId,
+        ['queryorderlistReqPram_official.username']: reqparam.username,
+        ['queryorderlistReqPram_official.userId']: reqparam.userId,
+
+        ['queryorderlistReqPram_official.PREPAID']: reqparam.PREPAID,
+        ['queryorderlistReqPram_official.WAITPICK']: reqparam.WAITPICK,
+        ['queryorderlistReqPram_official.DELIVERYING']: reqparam.DELIVERYING,
+        ['queryorderlistReqPram_official.DELIVERYOVER']: reqparam.DELIVERYOVER,
+        ['queryorderlistReqPram_official.COMPLETED']: reqparam.COMPLETED,
+        ['queryorderlistReqPram_official.statuslist']: reqparam.statuslist,
+        ['queryorderlistReqPram_official.status']: reqparam.status,
+
+        ['queryorderlistReqPram_official.startTimeShow']: reqparam.startTimeShow,
+        ['queryorderlistReqPram_official.s_year']: reqparam.s_year,
+        ['queryorderlistReqPram_official.s_month']: reqparam.s_month,
+        ['queryorderlistReqPram_official.s_day']: reqparam.s_day,
+        ['queryorderlistReqPram_official.endTimeShow']: reqparam.endTimeShow,
+        ['queryorderlistReqPram_official.e_year']: reqparam.e_year,
+        ['queryorderlistReqPram_official.e_month']: reqparam.e_month,
+        ['queryorderlistReqPram_official.e_day']: reqparam.e_day,
+        ['queryorderlistReqPram_official.beginDate']: reqparam.beginDate,
+        ['queryorderlistReqPram_official.endDate']: reqparam.endDate,
+
+        ['queryorderlistReqPram_official.pageIndex']: 1,
+        ['queryorderlistReqPram_official.totalPage']: 0,
+        ['queryorderlistReqPram_official.totalCount']: 0,
+      });
+
+
+      this.loadOrderlist(this.data.queryorderlistReqPram_official);
+    },
+    
     // 下拉加载数据;
     bindDownLoad: function () {
       if (this.data.queryorderlistReqPram_official.pageIndex > this.data.queryorderlistReqPram_official.totalPage) {
@@ -285,21 +493,6 @@ Component({
       } 
 
       this.loadOrderlist(this.data.queryorderlistReqPram_official)
-    },
-
-    // 刷新
-    refreshtap() {
-      // 刷新订单列表的目标：携带筛选条件重新查询一边,并且页数回到第一页
-      this.setData({
-        allloadflag: false,
-        orderlist: [],
-        ['queryorderlistReqPram.pageIndex']: 1,
-        ['queryorderlistReqPram_official.pageIndex']: 1,
-        ['queryorderlistReqPram.totalPage']: 0,
-        ['queryorderlistReqPram_official.totalPage']: 0,
-      });
-      // 查询订单列表信息
-      this.loadOrderlist(this.data.queryorderlistReqPram_official);
     },
 
     // 是否多选
@@ -333,19 +526,31 @@ Component({
       });
     },
 
-    // 取消
+    // 多选
     mulchoiceflag() {
-      var orderlist = this.data.orderlist;
-      var selectedorderlist = this.data.selectedorderlist;
-      selectedorderlist = [];
       var mulchoiceflag = this.data.mulchoiceflag;
+      var orderlist = this.data.orderlist;
+
+      if (!mulchoiceflag && this.data.queryorderlistReqPram_official.totalCount > orderlist.length) {
+        wx.showToast({
+          title: '请下拉加载全部订单，再点击全选',
+          icon: 'none',
+          duration: 3000,
+        });
+        return false
+      }
+
+      var selectedorderlist = [];
+      
       if (mulchoiceflag) {
+        // 取消全选
         for (var i = 0; i < orderlist.length; i++) {
           orderlist[i].selected = mulchoiceflag;
         }
       } else {
+        // 点击全选
         for (var i = 0; i < orderlist.length; i++) {
-          // 退单中的信息无法选择
+          // 退单中的信息无法选择 TODO
           if (orderlist[i].order.iscanceled == '1' || orderlist[i].order.status == config.orderStatus.REFUNDING.value) {
             continue;
           }
@@ -360,11 +565,39 @@ Component({
         orderlist: orderlist,
         mulchoiceflag: !this.data.mulchoiceflag
       });
-
-      console.info(this.data.selectedorderlist);
     },
 
-    // 批量改派 调出遮罩层，
+    // 单选
+    picthupone(e) {
+      // 退单中的信息无法选择
+      var orderinfo = this.data.orderlist[e.currentTarget.dataset.index];
+      // TODO
+      if (orderinfo.order.iscanceled == '1' || orderinfo.order.status == config.orderStatus.REFUNDING.value) {
+        wx.showToast({
+          title: '正在退单中',
+          icon: 'none',
+          duration: 1000
+        });
+        return;
+      }
+
+      orderinfo.selected = !orderinfo.selected;
+
+      var selectedorderlist = this.data.selectedorderlist;
+      if (orderinfo.selected) {
+        selectedorderlist.splice(e.currentTarget.dataset.index, 1);
+      } else {
+        selectedorderlist[e.currentTarget.dataset.index] = orderinfo;
+      }
+
+      this.setData({
+        selectedorderlist: selectedorderlist,
+        ["orderlist[" + e.currentTarget.dataset.index + "].selected"]: orderinfo.selected,
+      });
+
+    },
+
+    // 点击批量改派
     batchchangesendtap() {
       var this_ = this;
       if (this.data.selectedorderlist.length == 0) {
@@ -377,32 +610,32 @@ Component({
       }
 
       var selectedorderlist = this.data.selectedorderlist;
-      console.info(selectedorderlist);
+  
       var selectedorder = undefined;
       for (var i = 0; i < selectedorderlist.length; ++i) {
         if (!selectedorderlist[i]) {
           continue;
         }
-
         if (!selectedorder) {
           selectedorder = selectedorderlist[i]
         }
-   
-        if (selectedorder.order.distributorId != selectedorderlist[i].order.distributorId) {
-          wx.showModal({
-            content: '所选订单不属于同一分销商',
-            confirmText: '确定',
-            confirmColor: '#fbc400',
-            showCancel: false
-          })
-
-          return false
-        }
-
+        // // 此校验属于一级二级批量指派或改派下的情况
         
-        // 批量改派，当级别是3级时，
+        // if (selectedorder.order.distributorId != selectedorderlist[i].order.distributorId) {
+        //   wx.showModal({
+        //     content: '所选订单不属于同一分销商',
+        //     confirmText: '确定',
+        //     confirmColor: '#fbc400',
+        //     showCancel: false
+        //   })
+        //   return false
+        // }
+
+        // 当级别是3级时，
         if(this.data.accountInfo.appUser.level == 3) {
-          if (selectedorderlist[i].order.status != config.orderStatus.DELIVERYOVER.value 
+          if (
+            selectedorderlist[i].order.status == config.orderStatus.COMPLETED.value  
+            || selectedorderlist[i].order.status != config.orderStatus.DELIVERYOVER.value
             || selectedorderlist[i].orderAddress.destaddrtype == 'HOUSE'
             || selectedorderlist[i].orderAddress.destaddrtype == 'HOTEL') {
             // 3级只能改派一次（TODO 订单列表只能）
@@ -433,12 +666,14 @@ Component({
       });
     },
 
+    // 关闭工作人员列表
     closestafflistpanel() {
       this.setData({
         isshowstafflistpanel: false
       });
     },
 
+    // 选择工作人员后指派/改派回调
     sure_changeallow_staff(e) {
       // 弹出加载页面
       wx.showLoading();
@@ -458,6 +693,7 @@ Component({
           if (selectedorderlist[i].appUser.id) {
             appoint_orderid_list += selectedorderlist[i].order.id + ','
           } else {
+            console.info("adfafasfs");
             non_appoint_orderid_list += selectedorderlist[i].order.id + ','
           }
         }
@@ -622,114 +858,6 @@ Component({
       });
     },
 
-    // 打开筛选接口
-    screenchoice() {
-      var this_ = this;
-
-      if (this_.data.accountInfo.appUser.level == config.levelType.HIGH.value) {
-        //三级分销商接口 高级
-        request.HttpRequst('/v2/distributor/ownerList', 'GET', {}).then(function (res) {
-          if(res.code == config.resCode.success.value) {
-            this_.setData({
-              distributorArr: res.list
-            });
-          } 
-        })
-
-        // 订单负责人接口 高级
-        var params = {
-          distributorId: this_.data.accountInfo.appUser.distributor2nd,
-          isvalid: 'Y'
-        }
-        request.HttpRequst('/v2/app-user/list', 'POST', params).then(function (res) {
-          if (res.code == config.resCode.success.value) {
-            this_.setData({
-              orderChargeArr: res.data
-            })
-          } 
-        })
-      }
-
-      //柜台服务中心接口参数 TODO 高级不应该查询出所有的柜台信息嘛？
-      if (this_.data.accountInfo.appUser.distributor3rd) {
-        var counterParams = this_.data.accountInfo.appUser.distributor3rd
-        request.HttpRequst('/v2/counter/listByDistributor', 'POST', counterParams).then(function (res) {
-          if (res.code == config.resCode.success.value) {
-            this_.setData({
-              counterArr: res.counters
-            })
-          } 
-        })
-      }
-
-      //订单负责人接口 中级
-      if (this_.data.accountInfo.appUser.level != config.levelType.LOW.value) {
-        var params = {
-          distributorId: this_.data.accountInfo.appUser.distributor3rd,
-        }
-        request.HttpRequst('/v2/app-user/select', 'GET', params).then(function (res) {
-          if (res.code == config.resCode.success.value) {
-            this_.setData({
-              orderChargeArr: res.data
-            })
-          }
-        })
-      }
-
-      this_.setData({
-        screenchoiceflag: true
-      });
-    },
-
-    init_screen_time() {
-      var date = new Date();
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      if (month < 10) {
-        month = '0' + month
-      }
-      var day = date.getDate();
-      if (day < 10) {
-        day = '0' + day
-      }
-
-      var date2 = new Date(date);
-      date2.setDate(date.getDate() + 2);
-      var e_year = date2.getFullYear();
-      var e_month = date2.getMonth() + 1;
-      if (e_month < 10) {
-        e_month = '0' + e_month
-      }
-      var e_day = date2.getDate();
-      if (e_day < 10) {
-        e_day = '0' + e_day
-      }
-
-      this.setData({
-        ['queryorderlistReqPram.beginDate']: year + '-' + month + '-' + day + ' 00:00:00',
-        ['queryorderlistReqPram.startTimeShow']: year + '.' + month + '.' + day,
-        ['queryorderlistReqPram.s_year']: year,
-        ['queryorderlistReqPram.s_month']: month,
-        ['queryorderlistReqPram.s_day']: day,
-        ['queryorderlistReqPram.endDate']: e_year + '-' + e_month + '-' + e_day + ' 23:59:59',
-        ['queryorderlistReqPram.endTimeShow']: e_year + '.' + e_month + '.' + e_day,
-        ['queryorderlistReqPram.e_year']: e_year,
-        ['queryorderlistReqPram.e_month']: e_month,
-        ['queryorderlistReqPram.e_day']: e_day,
-
-        ['queryorderlistReqPram_official.beginDate']: year + '-' + month + '-' + day + ' 00:00:00',
-        ['queryorderlistReqPram_official.startTimeShow']: year + '.' + month + '.' + day,
-        ['queryorderlistReqPram_official.s_year']: year,
-        ['queryorderlistReqPram_official.s_month']: month,
-        ['queryorderlistReqPram_official.s_day']: day,
-        ['queryorderlistReqPram_official.endDate']: e_year + '-' + e_month + '-' + e_day + ' 23:59:59',
-        ['queryorderlistReqPram_official.endTimeShow']: e_year + '.' + e_month + '.' + e_day,
-        ['queryorderlistReqPram_official.e_year']: e_year,
-        ['queryorderlistReqPram_official.e_month']: e_month,
-        ['queryorderlistReqPram_official.e_day']: e_day,
-      })
-    },
-
     showtrileveldistribution() {
       this.setData({
         isviewtrileveldistri: true,
@@ -851,7 +979,7 @@ Component({
       })
     },
 
-    // 选择日期
+    // 筛选选择日期后回调
     _selectDayEvent: function (e) {
       var data = e.detail.currentTarget.dataset
 
@@ -895,131 +1023,6 @@ Component({
       this.canlendar_cancal_but();
     },
 
-    //显示结束日期弹层
-    showEndTime() {
-      this.setData({
-        showEndTime: true
-      })
-    },
-
-    // 查询
-    queryorderlist_but() {
-
-      var reqparam = this.data.queryorderlistReqPram;
-      this.setData({
-        allloadflag: false,
-        orderlist: [],
-
-        screenchoiceflag: false,
-        ['queryorderlistReqPram_official.orderno']: reqparam.orderno,
-        ['queryorderlistReqPram_official.distributorname']: reqparam.distributorname,
-        ['queryorderlistReqPram_official.distributorId']: reqparam.distributorId,
-        ['queryorderlistReqPram_official.countername']: reqparam.countername,
-        ['queryorderlistReqPram_official.counterId']: reqparam.counterId,
-        ['queryorderlistReqPram_official.username']: reqparam.username,
-        ['queryorderlistReqPram_official.userId']: reqparam.userId,
-
-        ['queryorderlistReqPram_official.PREPAID']: reqparam.PREPAID,
-        ['queryorderlistReqPram_official.WAITPICK']: reqparam.WAITPICK,
-        ['queryorderlistReqPram_official.DELIVERYING']: reqparam.DELIVERYING,
-        ['queryorderlistReqPram_official.DELIVERYOVER']: reqparam.DELIVERYOVER,
-        ['queryorderlistReqPram_official.COMPLETED']: reqparam.COMPLETED,
-        ['queryorderlistReqPram_official.statuslist']: reqparam.statuslist,
-        ['queryorderlistReqPram_official.status']: reqparam.status,
-
-        ['queryorderlistReqPram_official.startTimeShow']: reqparam.startTimeShow,
-        ['queryorderlistReqPram_official.s_year']: reqparam.s_year,
-        ['queryorderlistReqPram_official.s_month']: reqparam.s_month,
-        ['queryorderlistReqPram_official.s_day']: reqparam.s_day,
-        ['queryorderlistReqPram_official.endTimeShow']: reqparam.endTimeShow,
-        ['queryorderlistReqPram_official.e_year']: reqparam.e_year,
-        ['queryorderlistReqPram_official.e_month']: reqparam.e_month,
-        ['queryorderlistReqPram_official.e_day']: reqparam.e_day,
-        ['queryorderlistReqPram_official.beginDate']: reqparam.beginDate,
-        ['queryorderlistReqPram_official.endDate']: reqparam.endDate,
-
-        ['queryorderlistReqPram_official.pageIndex']: 1,
-        ['queryorderlistReqPram_official.totalPage']: 0,
-      });
-
-
-      this.loadOrderlist(this.data.queryorderlistReqPram_official);
-    },
-
-    // 重置
-    resetorderparam() {
-      var restvalue = {
-        orderno: '',// 订单号
-        distributorname: '', // 分销商name
-        distributorId: '',// 分销商id
-        countername: '',// 柜台name
-        counterId: '',// 柜台id
-        username: '',// 订单负责人名称
-        userId: '', // 用户id
-        PREPAID: false,// 待分配是否选中
-        WAITPICK: false,// 待提取是否被选中
-        DELIVERYING: false,// 配送中是否被选中
-        DELIVERYOVER: false,// 已送达是否被选中
-        COMPLETED: false,// 已完成是否被选中
-        statuslist: [],// 订单状态列表
-        status: '',// 订单状态
-        startTimeShow: '',
-        s_year: '',
-        s_month: '',
-        s_day: '',
-        endTimeShow: '',
-        e_year: '',
-        e_month: '',
-        e_day: '',
-        beginDate: '',// 开始时间
-        endDate: '',//结束时间
-        pageIndex: 1, // 默认第一页
-        totalPage:0// 订单总数 
-      }
-
-      this.setData({
-        queryorderlistReqPram: restvalue,
-        showCanlendarPanelflag: false,
-      });
-    },
-
-    cancalorderparam() {
-      var reqparam = this.data.queryorderlistReqPram_official;
-
-      this.setData({
-        screenchoiceflag: false,
-        showCanlendarPanelflag: false,
-        ['queryorderlistReqPram.orderno']: reqparam.orderno,
-        ['queryorderlistReqPram.distributorname']: reqparam.distributorname,
-        ['queryorderlistReqPram.distributorId']: reqparam.distributorId,
-        ['queryorderlistReqPram.countername']: reqparam.countername,
-        ['queryorderlistReqPram.counterId']: reqparam.counterId,
-        ['queryorderlistReqPram.username']: reqparam.username,
-        ['queryorderlistReqPram.userId']: reqparam.userId,
-
-        ['queryorderlistReqPram.PREPAID']: reqparam.PREPAID,
-        ['queryorderlistReqPram.WAITPICK']: reqparam.WAITPICK,
-        ['queryorderlistReqPram.DELIVERYING']: reqparam.DELIVERYING,
-        ['queryorderlistReqPram.DELIVERYOVER']: reqparam.DELIVERYOVER,
-        ['queryorderlistReqPram.COMPLETED']: reqparam.COMPLETED,
-        ['queryorderlistReqPram.statuslist']: reqparam.statuslist,
-        ['queryorderlistReqPram.status']: reqparam.status,
-
-        ['queryorderlistReqPram.startTimeShow']: reqparam.startTimeShow,
-        ['queryorderlistReqPram.s_year']: reqparam.s_year,
-        ['queryorderlistReqPram.s_month']: reqparam.s_month,
-        ['queryorderlistReqPram.s_day']: reqparam.s_day,
-        ['queryorderlistReqPram.endTimeShow']: reqparam.endTimeShow,
-        ['queryorderlistReqPram.e_year']: reqparam.e_year,
-        ['queryorderlistReqPram.e_month']: reqparam.e_month,
-        ['queryorderlistReqPram.e_day']: reqparam.e_day,
-        ['queryorderlistReqPram.beginDate']: reqparam.beginDate,
-        ['queryorderlistReqPram.endDate']: reqparam.endDate,
-
-        ['queryorderlistReqPram.pageIndex']: reqparam.pageIndex,
-        ['queryorderlistReqPram.totalPage']: reqparam.totalPage,
-      })
-    },
 
     // 加载订单详情
     loadorderdetails(e) {
@@ -1065,7 +1068,6 @@ Component({
             ['queryorderlistReqPram.endDate']: '',
           });
         }
-        
       }
       
     },
@@ -1088,18 +1090,7 @@ Component({
       })
     },
 
-    //地址导航
-    toNavSend: function (e) {
-      var name = e.currentTarget.dataset.name
-      var gps = JSON.parse(e.currentTarget.dataset.gps.replace(/\'/g, "\""))
-
-      wx.openLocation({//​使用微信内置地图查看位置。
-        latitude: Number(gps.lat),//要去的纬度-地址
-        longitude: Number(gps.lng),//要去的经度-地址
-        name: name,
-        address: name
-      })
-    },
+    
   },
   
   
