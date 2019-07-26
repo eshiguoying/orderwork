@@ -1,18 +1,22 @@
 <!--pages/canlendar/canlendar.wxml-->
 <view class="canlendarBgView"> 
+  <view class="head__" data-type="start">
+    <view class='space'></view>
+    <view class='cancel' catchtap='canlendar_cancal_but' data-type='start'>x</view>
+  </view>
+
   <view class="weekBgView">   
     <view class="weekView" wx:for="{{weeks_ch}}" wx:key="{{index}}" data-idx="{{index}}">{{item}}</view>  
   </view>
    <scroll-view scroll-y style='height:600rpx;overflow:scroll;' scroll-into-view="{{toView}}">
-  <view class="canlendarView" wx:for="{{monthData}}" id="month{{monthDataItem.cur_month}}" data-id="month{{monthDataItem.cur_month}}" wx:for-item="monthDataItem"  wx:for-index="index">  
+  <view class="canlendarView" 
+        wx:for="{{monthData}}" 
+        id="month{{monthDataItem.cur_month}}" 
+        data-id="month{{monthDataItem.cur_month}}" 
+        wx:for-item="monthDataItem"  
+        wx:for-index="index">  
     <view class="canlendarTopView">   
-      <!--<view class="leftBgView" bindtap="handleCalendar" data-handle="prev">    
-        <view class="leftView">《</view>  
-      </view>-->
-      <view class="centerView">{{monthDataItem.cur_year || "--"}} 年 {{monthDataItem.cur_month || "--"}} 月</view>   
-      <!--<view class="rightBgView" bindtap="handleCalendar" data-handle="next">    
-        <view class="rightView">》</view>   
-      </view>-->
+      <view class="centerView">{{monthDataItem.cur_year || "--"}} 年 {{monthDataItem.cur_month || "--"}} 月</view>
     </view>  
      
     <view class="dateBgView">   

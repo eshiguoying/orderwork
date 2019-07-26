@@ -820,45 +820,32 @@ Component({
 
     },
 
-
     //显示开始日期弹层
-    showStartTime() {
-      var canlendar = this.selectComponent("#canlendar");
-      canlendar.init(3);
-
-      this.setData({
-        showStartTime: true
-      })
-
-      canlendar.toViewFunc(parseInt(this.data.s_month))
-    },
-
-    canlendar_cancal_but(e) {
-      if (e.currentTarget.dataset.type == 'start') {
+    showCanlendarPanelbut(e) {
+      if(e.currentTarget.dataset.type == 'start') {
         this.setData({
-          ['queryorderlistReqPram.beginDate']: '',
-          startTime: '',
-          startTimeShow: '',
-          s_year: '',
-          s_month: '',
-          s_day: '',
-
-          showStartTime: false,
+          select_year: this.data.queryorderlistReqPram.s_year,
+          select_month: this.data.queryorderlistReqPram.s_month,
+          select_day: this.data.queryorderlistReqPram.s_day,
+          timetype: e.currentTarget.dataset.type,
+          showCanlendarPanelflag: true
         })
       } else {
         this.setData({
-          ['queryorderlistReqPram.endDate']: '',
-          endTime: '',
-          endTimeShow: '',
-          e_year: '',
-          e_month: '',
-          e_day: '',
-
-          showEndTime: false,
-        });
+          select_year: this.data.queryorderlistReqPram.e_year,
+          select_month: this.data.queryorderlistReqPram.e_month,
+          select_day: this.data.queryorderlistReqPram.e_day,
+          timetype: e.currentTarget.dataset.type,
+          showCanlendarPanelflag: true
+        })
       }
+    },
 
-
+    // 关闭时间选择按钮
+    canlendar_cancal_but() {
+      this.setData({
+        showCanlendarPanelflag: false,
+      })
     },
 
     // 选择日期
@@ -902,18 +889,11 @@ Component({
         })
       }
 
-      this.setData({
-        showStartTime: false,
-        showEndTime: false,
-      })
+      this.canlendar_cancal_but();
     },
 
     //显示结束日期弹层
     showEndTime() {
-      var canlendar2 = this.selectComponent("#canlendar2");
-      canlendar2.init(3);
-      canlendar2.toViewFunc(parseInt(this.data.e_month))
-
       this.setData({
         showEndTime: true
       })
