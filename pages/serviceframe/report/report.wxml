@@ -48,7 +48,9 @@
     </view>
     <view class='query_body'>
       <view class='margin_body'> 
-        <view class='line starttimebody' bindtap='showStartTime'>
+        <view class='line starttimebody' 
+              catchtap='showCanlendarPanelbut'
+              data-type="start">
            <input class='item starttime' placeholder='订单开始时间' disabled='true' value='{{queryorderlistReqPram.startTimeShow}}'></input>
            
            <block wx:if="{{queryorderlistReqPram.startTimeShow.length > 0}}">
@@ -59,7 +61,9 @@
 
         </view>
 
-        <view class='line endtimebody' bindtap='showEndTime'>
+        <view class='line endtimebody' 
+              catchtap='showCanlendarPanelbut' 
+              data-type="end">
            <input class='item endtime' placeholder='订单结束时间' disabled='true' value='{{queryorderlistReqPram.endTimeShow}}'></input>
         
           <block wx:if="{{queryorderlistReqPram.endTimeShow.length > 0}}">
@@ -71,36 +75,17 @@
         </view>
         
         <!-- 选择时间 -->
-        <view class="canlendar-layer {{showStartTime? '':'canlendar_hide'}}">
-          <view class="head__" data-type="start">
-            <view class='space'></view>
-            <view class='cancel' catchtap='canlendar_cancal_but' data-type='start'>x</view>
-          </view>
-
-          <view class='datebody_'>
-            <canlendar id="canlendar" 
-                      select-year="{{queryorderlistReqPram.s_year}}"  
-                      select-month="{{queryorderlistReqPram.s_month}}"  
-                      select-day="{{queryorderlistReqPram.s_day}}" 
-                      type="start" 
-                      bind:selectDayEvent="_selectDayEvent" />
-          </view>
-
-        </view>
-
-         <view class="canlendar-layer {{showEndTime? '':'canlendar_hide'}}">
-            <view class="head__" data-type="start">
-              <view class='space'></view>
-              <view class='cancel' catchtap='canlendar_cancal_but' data-type='end'>x</view>
-            </view>
-
-            <canlendar id="canlendar2" 
-                       select-year="{{queryorderlistReqPram.e_year}}"  
-                       select-month="{{queryorderlistReqPram.e_month}}"  
-                       select-day="{{queryorderlistReqPram.e_day}}" 
-                       type="end" 
-                       bind:selectDayEvent="_selectDayEvent" />
-        </view>
+        <block wx:if="{{showCanlendarPanelflag}}">
+            <canlendar 
+              select-year="{{select_year}}"  
+              select-month="{{select_month}}"  
+              select-day="{{select_day}}" 
+              type="{{timetype}}"
+              
+              bind:selectDayEvent="_selectDayEvent"
+              bind:canlendar_cancal_but="canlendar_cancal_but"/>
+        </block>
+         
 
       </view>
     </view>

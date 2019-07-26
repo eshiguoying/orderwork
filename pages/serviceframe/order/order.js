@@ -683,17 +683,16 @@ Component({
       var this_ = this
       var non_appoint_orderid_list = ''
       var appoint_orderid_list = ''
-      var non_appoint_execute = false;
-      var appoint_execute = false;
 
       // 选中待改派的订单
       var selectedorderlist = this.data.selectedorderlist;
       for (var i = 0; i < selectedorderlist.length; ++i) {
         if (selectedorderlist[i]) {
           if (selectedorderlist[i].appUser.id) {
+            // 待 改派的订单号
             appoint_orderid_list += selectedorderlist[i].order.id + ','
           } else {
-            console.info("adfafasfs");
+            // 待 指派的订单号
             non_appoint_orderid_list += selectedorderlist[i].order.id + ','
           }
         }
@@ -706,34 +705,24 @@ Component({
         }
         request.HttpRequst('/v2/order/appoint', 'POST', params).then(function (res) {
           console.info(res);
+          // 隐藏加载框
+          wx.hideLoading();
+
           if (res.code == 0) {
-            if(this_.data.accountInfo.appUser.level != 3) {
-              var selectedorderlist = this_.data.selectedorderlist;
-              var orderlist = this_.data.orderlist;
-              for (var i = 0; i < selectedorderlist.length; i++) {
-                if (selectedorderlist[i]) {
-                  this_.setData({
-                    ['orderlist[' + i + '].order.status']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderlist[i].order.status,
-                    ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
-                    ['orderlist[' + i + '].charge']: e.detail.name,
-                    ['orderlist[' + i + '].appUser']: e.detail,
-                    ['orderlist[' + i + '].selected']: false,
-                  })
-                }
+            var selectedorderlist = this_.data.selectedorderlist;
+            var orderlist = this_.data.orderlist;
+            for (var i = 0; i < selectedorderlist.length; i++) {
+              if (selectedorderlist[i]) {
+                this_.setData({
+                  ['orderlist[' + i + '].order.status']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderlist[i].order.status,
+                  ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
+                  ['orderlist[' + i + '].charge']: e.detail.name,
+                  ['orderlist[' + i + '].appUser']: e.detail,
+                  ['orderlist[' + i + '].selected']: false,
+                })
               }
-
-              // 隐藏加载框
-              wx.hideLoading();
-            } else {
-              // 改派需要刷新订单
-              this_.setData({
-                orderlist: []
-              });
-
-              this_.loadOrderlist(this_.data.queryorderlistReqPram_official);
             }
 
-            
           } else {
             wx.showToast({
               title: '改派未成功',
@@ -750,27 +739,28 @@ Component({
           orderIds: appoint_orderid_list.substring(0, appoint_orderid_list.length - 1)
         }
         request.HttpRequst('/v2/order/anewAppoint', 'POST', new_params).then(function (res) {
+          console.info(res);
+          // 隐藏加载框
+          wx.hideLoading();
+
           if (res.code == 0) {
             if (this_.data.accountInfo.appUser.level != 3) {
-              console.info(res);
               var selectedorderlist = this_.data.selectedorderlist;
               var orderlist = this_.data.orderlist;
               for (var i = 0; i < selectedorderlist.length; i++) {
                 if (selectedorderlist[i]) {
                   this_.setData({
-                    ['orderlist[' + i + '].order.status']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderlist[i].order.status,
-                    ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
                     ['orderlist[' + i + '].charge']: e.detail.name,
                     ['orderlist[' + i + '].appUser']: e.detail,
                     ['orderlist[' + i + '].selected']: false,
                   })
                 }
               }
-              // 隐藏加载框
-              wx.hideLoading();
+
             } else {
               // 改派需要刷新订单
               this_.setData({
+                allloadflag: false,
                 orderlist: []
               });
               this_.loadOrderlist(this_.data.queryorderlistReqPram_official);
@@ -791,51 +781,51 @@ Component({
           userId: e.detail.id,
           orderIds: non_appoint_orderid_list.substring(0, non_appoint_orderid_list.length - 1)
         }
-        console.log(new_params)
         request.HttpRequst('/v2/order/appoint', 'POST', params).then(function (res) {
-          
+          // 隐藏加载框
+          wx.hideLoading();
 
-          var new_params = {
-            userId: e.detail.id,
-            orderIds: appoint_orderid_list.substring(0, appoint_orderid_list.length - 1)
-          }
-          request.HttpRequst('/v2/order/anewAppoint', 'POST', new_params).then(function (res) {
-            if (res.code == 0) {
-              if (this_.data.accountInfo.appUser.level != 3) {
-                console.info(res);
-                var selectedorderlist = this_.data.selectedorderlist;
-                var orderlist = this_.data.orderlist;
-                for (var i = 0; i < selectedorderlist.length; i++) {
-                  if (selectedorderlist[i]) {
-                    this_.setData({
-                      ['orderlist[' + i + '].order.status']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderlist[i].order.status,
-                      ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
-                      ['orderlist[' + i + '].charge']: e.detail.name,
-                      ['orderlist[' + i + '].appUser']: e.detail,
-                      ['orderlist[' + i + '].selected']: false,
-                    })
-                  }
-                }
-
-                // 隐藏加载框
-                wx.hideLoading();
-              } else {
-                // 改派需要刷新订单
-                this_.setData({
-                  orderlist:[]
-                });
-                this_.loadOrderlist(this_.data.queryorderlistReqPram_official);
-              }
-
-            } else {
-              wx.showToast({
-                title: '改派未成功',
-                icon: 'none',
-                duration: 2000,
-              });
-              return false
+          if (res.code == 0) {
+            var new_params = {
+              userId: e.detail.id,
+              orderIds: appoint_orderid_list.substring(0, appoint_orderid_list.length - 1)
             }
-          })
+            request.HttpRequst('/v2/order/anewAppoint', 'POST', new_params).then(function (res) {
+              if (res.code == 0) {
+                if (this_.data.accountInfo.appUser.level != 3) {
+                  console.info(res);
+                  var selectedorderlist = this_.data.selectedorderlist;
+                  var orderlist = this_.data.orderlist;
+                  for (var i = 0; i < selectedorderlist.length; i++) {
+                    if (selectedorderlist[i]) {
+                      this_.setData({
+                        ['orderlist[' + i + '].order.status']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderlist[i].order.status,
+                        ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
+                        ['orderlist[' + i + '].charge']: e.detail.name,
+                        ['orderlist[' + i + '].appUser']: e.detail,
+                        ['orderlist[' + i + '].selected']: false,
+                      })
+                    }
+                  }
+                } 
+              } else {
+                wx.showToast({
+                  title: '改派未成功',
+                  icon: 'none',
+                  duration: 2000,
+                });
+                return false
+              }
+            })
+          } else {
+            wx.showToast({
+              title: '指派未成功',
+              icon: 'none',
+              duration: 2000,
+            });
+            return false
+          }
+         
         })
       }
     },

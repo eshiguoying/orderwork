@@ -45,7 +45,6 @@ Component ({
   },
 
   attached() {
-    this.init_screen_time();
     this.init_report();
   },
   
@@ -61,7 +60,8 @@ Component ({
           maxcirclu = maxcirclu + 1;
 
           if (request.header.token) {
-            
+
+            this_.init_screen_time();
             this_.loadReportData(this_.data.queryorderlistReqPram_official);
 
             clearInterval(getToken);
@@ -156,43 +156,31 @@ Component ({
     },
 
     //显示开始日期弹层
-    showStartTime() {
-      var canlendar = this.selectComponent("#canlendar");
-      canlendar.init(3);
-
-      this.setData({
-        showStartTime: true
-      })
-
-      canlendar.toViewFunc(parseInt(this.data.s_month))
-    },
-
-    canlendar_cancal_but(e) {
+    showCanlendarPanelbut(e) {
       if (e.currentTarget.dataset.type == 'start') {
         this.setData({
-          ['queryorderlistReqPram.beginDate']: '',
-          startTime: '',
-          startTimeShow: '',
-          s_year: '',
-          s_month: '',
-          s_day: '',
-
-          showStartTime: false,
+          select_year: this.data.queryorderlistReqPram.s_year,
+          select_month: this.data.queryorderlistReqPram.s_month,
+          select_day: this.data.queryorderlistReqPram.s_day,
+          timetype: e.currentTarget.dataset.type,
+          showCanlendarPanelflag: true
         })
       } else {
         this.setData({
-          ['queryorderlistReqPram.endDate']: '',
-          endTime: '',
-          endTimeShow: '',
-          e_year: '',
-          e_month: '',
-          e_day: '',
-
-          showEndTime: false,
-        });
+          select_year: this.data.queryorderlistReqPram.e_year,
+          select_month: this.data.queryorderlistReqPram.e_month,
+          select_day: this.data.queryorderlistReqPram.e_day,
+          timetype: e.currentTarget.dataset.type,
+          showCanlendarPanelflag: true
+        })
       }
+    },
 
-
+    // 关闭按钮
+    canlendar_cancal_but(e) {
+      this.setData({
+        showCanlendarPanelflag: false,
+      });
     },
 
     // 选择日期
@@ -237,70 +225,9 @@ Component ({
       }
 
       this.setData({
-        showStartTime: false,
-        showEndTime: false,
+        showCanlendarPanelflag: false,
       })
     },
-
-    //显示结束日期弹层
-    showEndTime() {
-      var canlendar2 = this.selectComponent("#canlendar2");
-      canlendar2.init(3);
-      canlendar2.toViewFunc(parseInt(this.data.e_month))
-
-      this.setData({
-        showEndTime: true
-      })
-    },
-
-
-    //显示筛选弹层
-    showQueryLayer: function () {
-      this.setData({
-        grayBgShow: true,
-        grayBgStatus: true,
-        reportQueryShow: true,
-        reportQueryStatus: true
-      })
-    },
-    //隐藏筛选弹层
-    hideQueryLayer: function () {
-      var that = this
-      that.setData({
-        grayBgStatus: false,
-        reportQueryStatus: false
-      })
-
-      setTimeout(function () {
-        that.setData({
-          grayBgShow: false,
-          reportQueryShow: false
-        })
-      }, 200)
-    },
-    sureFunc: function () {
-      if (this.data.startTime > this.data.endTime) {
-        wx.showModal({
-          content: '开始时间不能大于结束时间',
-          confirmText: '确定',
-          confirmColor: '#fbc400',
-          showCancel: false
-        })
-
-        return false
-      }
-
-      var params = {
-        beginDate: this.data.startTime,
-        endDate: this.data.endTime
-      }
-
-      this.loadData(this, params)
-
-      this.hideQueryLayer()
-    },
-    
-
 
     // 查询
     queryorderlist_but() {
@@ -345,8 +272,7 @@ Component ({
 
       this.setData({
         queryorderlistReqPram: restvalue,
-        showStartTime: false,
-        showEndTime: false,
+        showCanlendarPanelflag: false,
       });
     },
 
@@ -355,9 +281,7 @@ Component ({
 
       this.setData({
         screenchoiceflag: false,
-        showStartTime: false,
-        showEndTime: false,
-        
+        showCanlendarPanelflag: false,
 
         ['queryorderlistReqPram.startTimeShow']: reqparam.startTimeShow,
         ['queryorderlistReqPram.s_year']: reqparam.s_year,
