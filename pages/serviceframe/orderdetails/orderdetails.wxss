@@ -6,7 +6,7 @@
   background-color: #FCFBF8;
 
   font-size: 30rpx;
-  font-weight: 200;
+  font-weight: 300;
 }
 
 .nav{
@@ -33,10 +33,9 @@
 
 .btn-box{
   height: 120rpx;
-  margin-left: 20rpx;
-  margin-right: 20rpx;
-  margin-top: 20rpx;
-  box-shadow: 1px 2px 4px #E5E5E5,1px -2px 4px #E5E5E5;
+  margin: 20rpx;
+  border-radius: 10rpx;
+  box-shadow: 0px 0px 5px 2px #D2CFCF;
   display: flex;
 }
 
@@ -60,7 +59,7 @@
 }
 
 .status_noover {
-  background-color: #E9B7BD
+  background-color: #EC7C81
 }
 
 .status_over {
@@ -81,9 +80,13 @@
   text-decoration:underline;
 }
 
+.abcddd {
+  /* border: 1rpx solid #005B66; */
+}
+
 
 .model {
-  margin-top: 40rpx;
+  margin-bottom: 40rpx;
   margin-left: 20rpx;
   margin-right: 20rpx;
 }

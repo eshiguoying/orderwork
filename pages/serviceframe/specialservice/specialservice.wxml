@@ -1,4 +1,4 @@
-<view class='specialservicecontainer' style='width:{{windowW}}px;height:{{windowH - 60}}px'>
+<scroll-view scroll-y class='specialservicecontainer' style='width:{{windowW}}px;height:{{windowH - 60}}px'>
   <view class='send'>
     <view class="left"></view>
     <view class="right">
@@ -238,8 +238,9 @@
     </view>
     </view>
   </view>
+</scroll-view>
 
-  <view class='pay_bottom' style='width:{{windowW}}px;'>
+<view class='pay_bottom' style='width:{{windowW}}px;'>
       <view class='pay_temp'></view>
       <view class='paybody'>
         <view class='totalmoney'>￥{{totalmoney}}</view>
@@ -251,8 +252,6 @@
         <view class='sure_ceaterorder' >确认</view>
         </view>
   </view>
-
-</view>
 
 <!-- 价格选择 -->
 <include src="../pricedetail/pricedetail.wxml" />

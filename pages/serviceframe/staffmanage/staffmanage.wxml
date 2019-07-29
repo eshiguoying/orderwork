@@ -23,7 +23,7 @@
       </view>
     </view>
     
-    <view class='list' style="height:{{windowH - 50}}px">
+    <scroll-view class='list' scroll-y style="height:{{windowH - 50}}px">
       <block wx:for="{{stafflist_2rdall}}">
       <block wx:if="{{item.showflag}}">
           <view class='userinfopanel {{item.isvalid == isvalidTypeEnum.N.value? "nonedit": ""}}'>
@@ -74,8 +74,8 @@
           </view>
       </block>
       </block>
-      
-    </view>
+     </scroll-view>
+
 </view>
 
 

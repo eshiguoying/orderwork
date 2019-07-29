@@ -1,4 +1,4 @@
-<view class='goldcontainer' style='width:{{windowW}}px;height:{{windowH - 60}}px'>
+<scroll-view class='goldcontainer' scroll-y  style='width:{{windowW}}px;height:{{windowH - 60}}px'>
   <view class='send'>
     <view class="left"></view>
     <view class="right">
@@ -115,17 +115,6 @@
     </view>
   </view>
 
-  <!-- <view class="isurgent">
-    <view class="left"></view>
-    <view class="right">
-      <view class='lable'>
-        是否保价：
-      </view>
-      <view class="no_urgent {{isurgent? '': 'on'}}" catchtap="urgent_tap">金牌</view>
-      <view class="yes_urgent {{isurgent? 'on': ''}}" catchtap="urgent_tap">专车</view>
-    </view>
-  </view> -->
-
   <view class="cusinfo">
     <view class="left"></view>
     <view class="right">
@@ -239,7 +228,9 @@
     </view>
   </view>
 
-  <view class='pay_bottom' style='width:{{windowW}}px;'>
+</scroll-view>
+
+<view class='pay_bottom' style='width:{{windowW}}px;'>
       <view class='pay_temp'></view>
       <view class='paybody'>
         <view class='totalmoney'>￥{{totalmoney}}</view>
@@ -251,8 +242,6 @@
         <view class='sure_ceaterorder' >确认</view>
         </view>
   </view>
-
-</view>
 
 <!-- 价格选择 -->
 <include src="../pricedetail/pricedetail.wxml" />

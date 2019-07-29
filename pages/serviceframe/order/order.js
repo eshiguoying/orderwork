@@ -1001,9 +1001,8 @@ Component({
           }
         }
       })
-    }
-  
     },
+  
 
     orderno_input(e) {
       this.setData({

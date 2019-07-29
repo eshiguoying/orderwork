@@ -1,8 +1,6 @@
 {
   "pages": [
     "pages/serviceframe/serviceframe",
-    "pages/serviceframe/orderdetails/orderdetails",
-    "pages/serviceframe/stafflist/stafflist",
     "pages/login/login"
   ],
   "window": {

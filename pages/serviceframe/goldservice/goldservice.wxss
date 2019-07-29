@@ -1,10 +1,12 @@
 .goldcontainer {
   overflow: scroll;
+
+  font-size: 30rpx;
+  font-weight: 300;
+
 }
 
-.specialservicecontainer {
-  overflow: scroll;
-}
+
 
 /* 取 */
 .send {
@@ -13,10 +15,8 @@
   height: 240rpx;
   display: flex;
 
-  font-size: 30rpx;
-  font-weight: 100;
   background-color: #FCFBF8;
-  box-shadow: 1px 2px 4px #E5E5E5,-1px 2px 4px #E5E5E5;
+  box-shadow: 0px 1px 5px #D2CFCF,0px -1px 5px #D2CFCF;
 }
 
 .send .left {
@@ -65,7 +65,6 @@
   width: 95%;
   height: 85%;
   color: #07233F;
-  font-size: 30rpx;
 }
 
 .send .right .addrtypecontainer .addrtypecontainerchild .item .on {
@@ -150,10 +149,8 @@
   height: 240rpx;
   display: flex;
 
-  font-size: 30rpx;
-  font-weight: 100;
   background-color: #FCFBF8;
-  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+  box-shadow: 0px 1px 5px #D2CFCF,0px -1px 5px #D2CFCF;
 }
 
 .take .left {
@@ -222,7 +219,6 @@
   height: 85%;
   color: #07233F;
   
-  font-size: 30rpx;
 }
 
 .take .right .addrtypecontainer .addrtypecontainerchild .item .on {
@@ -272,10 +268,8 @@
   height: 80rpx;
   display: flex;
 
-  font-size: 30rpx;
-  font-weight: 100;
   background-color: #FCFBF8;
-  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+  box-shadow: 0px 1px 5px #D2CFCF,0px -1px 5px #D2CFCF;
 }
 
 .isurgent .left {
@@ -337,10 +331,8 @@
   height: 240rpx;
   display: flex;
 
-  font-size: 30rpx;
-  font-weight: 100;
   background-color: #FCFBF8;
-  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+  box-shadow: 0px 1px 5px #D2CFCF,0px -1px 5px #D2CFCF;
 }
 
 .cusinfo .left {
@@ -371,10 +363,8 @@
   height: 80rpx;
   display: flex;
 
-  font-size: 30rpx;
-  font-weight: 100;
   background-color: #FCFBF8;
-  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+  box-shadow: 0px 1px 5px #D2CFCF,0px -1px 5px #D2CFCF;
 }
 
 .insured .left {
@@ -462,8 +452,6 @@
   box-sizing: border-box;
   background-color: #9F68AC;
   color: #FCFBF8;
-  font-size: 30rpx;
-  font-weight: 100;
 }
 
 /* 行李数 */
@@ -473,10 +461,8 @@
   height: 80rpx;
   display: flex;
 
-  font-size: 30rpx;
-  font-weight: 100;
   background-color: #FCFBF8;
-  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+  box-shadow: 0px 1px 5px #D2CFCF,0px -1px 5px #D2CFCF;
 }
 
 .lugnum .left {
@@ -678,10 +664,8 @@
   height: 80rpx;
   display: flex;
 
-  font-size: 30rpx;
-  font-weight: 100;
   background-color: #FCFBF8;
-  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+  box-shadow: 0px 1px 5px #D2CFCF,0px -1px 5px #D2CFCF;
 }
 
 .remark .left {
@@ -709,10 +693,8 @@
   height: 100rpx;
   display: flex;
 
-  font-size: 30rpx;
-  font-weight: 100;
   background-color: #FCFBF8;
-  box-shadow: 1px 2px 4px #E5E5E5,  1px -2px 4px #E5E5E5;
+  box-shadow: 0px 1px 5px #D2CFCF,0px -1px 5px #D2CFCF;
 }
 
 .lugphoto .left {
@@ -788,12 +770,15 @@
 }
 
 .pay_bottom {
+  background-color: #FCFBF8;
   height: 120rpx;
+  
   position: fixed;
   bottom: 0;
   z-index: 996;
+  
   display: flex;
-  box-shadow: 1px -2px 4px #E5E5E5;
+  box-shadow: 0px -1px 5px #D2CFCF;
 }
 
 .pay_bottom .pay_temp {

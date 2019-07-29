@@ -667,16 +667,6 @@ Component({
 
           return false
         }
-        if (res.data.order.iscanceled == '1' || res.data.order.status == 'REFUNDING') {
-          wx.showModal({
-            content: '退单中，请稍后进行操作',
-            confirmText: '确定',
-            confirmColor: '#fbc400',
-            showCancel: false,
-          })
-
-          return false
-        }
 
         var name = e.currentTarget.dataset.name
         var gps = JSON.parse(e.currentTarget.dataset.gps.replace(/\'/g, "\""))
@@ -916,6 +906,7 @@ Component({
         var curOrder = res.data;
 
         this_.setData({
+            channel: res.data.orderChannel,
             orderno: res.data.order.orderno,
             bagsNum: res.data.order.num,
             status: res.data.order.status,

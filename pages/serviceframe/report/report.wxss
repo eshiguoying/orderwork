@@ -102,8 +102,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* font-size: 30rpx;
-  font-weight: 100; */
 }
 
 .floatpanel .item .veri {
@@ -111,9 +109,7 @@
   height: 50rpx;
   display: flex;
   align-items: center;
-  justify-content: center; 
-  font-size: 30rpx;
-  font-weight: 100;
+  justify-content: center;
   border-left: 1rpx dashed #E5E5E5;
   box-sizing: border-box;
 }
@@ -147,8 +143,6 @@
   width: 100%;
   height: 80rpx;
   display: flex;
-  font-size:30rpx;
-  font-weight: 100;
   box-shadow: 0px 1px 5px #D2CFCF;
 }
 
@@ -180,8 +174,6 @@
 .screenpanal .query_body .margin_body {
   width: 90%;
   height: 90%;
-  font-size: 30rpx;
-  font-weight: 100;
 }
 
 
@@ -192,8 +184,6 @@
   align-items: center;
   margin-bottom: 30rpx;
   position: relative;
-  font-size: 30rpx;
-  font-weight: 100;
   box-shadow: 0px 0px 5px 2px #D2CFCF;
 }
 

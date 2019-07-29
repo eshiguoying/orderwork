@@ -21,10 +21,14 @@
       <view class='item'>
         <view class="btn backgc_torecord" data-orderId="{{orderId}}" bindtap='toRecord'>操作日志</view>
       </view>
-    </view>
+  </view>
   
-  <scroll-view scroll-y style="width:{{windowW}}px;height:{{windowH - navH - 60}}px">
+  <scroll-view class="abcddd" scroll-y style="width:{{windowW}}px;height:{{windowH - navH - 60}}px">
     <view class='model'>
+    <view class='item'>
+        <view class='lable'>渠道</view>
+        <view class='info'>{{channel.channelName}}</view>
+      </view>
       <view class='item'>
         <view class='lable'>订单编号</view>
         <view class='info'>{{orderno}}</view>

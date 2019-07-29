@@ -1,5 +1,8 @@
 .container {
   display: flex;
+
+  font-size: 30rpx;
+  font-weight: 300;
 }
 
 .container .bodyleft {
@@ -72,9 +75,7 @@
 
 input {
   color: #07233F;
-  font-size: 30rpx;
   width: 100%;
-  font-weight: 100;
 }
 
 .phone_container .right .but {
@@ -84,8 +85,6 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30rpx;
-  font-weight: 100;
 } 
 
 .registerbut {

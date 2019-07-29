@@ -130,7 +130,7 @@ var RESCODE = {
     value: 0,
     name: '成功'
   }
-},
+};
 
 var ORDEROPERATETYPE = {
   ALLOT: {
