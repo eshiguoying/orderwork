@@ -194,7 +194,6 @@ Component({
 
       var this_ = this
       request.HttpRequst('/v2/order/list', 'POST', param).then(function (res) {
-        console.info('-----------');
         console.info(res);
         // 隐藏加载框
         wx.hideLoading();
@@ -250,7 +249,8 @@ Component({
               destaddress: list[i].orderAddress.destaddress,
               destgps: list[i].orderAddress.destgps,
             },
-            qrList: list[i].orderQR,
+            primaryAnewAppoint: list[i].primaryAnewAppoint,
+            qrList: list[i].orderQR ? list[i].orderQR.qrCode.split(',') : [],
             appUser: list[i].appUser,
             charge: list[i].appUser ? list[i].appUser.name : '未分配',
             selected: true,
@@ -849,7 +849,161 @@ Component({
       }
     },
 
+    //批量修改订单状态，运用场景
+    updateOrderStatus: function () {
+      var this_ = this;
+      
+      var selectedorderlist =  this.data.selectedorderlist;
+      if (selectedorderlist.length == 0) {
+        wx.showToast({
+          title: '未选择订单',
+          icon: 'none',
+          duration: 2000,
+        });
+        return;
+      }
 
+      var orderIdStr = ''
+      var selectedorder = undefined;
+      for (var i = 0; i < selectedorderlist.length; ++i) {
+        if (!selectedorderlist[i]) {
+          continue;
+        }
+
+        // 待分配订单
+        if (selectedorderlist[i].order.status == config.orderStatus.PREPAID.value) {
+          wx.showToast({
+            title: '无法操作,所选订单中有' + config.orderStatus.PREPAID.name + "订单",
+            icon: 'none',
+            duration: 2000,
+          });
+          return false
+        }
+
+        // 待提取 -> 配送中  qr码必须扫描完成
+        if (selectedorderlist[i].qrList.length != selectedorderlist[i].order.num) {
+          wx.showToast({
+            title: 'qr码未扫描完成',
+            icon: 'none',
+            duration: 2000,
+          });
+          return false
+        }
+
+
+        // 已完成订单无需操作
+        if (selectedorderlist[i].order.status == config.orderStatus.COMPLETED.value) {
+          wx.showToast({
+            title: '无法操作,所选订单中有' + config.orderStatus.COMPLETED.name + '订单',
+            icon: 'none',
+            duration: 2000,
+          });
+          return false
+        }
+
+        // 退款中的订单暂时无法操作 TODO
+        if (selectedorderlist[i].order.iscanceled == '1' || selectedorderlist[i].order.status == config.orderStatus.REFUNDING.value) {
+          wx.showToast({
+            title: '无法操作,所选订单中有' + config.orderStatus.REFUNDING.name + '订单',
+            icon: 'none',
+            duration: 2000,
+          });
+          return false
+        }
+
+        // if (this.data.selectArr[0].appUser.name != that.data.accountInfo.appUser.name) {
+        //   wx.showModal({
+        //     content: '对不起,所选订单包含他人订单,您没有权限进行操作',
+        //     confirmText: '确定',
+        //     confirmColor: '#fbc400',
+        //     showCancel: false,
+        //   })
+
+        //   return false
+        // }
+
+        if (!selectedorder) {
+          selectedorder = selectedorderlist[i]
+        }
+
+        // 订单是否所属同一级分销商
+        if (selectedorder.order.distributorId != selectedorderlist[i].order.distributorId) {
+          wx.showToast({
+            title: '所选订单不属于同一分销商',
+            icon: 'none',
+            duration: 2000,
+          });
+          return false
+        }
+
+        if (selectedorder.order.status != selectedorderlist[i].order.status) {
+          wx.showModal({
+            content: '所选订单状态不一致',
+            confirmText: '确定',
+            confirmColor: '#fbc400',
+            showCancel: false
+          })
+
+          return false
+        }
+
+
+        orderIdStr += this.data.selectArr[k].order.id + ','
+      }
+
+      // 未选择订单
+      if (!selectedorder) {
+        wx.showToast({
+          title: '未选择订单',
+          icon: 'none',
+          duration: 2000,
+        });
+        return;
+      }
+      
+      // 订单下个状态
+      var nextOrderStatus = '';
+      // 订单做的操作
+      var updateOrderStatus = ''
+      if (selectedorder.order.status == config.orderStatus.WAITPICK.value) {
+        nextOrderStatus = config.orderStatus.DELIVERYING.value;
+        updateOrderStatus = config.orderOperateType.RECEIVE.value;
+      } else if (selectedorder.order.status == config.orderStatus.DELIVERYING.value) {
+        nextOrderStatus = config.orderStatus.DELIVERYOVER.value;
+        updateOrderStatus = config.orderOperateType.DELIVERY.value;
+      } else if (selectedorder.order.status == config.orderStatus.DELIVERYOVER.value) {
+        nextOrderStatus = config.orderStatus.COMPLETED.value;
+        updateOrderStatus = config.orderOperateType.FINISH.value;
+      }
+
+      wx.showModal({
+        content: '确认修改订单状态为' + config.orderStatus[nextOrderStatus].name + '吗？',
+        confirmText: '确定',
+        confirmColor: '#fbc400',
+        cancelText: '取消',
+        cancelColor: '#fbc400',
+        success: function (response) {
+          if (response.confirm) {
+            var params = {
+              operateType: updateOrderStatus,
+              orderId: orderIdStr.substring(0, orderIdStr.length - 1)
+            }
+            request.HttpRequst('/v2/order/operate', 'POST', params).then(function (res) {
+              if(res.code == config.resCode.success.value) {
+                for(var i=0; i< this_.data.selectedorderlist.length; i++) {
+                  this_.setData({
+                    ['orderlist[' + i + '].order.status']: nextOrderStatus,
+                    ['orderlist[' + i + '].order.statusdesc']: config.orderStatus[nextOrderStatus].name
+                  })
+                }
+              }
+            })
+          }
+        }
+      })
+    }
+  
+    },
 
     orderno_input(e) {
       this.setData({

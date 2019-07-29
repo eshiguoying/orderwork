@@ -130,6 +130,29 @@ var RESCODE = {
     value: 0,
     name: '成功'
   }
+},
+
+var ORDEROPERATETYPE = {
+  ALLOT: {
+    value: 'ALLOT',
+    name: '指派'
+  },
+  ANEWALLOT: {
+    value: 'ANEWALLOT',
+    name: '改派'
+  },
+  RECEIVE: {
+    value: 'RECEIVE',
+    name: '接收'
+  },
+  DELIVERY: {
+    value: 'DELIVERY',
+    name: '送达'
+  },
+  FINISH: {
+    value: 'FINISH',
+    name: '完成'
+  }
 }
 
 
@@ -166,6 +189,8 @@ module.exports = {
   isvalidType: ISVALID_TYPE,
   // 返回的编码
   resCode: RESCODE,
+  // 订单操作类型
+  orderOperateType: ORDEROPERATETYPE,
 };
 
 
