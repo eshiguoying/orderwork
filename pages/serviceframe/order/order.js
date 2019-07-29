@@ -194,6 +194,7 @@ Component({
 
       var this_ = this
       request.HttpRequst('/v2/order/list', 'POST', param).then(function (res) {
+        console.info('-----------');
         console.info(res);
         // 隐藏加载框
         wx.hideLoading();
@@ -249,8 +250,9 @@ Component({
               destaddress: list[i].orderAddress.destaddress,
               destgps: list[i].orderAddress.destgps,
             },
+            qrList: list[i].orderQR,
+            appUser: list[i].appUser,
             charge: list[i].appUser ? list[i].appUser.name : '未分配',
-            appUser: list[i].appUser ? list[i].appUser : {},
             selected: true,
           }
 
@@ -619,17 +621,17 @@ Component({
         if (!selectedorder) {
           selectedorder = selectedorderlist[i]
         }
-        // // 此校验属于一级二级批量指派或改派下的情况
-        
-        // if (selectedorder.order.distributorId != selectedorderlist[i].order.distributorId) {
-        //   wx.showModal({
-        //     content: '所选订单不属于同一分销商',
-        //     confirmText: '确定',
-        //     confirmColor: '#fbc400',
-        //     showCancel: false
-        //   })
-        //   return false
-        // }
+
+        // 此校验属于一级二级批量指派或改派下的情况
+        if (selectedorder.order.distributorId != selectedorderlist[i].order.distributorId) {
+          wx.showModal({
+            content: '所选订单不属于同一分销商',
+            confirmText: '确定',
+            confirmColor: '#fbc400',
+            showCancel: false
+          })
+          return false
+        }
 
         // 当级别是3级时，
         if(this.data.accountInfo.appUser.level == 3) {
@@ -688,7 +690,7 @@ Component({
       var selectedorderlist = this.data.selectedorderlist;
       for (var i = 0; i < selectedorderlist.length; ++i) {
         if (selectedorderlist[i]) {
-          if (selectedorderlist[i].appUser.id) {
+          if (selectedorderlist[i].appUser) {
             // 待 改派的订单号
             appoint_orderid_list += selectedorderlist[i].order.id + ','
           } else {
@@ -718,7 +720,7 @@ Component({
                   ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
                   ['orderlist[' + i + '].charge']: e.detail.name,
                   ['orderlist[' + i + '].appUser']: e.detail,
-                  ['orderlist[' + i + '].selected']: false,
+                  ['orderlist[' + i + '].selected']: true,
                 })
               }
             }
@@ -745,6 +747,7 @@ Component({
 
           if (res.code == 0) {
             if (this_.data.accountInfo.appUser.level != 3) {
+              // 1.2级别改派，
               var selectedorderlist = this_.data.selectedorderlist;
               var orderlist = this_.data.orderlist;
               for (var i = 0; i < selectedorderlist.length; i++) {
@@ -752,11 +755,10 @@ Component({
                   this_.setData({
                     ['orderlist[' + i + '].charge']: e.detail.name,
                     ['orderlist[' + i + '].appUser']: e.detail,
-                    ['orderlist[' + i + '].selected']: false,
+                    ['orderlist[' + i + '].selected']: true,
                   })
                 }
               }
-
             } else {
               // 改派需要刷新订单
               this_.setData({
@@ -803,14 +805,31 @@ Component({
                         ['orderlist[' + i + '].order.statusdesc']: orderlist[i].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[i].order.statusdesc,
                         ['orderlist[' + i + '].charge']: e.detail.name,
                         ['orderlist[' + i + '].appUser']: e.detail,
-                        ['orderlist[' + i + '].selected']: false,
+                        ['orderlist[' + i + '].selected']: true,
                       })
                     }
                   }
                 } 
               } else {
+                // 部分更新
+                var updateOrderidlist = non_appoint_orderid_list.split(',');
+                var selectedorderlist = this_.data.selectedorderlist;
+                for(var a = 0; a<updateOrderidlist.length; a++) {
+                  for(var b= 0; b< selectedorderlist.length; b++) {
+                    if (selectedorderlist[b] && selectedorderlist[b].order.id == updateOrderidlist[a]) {
+                      this_.setData({
+                        ['orderlist[' + b + '].order.status']: orderlist[b].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.value : orderlist[b].order.status,
+                        ['orderlist[' + b + '].order.statusdesc']: orderlist[b].order.status == config.orderStatus.PREPAID.value ? config.orderStatus.WAITPICK.name : orderlist[b].order.statusdesc,
+                        ['orderlist[' + b + '].charge']: e.detail.name,
+                        ['orderlist[' + b + '].appUser']: e.detail,
+                        ['orderlist[' + b + '].selected']: true,
+                      })
+                    }
+                  }
+                }
+
                 wx.showToast({
-                  title: '改派未成功',
+                  title: '部分改派未成功',
                   icon: 'none',
                   duration: 2000,
                 });
@@ -819,7 +838,7 @@ Component({
             })
           } else {
             wx.showToast({
-              title: '指派未成功',
+              title: '部分指派未成功',
               icon: 'none',
               duration: 2000,
             });
@@ -829,6 +848,8 @@ Component({
         })
       }
     },
+
+
 
     orderno_input(e) {
       this.setData({
