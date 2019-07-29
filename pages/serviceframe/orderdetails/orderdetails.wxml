@@ -9,14 +9,14 @@
 
   <view class="btn-box">
       <view class='item'>
-        <view class="btn status_noover" wx:if="{{status == 'PREPAID' || status == 'WAITPICK'}}" bindtap='getFunc'>接收</view>
-        <view class="btn status_noover" wx:if="{{status == 'DELIVERYING'}}" bindtap='arriveFunc'>送达</view>
-        <view class="btn status_noover" wx:if="{{status == 'DELIVERYOVER'}}" bindtap='completeFunc'>完成</view>
+        <view class="btn status_noover" wx:if="{{status == 'PREPAID' || status == 'WAITPICK'}}" bindtap='getFunc'>点击接收</view>
+        <view class="btn status_noover" wx:if="{{status == 'DELIVERYING'}}" bindtap='arriveFunc'>点击送达</view>
+        <view class="btn status_noover" wx:if="{{status == 'DELIVERYOVER'}}" bindtap='completeFunc'>点击完成</view>
         <view class="btn status_over" 
-              wx:if="{{status != 'PREPAID' && status != 'WAITPICK' && status != 'DELIVERYING' && status != 'DELIVERYOVER'}}">完成           </view>
+              wx:if="{{status != 'PREPAID' && status != 'WAITPICK' && status != 'DELIVERYING' && status != 'DELIVERYOVER'}}">订单完成              </view>
       </view>
       <view class='item'>
-        <view class="btn backgc_feedback_but" data-orderId="{{orderId}}" bindtap='toFeedbackList'>反馈</view>
+        <view class="btn backgc_feedback_but" data-orderId="{{orderId}}" bindtap='toFeedbackList'>添加反馈</view>
       </view>
       <view class='item'>
         <view class="btn backgc_torecord" data-orderId="{{orderId}}" bindtap='toRecord'>操作日志</view>

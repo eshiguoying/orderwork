@@ -9,20 +9,24 @@
   
   <view class="container">
     <view class="feedback-button" bindtap='toFeedback'>反馈</view>
-    <view wx:if="{{noData}}">
-        <image src="../../../images/ddhui.png" class="no-order-img"></image>
-        <view class="no-order-text">还没有反馈信息哦~</view>
-    </view>
-    <scroll-view class="scroll-wrap"  scroll-y wx:if="{{feedbackArr.length>0}}">
-    <view class="feedback-list" wx:for="{{feedbackArr}}">
-      <view class="time-box">
-        <view class="name">{{item.deliveryName}}</view>
-        <view class="time">{{item.feedbackTime}}</view>
-      </view>
-      <view class="content">{{item.feedbackContent}}</view>
-    </view>
-    </scroll-view>
+  
+    <block wx:if="{{feedbackArr.length>0}}">
+      <scroll-view class="scroll-wrap"  scroll-y style="height:{{windowH - 40}}px">
+        <view class="feedback-list" wx:for="{{feedbackArr}}">
+          <view class="time-box">
+            <view class="name">{{item.deliveryName}}</view>
+            <view class="time">{{item.feedbackTime}}</view>
+          </view>
+          <view class="content">{{item.feedbackContent}}</view>
+        </view>
+      </scroll-view>
+    </block>
+    <block wx:else>
+      <image src="../../../images/orderlist_empty.png" class="no-order-img"></image>
+      <view class="no-order-text">还没有反馈信息哦~</view>
+    </block>
   </view>
+
 </view>
 
 <!-- 反馈 -->

@@ -13,6 +13,7 @@
   align-items: center;
   
   padding: 20rpx;
+  border-bottom: 3rpx solid #E5E5E5;
 }
 
 .querypanel ._search{

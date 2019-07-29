@@ -164,9 +164,9 @@ module.exports = {
   },
 
   // 测试
-  ipconfig: 'https://uat2.porterme.cn',
+  // ipconfig: 'https://uat2.porterme.cn',
   // 生产
-  // ipconfig: 'https://delivery.porterme.cn',
+  ipconfig: 'https://delivery.porterme.cn',
   
   //渠道：微信小程序
   channel:1,

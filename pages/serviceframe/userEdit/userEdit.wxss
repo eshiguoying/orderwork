@@ -88,7 +88,7 @@
   justify-content: center;
   align-items: center;
 
-  border: 1rpx solid #07233F;
+  border: 2rpx solid #07233F;
   box-sizing: border-box;
 
   background-color: #FCFBF8;
@@ -96,7 +96,7 @@
 }
 
 .shadepanel .container ._body .item .content .worktype .selected {
-  border: 1rpx solid #07233F;
+  border: 2rpx solid #07233F;
   box-sizing: border-box;
 
   background-color: #07233F;

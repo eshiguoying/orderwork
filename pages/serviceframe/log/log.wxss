@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
 
-  font-size: 25rpx;
+  font-size: 30rpx;
   font-weight: 300;
 }
 
@@ -42,13 +42,14 @@
 .record-item{
   margin-left: 20rpx;
   margin-right: 20rpx;
-  height: 80rpx;
+  margin-top: 20rpx;
+  height: 100rpx;
 
   display: flex;
 }
 
 .record-item .item{
-  height: 80rpx;
+  height: 100rpx;
 }
 
 .record-item .guide_body {
@@ -56,6 +57,7 @@
 
   display: flex;
   flex-direction: column;
+
 }
 
 .record-item .item .top_body {
@@ -73,7 +75,7 @@
   height: 15rpx;
 
   border-radius: 50rpx;
-  background-color: #ddd;
+  background-color: #75B591;
 }
 
 .record-item .item .bottom_body {
@@ -87,28 +89,37 @@
 .record-item .item .bottom_body .line {
   height: 100%;
 
-  border-left: 1rpx dashed #ddd;
+  border-left: 2rpx dashed #75B591;
 }
 
-.record-item .date_body {
-  width: 150rpx;
+.record-item ._body {
+  display: flex;
+  flex-direction: column;
 }
 
-.record-item .date_body {
+.record-item ._body .date_body {
+  width: 400rpx;
+  height: 40rpx;
+
+  display: flex;
+  align-items: center;
+
+  font-size: 30rpx;
   font-weight: bold;
 }
 
-.record-item .time_body {
-  width: 80rpx;
+.record-item ._body .date_body .date {
+  width: 190rpx;
 }
 
-.record-item .record_body {
+.record-item ._body .date_body .time {
   flex: 1;
 }
 
-.record-item .record_body .top_body {
-  display: flex;
-  justify-content: left;
+.record_body {
+  flex: 1;
+}
 
-  padding-left: 40rpx;
+.record-item .item .top_body .ending {
+  background-color: #EC7C81;
 }

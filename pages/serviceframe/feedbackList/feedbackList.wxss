@@ -35,12 +35,12 @@
 
 
 .scroll-wrap{
-  height: 1100rpx;
   margin-top: 80rpx;
 }
+
 .no-order-img{
-  width: 140rpx;
-  height: 140rpx;
+  width:  162rpx;
+  height: 128rpx;
   margin: 0 auto;
   display: block;
   margin-top: 100rpx;
@@ -50,20 +50,27 @@
   text-align: center;
   margin-top: 20rpx;
 }
+
+
 .feedback-button{
-  width:80px;
-  height: 60rpx;
-  line-height: 60rpx;
-  text-align: center;
-  background: #fbc400;
-  border-radius: 50rpx;
-  margin: 20rpx 20rpx 20rpx 0;
-  color: #fff;
   float: right;
+  width: 150rpx;
+  height: 60rpx;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #FCFBF8;
+  background: #005B66;
+  border-radius: 10rpx;
+  margin: 20rpx 20rpx 20rpx 0;
 }
+
 .feedback-list:first-child{
   margin-top: 0;
 }
+
 .feedback-list{
   width: 97%;
   overflow: hidden;
@@ -72,6 +79,7 @@
   margin-top: 10rpx;
   padding: 10rpx 0;
 }
+
 .content{
   line-height: 50rpx;
   margin-left: 20rpx; 

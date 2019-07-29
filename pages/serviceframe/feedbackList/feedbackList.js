@@ -24,7 +24,6 @@ Component({
     windowW: App.globalData.windowWidth,
     
     feedbackArr:[],
-    noData:false
   },
   
   attached() {
@@ -45,9 +44,6 @@ Component({
         wx.hideLoading();
         console.log(res)
         if (res.list.length == 0) {
-          that.setData({
-            noData: true
-          })
 
           return false
         }

@@ -7,39 +7,30 @@
     </view>
   </view>
 
-  <view class='log_body' style="width:{{windowW}}px;height: {{windowH}}px;">
-      <scroll-view scroll-y style="width:{{windowW}}px;height:{{windowH}}px;">
+  <view class='log_body' style="width:{{windowW}}px;height: {{windowH -20}}px;">
+      <scroll-view scroll-y style="width:{{windowW}}px;height:{{windowH -20}}px;">
         <view class="record-item" wx:for="{{logArr}}">
           <view class='guide_body item'>
             <view class='top_body'>
-              <view class='dot'></view>
+              <view class='dot {{logArr.length-1 == index? "ending":""}}'></view>
             </view>
             <view class='bottom_body' wx:if="{{logArr.length-1 != index}}">
               <view class='line'></view>
             </view>
           </view>
-
-          <view class='date_body item' >
-            <view class='top_body'>
-              <block wx:if="{{logArr[index].operateDate != logArr[index -1].operateDate}}">
+          <view class='_body item' >
+            <view class="date_body">
+              <view class='date'>
                 {{item.operateDate}}
-              </block>  
+              </view>
+              <view class="time">
+                {{item.operateHour}}
+              </view>
             </view>
-            <view class='bottom_body' wx:if="{{logArr.length-1 != index}}"></view>
-          </view>
-
-          <view class='time_body item'>
-            <view class='top_body'>
-              {{item.operateHour}}
-            </view>
-            <view class='bottom_body' wx:if="{{logArr.length-1 != index}}"></view>
-          </view>
-          <view class='record_body item'>
-             <view class='top_body'>
+            <view class="record_body">
               {{item.remark}}
             </view>
-            <view class='bottom_body' wx:if="{{logArr.length-1 != index}}"></view>
-          </view> 
+          </view>
         </view>
       </scroll-view>
 
