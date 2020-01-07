@@ -1144,7 +1144,7 @@ Component({
     },
 
     // 筛选选择日期后回调
-    _selectDayEvent: function (e) {
+    _selectDayEventselectDayEvent: function (e) {
       var data = e.detail.currentTarget.dataset
 
       var month = data.month < 10 ? '0' + data.month : data.month

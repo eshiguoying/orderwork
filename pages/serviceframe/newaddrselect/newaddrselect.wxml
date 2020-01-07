@@ -1,0 +1,76 @@
+<view class="addrselect" 
+        style="width:{{windowW}}px;height:{{windowH}}px;transform: translate(0%, {{selectaddrpage? 0: windowH}}px);transition-duration:0.3s">
+    <view class='seleaddrbar' style='width:{{windowW}}px;'>
+      <view class="citysele" catchtap='editcityselet' style='width:{{cityselePanelW}}%;transition: width 0.5s;'>
+        <block wx:if="{{isQueryCityList}}">
+          <input 
+                class='queryCityInput' 
+                placeholder='城市中文名或拼音' 
+                bindinput="searchCity" />
+        </block>
+        <block wx:else>
+          <text>{{addrinfo.cityname}}</text> ▾
+        </block>
+      </view>
+      <view class="selectaddr" catchtap='editaddrselet' style='width:{{addrInputPanelW}}%;transition: width 0.5s;'>
+        <view class='verticalline'>
+          <input type='text' 
+                class='addrinput' 
+                placeholder='你到哪儿' 
+                bindinput="getsuggest" 
+                value='{{addrinput_}}' 
+                disabled='{{isselect_addr}}'></input>
+        </view>
+      </view>
+      <view class='canclebutt' bindtap='cancleaddrselepage'>取消</view>
+    </view>
+    <view class='addrbody' style='width:{{windowW}}px;height:{{windowH - 50}}px;'>
+      <block wx:if="{{isQueryCityList}}">
+          
+          <block wx:for="{{query_result_cityList}}" wx:key="item">
+            <view class='addrdetailbody' 
+                  data-citycode='{{item.id}}' 
+                  data-cityname='{{item.name}}'
+                  data-provcode='{{item.provid}}' 
+                  data-provname='{{item.provName}}'
+                  catchtap='pitchonCityone'>
+              <view class='temp'>
+                <view class='landmark'>{{item.name}}</view>
+              </view>
+            </view>
+          </block>
+
+
+      </block>
+      <block wx:else>
+
+
+        <block wx:if="{{suggestion.length > 0}}">
+          <block wx:for="{{suggestion}}" wx:key="item">
+            <block wx:if="{{item.landmark != null && item.address != null}}">
+            <view class='addrdetailbody' 
+                  data-landmark='{{item.landmark}}' 
+                  data-address='{{item.address}}' 
+                  data-location='{{item.location}}' catchtap='pitchonaddrone'>
+              <view class='temp'>
+                <view class='landmark'>{{item.landmark}}</view>
+                <view class='addrdetail_sele'>{{item.address}}</view>
+              </view>
+            </view>
+            </block>
+          </block>
+        </block>
+        <block wx:else>
+          <view class='addrdetailbody'>
+              <view class='temp'>
+                <view class='space'>
+                  暂无相关地址信息！
+                </view>
+              </view>
+          </view>
+        </block>
+
+
+      </block>
+    </view>
+  </view>

@@ -11,7 +11,7 @@
         <view class='item'>行李数</view>
       </view>
       <view class='list'>
-        <scroll-view   scroll-y  style='height:{{windowH - 200}}px' >
+        <scroll-view scroll-y  style='max-height:{{windowH - 200}}px;height:{{reportArr.length * 80}}rpx;'>
           <block wx:for="{{reportArr}}">
             <view class='datestatistics'>
             <view class='item'>{{item.orderDate}}</view>

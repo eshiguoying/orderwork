@@ -18,7 +18,7 @@ Page({
     // 点击三条杠是否打开左侧弹出框
     open: false,
     // 默认登陆页面是 => 金牌配送
-    servicename: 'order',
+    servicename: 'specialservice',
     // 菜单序号
     menuserial: 0,
     // 根据登陆人员登记确定菜单

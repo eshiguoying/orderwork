@@ -9,11 +9,22 @@
   overflow: scroll;
 }
 
+/* 企业用户 */
+.enterprise {
+  margin-top: 10rpx;
+  margin-left: 5rpx;
+  height: 80rpx;
+  display: flex;
+
+  background-color: #FCFBF8;
+  box-shadow: 1px 2px 4px #E5E5E5,-1px 2px 4px #E5E5E5;
+}
+
 /* 取 */
 .send {
   margin-top: 10rpx;
   margin-left: 5rpx;
-  height: 240rpx;
+  height: 160rpx;
   display: flex;
 
   background-color: #FCFBF8;
@@ -29,7 +40,7 @@
 .send .right {
   flex: 1;
   margin-left: 10rpx;
-  height: 240rpx;
+  height: 160rpx;
   display: flex;
   flex-direction: column
 }
@@ -830,7 +841,5 @@
   background-color: #ED666C;
   font-weight: bold;
 }
-
-@import "../addrselect/addrselect.wxss";
 
 @import "../pricedetail/pricedetail.wxss";

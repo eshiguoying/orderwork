@@ -153,8 +153,18 @@ var ORDEROPERATETYPE = {
     value: 'FINISH',
     name: '完成'
   }
-}
+};
 
+var ACTION_TYPE = {
+  SEND: {
+    value: 'send',
+    name: '寄'
+  },
+  TAKE: {
+    value: 'take',
+    name: '取'
+  }
+};
 
 // 全局配置
 module.exports = {
@@ -164,9 +174,9 @@ module.exports = {
   },
 
   // 测试
-  // ipconfig: 'https://uat2.porterme.cn',
+  ipconfig: 'https://uat2.porterme.cn',
   // 生产
-  ipconfig: 'https://delivery.porterme.cn',
+  // ipconfig: 'https://delivery.porterme.cn',
   
   //渠道：微信小程序
   channel:1,
@@ -191,6 +201,8 @@ module.exports = {
   resCode: RESCODE,
   // 订单操作类型
   orderOperateType: ORDEROPERATETYPE,
+  // 动作类型
+  actionType: ACTION_TYPE,
 };
 
 

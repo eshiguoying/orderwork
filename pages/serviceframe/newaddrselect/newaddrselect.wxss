@@ -1,0 +1,129 @@
+.addrselect {
+  position: fixed;
+  bottom: 0;
+  z-index: 997;
+  background-color: #F1F1F3;
+  
+  font-size: 30rpx;
+  font-weight: 300;
+}
+
+.seleaddrbar {
+  box-sizing: border-box;
+  height: 100rpx;
+  background-color: #FCFBF8;
+  box-shadow: 0px 1px 5px #D2CFCF;
+  display: flex;
+}
+
+.citysele {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.queryCityInput {
+  margin-left: 5%;
+  width: 90%;
+  height: 100%;
+}
+
+.selectaddr {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.verticalline {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 1rpx solid #F5F3F3;
+  border-right: 1rpx solid #F5F3F3;
+}
+
+.addrinput {
+  width: 95%;
+  height: 100%;
+}
+
+.canclebutt {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 0;
+  color: #BAB8B8;
+}
+
+.addrbody {
+  overflow: scroll;
+}
+
+/* .citydetailonebody {
+  width: 100%;
+  height: 80rpx;
+}
+
+.citydetailbody .temp {
+  width: 90%;
+  height: 80rpx;
+  margin-left: 5%;
+  border-bottom: 1rpx solid #E8E8E9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} */
+
+
+.addrdetailbody {
+  width: 100%;
+  height: 120rpx;
+}
+
+.addrdetailbody .temp {
+  width: 90%;
+  height: 120rpx;
+  margin-left: 5%;
+  border-bottom: 1rpx solid #E8E8E9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.addrdetailbody .temp .space {
+  background-color: #EE656C;
+  color: #FCFBF8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landmark {
+  width: 100%;
+  display: flex;
+  justify-items: center;
+  text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
+}
+
+.addrdetail_sele {
+  width: 100%;
+  font-size: 25rpx;
+  color: #B5B5B5;
+  text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
+}
+
+.keywordcolor {
+  color: #EE656C;
+}

@@ -138,7 +138,6 @@ Component ({
       request.HttpRequst('/v2/order/report', 'POST', params).then(function (res) {
         console.log(res)
         wx.hideLoading();
-
         if (res.reports) {
           this_.setData({
             reportArr: res.reports,

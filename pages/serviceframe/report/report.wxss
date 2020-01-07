@@ -19,6 +19,8 @@
   border-radius: 10rpx;
 
   display: flex;
+
+   
 }
 
 

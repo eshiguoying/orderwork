@@ -17,6 +17,26 @@ Component({
     // 登录用户信息
     accountInfo: {},
 
+    // 企业用户列表
+    enterprise_list: [
+      {
+        "name": "厦航",
+        "channel": 'selfhope_xianghang'
+      },
+      {
+        "name": "长隆",
+        "channel": 'selfhope_changlong'
+      },
+      {
+        "name": "萧山机场",
+        "channel": 'selfhope_xiaoshanjihcang'
+      }
+    ],
+
+    // 选择结果企业用户
+    enterprise_result_name:'',
+    enterprise_result_channel: '',
+
     // 寄间类型滑块
     sliding: {
       'sendaddrinfo': 'sendaddrinfo_hotel',
@@ -139,6 +159,8 @@ Component({
     // 下单地址模型
     ordermaininfo: {
       'sendaddrinfo': {
+        provcode: '',
+        provname: '',
         cityname: '',
         citycode: '',
         //默认地址类型 => 酒店
@@ -150,6 +172,8 @@ Component({
         time: ''
       },
       'takeaddrinfo': {
+        provcode: '',
+        provname: '',
         cityname: '',
         citycode: '',
         //默认地址类型 => 酒店
@@ -179,12 +203,11 @@ Component({
 
           if (request.header.token) {
             // 获取当前登录用户信息
+            
             this_.setData({
               accountInfo: wx.getStorageSync('accountInfo')
             })
 
-            // 授权地理位置信息
-            this_.getCurrCity();
             // 寄件时间
             this_.sendDate();
             // 收件时间
@@ -201,31 +224,13 @@ Component({
       }, 10)
     },
 
-    // 用户位置权限设置
+    // 加载企业用户 TODO
 
-    // 高德地图识别当前城市信息
-    getCurrCity() {
-      var this_ = this;
-      // 通过高德地图api把经纬度转换为城市
-      const myAmapFun = new amapFile.AMapWX({ key: config.map.key });
-      myAmapFun.getRegeo({
-        success: data => {
-          let cityName = data[0].regeocodeData.addressComponent.city;
-
-          if (cityName == '') {
-            cityName = data[0].regeocodeData.addressComponent.province
-          }
-
-          const temp_ = data[0].regeocodeData.addressComponent.adcode;
-          var citycode = temp_.substring(0, 4) + '00';
-
-          this.setData({
-            ['ordermaininfo.sendaddrinfo.cityname']: cityName,
-            ['ordermaininfo.sendaddrinfo.citycode']: citycode,
-            ['ordermaininfo.takeaddrinfo.cityname']: cityName,
-            ['ordermaininfo.takeaddrinfo.citycode']: citycode,
-          });
-        }
+    // 选择企业用户
+    bindChoiceEnterprise(e) {
+      this.setData({
+        enterprise_result_name: this.data.enterprise_list[e.detail.value].name,
+        enterprise_result_channel: this.data.enterprise_list[e.detail.value].channel
       })
     },
 
@@ -276,27 +281,36 @@ Component({
     // 加载地址栏
     loadaddrselect(e) {
       this.setData({
-        selectaddrpage: true,
-        addrnode: e.currentTarget.dataset.addrnode,
-        city_: this.data.ordermaininfo[e.currentTarget.dataset.addrnode].cityname
+        showNewaddrselectPanelflag: true,
+        actionType: e.currentTarget.dataset.actiontype,
       });
-
-      // 柜台加载
-      if ('airport' == this.data.ordermaininfo[e.currentTarget.dataset.addrnode].addrtype) {
-        this.loadcounter(this.data.ordermaininfo[e.currentTarget.dataset.addrnode].citycode);
-      }
     },
 
     // 取消地址
-    cancleaddrselepage() {
+    _cancleaddrselepage() {
       this.setData({
-        selectaddrpage: false,
-        isselect_addr: false,
-        suggestion: [{}],
-        addrnode: '',
-        addrinput_: '',
+        showNewaddrselectPanelflag: false,
       });
     },
+
+      // 回填地址
+      _backfilladdr(e) {
+        var ordermaininfo = this.data.ordermaininfo;
+        console.info(e.detail);
+        var flag = e.detail.actiontype + 'addrinfo';
+        ordermaininfo[flag].provcode = e.detail.provcode;
+        ordermaininfo[flag].provname = e.detail.provname;
+        ordermaininfo[flag].cityname = e.detail.cityname;
+        ordermaininfo[flag].citycode = e.detail.citycode;
+        ordermaininfo[flag].landmark = e.detail.landmark;
+        ordermaininfo[flag].address = e.detail.address;
+        ordermaininfo[flag].location = e.detail.location;
+  
+        console.info(ordermaininfo);
+        this.setData({
+          ordermaininfo: ordermaininfo
+        })
+      },
 
     //触发关键词输入提示事件
     getsuggest(e) {
@@ -881,6 +895,7 @@ Component({
       this.setData({
         ispricedetailpage: false
       })
-    },
+    }
+    
   }
 })

@@ -1,8 +1,17 @@
 <scroll-view scroll-y class='specialservicecontainer' style='width:{{windowW}}px;height:{{windowH - 60}}px'>
+  
+  <view class="enterprise">
+    <picker bindchange="bindChoiceEnterprise" range="{{enterprise_list}}" range-key="name">
+      <view class="picker">
+         <input type='text' placeholder='选择企业用户' disabled='true' value="{{enterprise_result_name}}"/>
+      </view>
+    </picker>
+  </view>
+  
   <view class='send'>
     <view class="left"></view>
     <view class="right">
-      <view class="addrtypecontainer">
+      <!-- <view class="addrtypecontainer">
         <view class='addrtypecontainerchild'>
           <view class='item' bindtap='selectaddrtype' data-addrtype='hotel' data-addrnode='sendaddrinfo'>
             <view class="hotel content {{ ordermaininfo.sendaddrinfo.addrtype == 'hotel'? 'on': ''}}">酒店</view>
@@ -17,9 +26,9 @@
         <view class='slidingcontainer'>
           <view class='sliding {{sliding.sendaddrinfo}}'></view>
         </view>
-      </view>
+      </view> -->
       <view class='addrdetailcontainer'>
-        <view class='addrcontainer' bindtap='loadaddrselect' data-addrnode='sendaddrinfo'>
+        <view class='addrcontainer' bindtap='loadaddrselect' data-addrnode='sendaddrinfo' data-actiontype='send' >
           <view class='verticalleft'>
             <input type='text' class='addr' placeholder='寄件地址' disabled='true' value="{{ordermaininfo.sendaddrinfo.landmark}}"/>
           </view>
@@ -73,7 +82,7 @@
           </view>
       </view>
       <view class="addrdetailcontainer">
-        <view class='addrcontainer' bindtap='loadaddrselect' data-addrnode='takeaddrinfo'>
+        <view class='addrcontainer' bindtap='loadaddrselect' data-addrnode='takeaddrinfo' data-actiontype='take'>
           <view class='verticalleft'>
             <input type='text' 
                    class='addr'
@@ -147,7 +156,7 @@
     </view>
   </view>
 
-   <view class="insured">
+   <!-- <view class="insured">
     <view class="left"></view>
     <view class="right">
        <view class="insuredbody" >
@@ -166,7 +175,7 @@
           </block>
        </view>
     </view>
-  </view>
+  </view> -->
 
   
 
@@ -240,6 +249,15 @@
   </view>
 </scroll-view>
 
+<!-- 地址选择 -->
+<block wx:if="{{showNewaddrselectPanelflag}}">
+    <newaddrselect
+      actionType="{{actionType}}"
+      bind:_cancleAddrSelePanel="_cancleaddrselepage"
+      bind:_backfilladdr="_backfilladdr"
+    />
+</block>
+
 <view class='pay_bottom' style='width:{{windowW}}px;'>
       <view class='pay_temp'></view>
       <view class='paybody'>
@@ -255,8 +273,6 @@
 
 <!-- 价格选择 -->
 <include src="../pricedetail/pricedetail.wxml" />
-<!-- 地址输入 -->
-<include src="../addrselect/addrselect.wxml" />
 
 
 
