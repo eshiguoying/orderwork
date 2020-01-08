@@ -39,14 +39,12 @@ Component({
 
     // 寄间类型滑块
     sliding: {
-      'sendaddrinfo': 'sendaddrinfo_hotel',
       'takeaddrinfo': 'takeaddrinfo_hotel'
     },
 
     selectaddrpage: false,// 地址选择页面是否开启 true 开启 false不开启，默认不开启
     suggestion: [{}],// 地址列表
     addrnode: '',// 地址选择标志
-    isselect_addr: false,// 地址搜索是否不可用 false 是可用
 
     // 地址类型决定 时间范围
     sendtimebyaddrtype: {
@@ -109,24 +107,10 @@ Component({
     otherminlist_take: ['00', '30'],
     taketime: '加载中......',
 
-    // 是否加急
-    isurgent: false,
-
     // 客户信息
     cusname: '',
     cusphone: '',
     cusidno: '',
-
-    // 是否投保
-    isinsured: false,
-    // 保价比例
-    lugvalue: '',
-    // 保费比例
-    insured_scale: 0.1,
-    // 行李价值上线
-    lugvaluemax: 20000,
-    // 保费
-    prem: 0,
 
     // 行李数量
     lugnum: 1,
@@ -142,20 +126,6 @@ Component({
     // 是否查看qr
     isviewbr: false,
 
-    // 总价格
-    totalmoney: 0,
-
-    // 登录用户信息
-    accountInfo: {},
-
-    // 价格
-    goldserviceprice: {
-
-    },
-
-    // 行李价格明细表
-    ispricedetailpage: false,
-
     // 下单地址模型
     ordermaininfo: {
       'sendaddrinfo': {
@@ -163,8 +133,8 @@ Component({
         provname: '',
         cityname: '',
         citycode: '',
-        //默认地址类型 => 酒店
-        addrtype: 'hotel',
+        //默认地址类型 => 机场
+        addrtype: 'airport',
         landmark: '',
         address: '',
         location: '',
@@ -234,7 +204,7 @@ Component({
       })
     },
 
-    // 寄送地址类型
+    // 地址类型
     selectaddrtype(param) {
       var ordermaininfo = this.data.ordermaininfo;
       var addrnode = param.currentTarget.dataset.addrnode;
@@ -245,6 +215,8 @@ Component({
           ['ordermaininfo.' + addrnode + '.landmark']: '',
           ['ordermaininfo.' + addrnode + '.address']: '',
           ['ordermaininfo.' + addrnode + '.location']: '',
+          ['ordermaininfo.' + addrnode + '.doornum']: '',
+          ['ordermaininfo.' + addrnode + '.time']: '',
           ['sliding.' + addrnode]: addrnode + '_' + addrtype,
         });
       }
@@ -254,29 +226,6 @@ Component({
       'sendaddrinfo' == addrnode ? this_.sendDate() : this_.taketime();
     },
 
-
-    //柜台服务中心接口参数 根据城市id查询柜台信息
-    loadcounter(cityid) {
-      var this_ = this;
-      if (this.data.accountInfo.appUser.distributor3rd) {
-        var counterParams = this.data.accountInfo.appUser.distributor3rd
-
-        request.HttpRequst('/v2/counter/listByDistributor', 'POST', counterParams).then(function (res) {
-          var sug = [];
-          for (var i = 0; i < res.counters.length; i++) {
-            sug.push({
-              landmark: res.counters[i].servicecentername,// 地标性建筑
-              address: res.counters[i].address,// 详细地址
-              location: res.counters[i].gps.lng + ',' + res.counters[i].gps.lat
-            });
-          }
-          this_.setData({
-            suggestion: sug,
-            isselect_addr: true,
-          })
-        })
-      }
-    },
 
     // 加载地址栏
     loadaddrselect(e) {
@@ -311,54 +260,6 @@ Component({
           ordermaininfo: ordermaininfo
         })
       },
-
-    //触发关键词输入提示事件
-    getsuggest(e) {
-      var _this = this;
-      var keywords = e.detail.value;
-      // 通过高德地图api获取搜索列表
-      const myAmapFun = new amapFile.AMapWX({ key: config.map.key });
-      myAmapFun.getInputtips({
-        keywords: keywords,
-        citylimit: true,
-        city: _this.data.ordermaininfo[_this.data.addrnode].citycode,
-        success: data => {
-          if (data && data.tips) {
-            // 处理高亮字符
-            let datas = data.tips
-            var sug = [];
-            for (var i = 0; i < datas.length; i++) {
-              sug.push({ // 获取返回结果，放到sug数组中、
-                landmark: datas[i].name,// 地标性建筑
-                address: datas[i].district + datas[i].address,// 详细地址
-                location: datas[i].location,
-              });
-            }
-
-            _this.setData({ //设置suggestion属性，将关键词搜索结果以列表形式展示
-              suggestion: sug
-            });
-          }
-        }
-      })
-    },
-
-    // 选择地址回填
-    pitchonaddrone: function (e) {// 选择地址
-      var ordermaininfo = this.data.ordermaininfo
-      ordermaininfo[this.data.addrnode].landmark = e.currentTarget.dataset.landmark;
-      ordermaininfo[this.data.addrnode].address = e.currentTarget.dataset.address;
-      ordermaininfo[this.data.addrnode].location = e.currentTarget.dataset.location;
-
-      this.setData({
-        selectaddrpage: false,
-        isselect_addr: false,
-        suggestion: [{}],
-        addrnode: '',
-        addrinput_: '',
-        ordermaininfo: ordermaininfo
-      })
-    },
 
     // 门牌号
     doornuminput(e) {
@@ -671,36 +572,6 @@ Component({
       this.setData(data)
     },
 
-    // 金牌or专车
-    urgent_tap() {
-      this.setData({
-        isurgent: !this.data.isurgent
-      });
-    },
-
-    // 保费价格计算
-    calcuinsured(e) {
-      if (e.detail.value <= this.data.lugvaluemax) {
-        wx.showModal({
-          content: '行李价值上限' + this.data.lugvaluemax,
-          confirmText: '确定',
-          confirmColor: '#9F68AC',
-          showCancel: false,
-          success: res => {
-            this.setData({
-              lugvalue: '',
-              prem: ''
-            });
-          }
-        });
-        return;
-      }
-      this.setData({
-        lugvalue: e.detail.value,
-        prem: e.detail.value * this.data.insured_scale,
-      });
-    },
-
 
     // 减少
     reduce() {
@@ -721,12 +592,6 @@ Component({
         });
       }
 
-    },
-
-    insured_tap() {
-      this.setData({
-        isinsured: !this.data.isinsured
-      });
     },
 
     deletephoto(e) {
@@ -753,6 +618,7 @@ Component({
         }
       })
     },
+
     // =================================================== start
     // 上传行李照片
     uploadLugImage(list) {
@@ -792,8 +658,6 @@ Component({
 
     },
     // =================================================== end
-
-
 
     // 扫描qr
     scancode() {
@@ -882,20 +746,5 @@ Component({
         lugbrlist: lugbrlist,
       });
     },
-
-    // 打开页面详情列
-    openpricedetail() {
-      this.setData({
-        ispricedetailpage: true
-      })
-    },
-
-    // 打开页面详情列
-    closepricedetailpage() {
-      this.setData({
-        ispricedetailpage: false
-      })
-    }
-    
   }
 })

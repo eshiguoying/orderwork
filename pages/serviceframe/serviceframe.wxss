@@ -28,7 +28,7 @@
 .nav .back{
   width: 20px;
   height: 20px;
-  margin-left: 20rpx;
+  margin-left: 30rpx;
 }
 
 .nav-title{

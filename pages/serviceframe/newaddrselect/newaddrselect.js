@@ -26,8 +26,6 @@ Component({
     cityselePanelW: 20,
     addrInputPanelW: 60,
     isQueryCityList: false,
-    // 登录用户信息
-    accountInfo: {},
 
     selectaddrpage: false,// 地址选择页面是否开启 true 开启 false不开启，默认不开启
     suggestion: [{}],// 地址列表
@@ -38,8 +36,6 @@ Component({
     cityList: [],
     query_result_cityList: [],
 
-    // 全部城市
-    allCity: [],
 
     // 地址模型
     addrinfo: {
@@ -61,23 +57,21 @@ Component({
   },
 
   methods: {
-    // 用户位置权限设置
     init() {
-      // 打开
-     
       this.setData({
         selectaddrpage: true,
         ['addrinfo.actiontype']: this.properties.actionType
       });
 
+      // 定位当前城市
       this.getCurrCity();
     
+      // 查询城市列表
       if(this.properties.actionType == config.actionType.SEND.value) {
         this.getOpenCityList();
       } else {
         this.getAllCityList();
       }
-      
     },
 
     // 高德地图识别当前城市信息
@@ -101,8 +95,6 @@ Component({
 
             provname = provname.substring(0, 2);
           }
-
-          
 
           this.setData({
             ['addrinfo.provcode']: provcode,
@@ -173,7 +165,7 @@ Component({
       this.editaddrselet();
     },
 
-    // 城市
+    // 搜索城市
     searchCity(e) {
       this.setData({
         query_result_cityList: []

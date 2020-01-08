@@ -1,37 +1,23 @@
 <scroll-view scroll-y class='specialservicecontainer' style='width:{{windowW}}px;height:{{windowH - 60}}px'>
-  
-  <view class="enterprise">
-    <picker bindchange="bindChoiceEnterprise" range="{{enterprise_list}}" range-key="name">
-      <view class="picker">
-         <input type='text' placeholder='选择企业用户' disabled='true' value="{{enterprise_result_name}}"/>
-      </view>
-    </picker>
-  </view>
-  
-  <view class='send'>
+  <!-- 企业用户 -->
+  <view class="enterprise editareashadow">
     <view class="left"></view>
     <view class="right">
-      <!-- <view class="addrtypecontainer">
-        <view class='addrtypecontainerchild'>
-          <view class='item' bindtap='selectaddrtype' data-addrtype='hotel' data-addrnode='sendaddrinfo'>
-            <view class="hotel content {{ ordermaininfo.sendaddrinfo.addrtype == 'hotel'? 'on': ''}}">酒店</view>
-          </view>
-          <view class='item' bindtap='selectaddrtype' data-addrtype='residence' data-addrnode='sendaddrinfo'>
-            <view class="residence content {{ ordermaininfo.sendaddrinfo.addrtype == 'residence'? 'on': ''}}">住宅</view>
-          </view>
-          <view class='item' bindtap='selectaddrtype' data-addrtype='airport' data-addrnode='sendaddrinfo'>
-            <view class="airport content {{ ordermaininfo.sendaddrinfo.addrtype == 'airport'? 'on': ''}}">机场</view>
-          </view>
+      <picker bindchange="bindChoiceEnterprise" range="{{enterprise_list}}" range-key="name">
+        <view class="picker">
+            <input class="abc" type='text' placeholder='选择企业用户' disabled='true' value="{{enterprise_result_name}}"/>
         </view>
-        <view class='slidingcontainer'>
-          <view class='sliding {{sliding.sendaddrinfo}}'></view>
-        </view>
-      </view> -->
+      </picker>
+    </view>
+  </view>
+  
+  <!-- 寄件地址和时间 -->
+  <view class='send editareashadow'>
+    <!-- <view class="left"></view> -->
+    <view class="right">
       <view class='addrdetailcontainer'>
         <view class='addrcontainer' bindtap='loadaddrselect' data-addrnode='sendaddrinfo' data-actiontype='send' >
-          <view class='verticalleft'>
             <input type='text' class='addr' placeholder='寄件地址' disabled='true' value="{{ordermaininfo.sendaddrinfo.landmark}}"/>
-          </view>
         </view>
         <view class='doornumcontainer'>
           <view class='verticalleft'>
@@ -45,7 +31,6 @@
         </view>
       </view>
       <view class='timecontainer'>
-        <view class='verticalleft'>
           <picker
             mode="multiSelector"
             bindchange="bindMultiPickerChange"
@@ -57,13 +42,13 @@
               <input type='text' class='time' placeholder='寄件时间' disabled='true' value="{{ordermaininfo.sendaddrinfo.time}}"/>
             </view>
           </picker>
-        </view>
       </view>
     </view>
   </view>
 
-  <view class="take">
-    <view class="left"></view>
+  <!-- 收件地址和时间 -->
+  <view class="take editareashadow">
+    <!-- <view class="left"></view> -->
     <view class="right">
       <view class="addrtypecontainer">
           <view class='addrtypecontainerchild'>
@@ -83,13 +68,11 @@
       </view>
       <view class="addrdetailcontainer">
         <view class='addrcontainer' bindtap='loadaddrselect' data-addrnode='takeaddrinfo' data-actiontype='take'>
-          <view class='verticalleft'>
             <input type='text' 
                    class='addr'
                    placeholder='收件地址' 
                    disabled='true' 
                    value="{{ordermaininfo.takeaddrinfo.landmark}}"/>
-          </view>
         </view>
         <view class='doornumcontainer'>
           <view class='verticalleft'>
@@ -103,7 +86,6 @@
         </view>
       </view>
       <view class="timecontainer">
-        <view class='verticalleft'>
           <picker
             mode="multiSelector"
             bindchange="bindMultiPickerChange_take"
@@ -119,68 +101,29 @@
                      value="{{ordermaininfo.takeaddrinfo.time}}"/>
             </view>
           </picker>
-        </view>
       </view>
     </view>
   </view>
 
-  <!-- <view class="isurgent">
-    <view class="left"></view>
-    <view class="right">
-      <view class='lable'>
-        是否保价：
-      </view>
-      <view class="no_urgent {{isurgent? '': 'on'}}" catchtap="urgent_tap">金牌</view>
-      <view class="yes_urgent {{isurgent? 'on': ''}}" catchtap="urgent_tap">专车</view>
-    </view>
-  </view> -->
-
-  <view class="cusinfo">
-    <view class="left"></view>
+  <!-- 客户信息 -->
+  <view class="cusinfo editareashadow">
+    <!-- <view class="left"></view> -->
     <view class="right">
       <view class='item'>
-        <view class='verticalleft'>
           <input type='text' class='cusname' placeholder='客户姓名'/>
-        </view>
       </view>
       <view class='item'>
-        <view class='verticalleft'>
           <input type='text' class='cusipone' placeholder='客户手机号'/>
-        </view>
       </view>
       <view class='item'>
-        <view class='verticalleft'>
           <input type='text' class='cusidno' placeholder='客户身份证号'/>
-        </view>
       </view>
     </view>
   </view>
 
-   <!-- <view class="insured">
-    <view class="left"></view>
-    <view class="right">
-       <view class="insuredbody" >
-          <block wx:if="{{isinsured}}">
-            <view class='lugvalue'>
-              <view class='verticalleft'>
-                <input type='text' placeholder='输入行李价值，计算保价费用' bindinput='calcuinsured' value='{{lugvalue}}'></input>
-              </view>
-            </view>
-            <view class='premvalue'>￥{{prem}}</view>
-            <view class="cancle_insured" catchtap="insured_tap">取消</view>
-          </block>
-          <block wx:else> 
-            <view class="no_insured {{isinsured? '': 'on'}}" catchtap="insured_tap">不保价</view>
-            <view class="yes_insured {{isinsured? 'on': ''}}" catchtap="insured_tap">保价</view>
-          </block>
-       </view>
-    </view>
-  </view> -->
-
-  
-
-  <view class="lugphoto">
-    <view class="left"></view>
+  <!-- 拍照 -->
+  <view class="lugphoto editareashadow">
+    <!-- <view class="left"></view> -->
     <view class="right">
       <view class='imageslist'>
         <view class='lugphonelist'>
@@ -193,24 +136,32 @@
         </view>
         <block wx:if='{{lugphotolist.length < 6}}'>
           <view class='lugphoneaddbody'catchtap='chooseImage_'>
-            <image class='lugphoneadd' src='../../../images/addico.png'></image>
+            <image class='lugphoneadd' src='../../../images/action_photo.png'></image>
           </view>
         </block>
       </view>
     </view>
   </view> 
 
-   <view class="lugnum">
-    <view class="left"></view>
+   <view class="lugnum editareashadow">
+    <!-- <view class="left"></view> -->
     <view class="right">
-      <view class='bodyleft'>
-        <view class='reduce' catchtap='reduce'>-</view>
-        <view class='lugnum_'>{{lugnum}}</view>
-        <view class='add' catchtap='add'>+</view>
-        <view class='qrbody'>
-          <view class='space'></view>
+      <view class='reduce' catchtap='reduce'>
+        <image class="jian_lug"  src='../../../images/jian.png'></image>
+      </view>
+      <view class='lugnum_'>{{lugnum}}</view>
+      <view class='add' catchtap='add'>
+        <image class="jia_lug"  src='../../../images/jia.png'></image>
+      </view>
+    </view>
+  </view> 
+
+  <!-- br码 -->
+  <view class="brcode editareashadow">
+    <!-- <view class="left"></view> -->
+    <view class="right">
           <view class='scanqrbut' bindtap='scancode'>增加br码</view>
-           <view class='space'></view>
+
           <view class='viewbrbut'>
             <block wx:if="{{!isviewbr}}">
               <view class='lable' catchtap='viewbrbut'>查看br码</view>
@@ -232,19 +183,14 @@
               </block>
             </view>
           </view>
-          
-        </view>
-      </view>
-      <view class='bodyright'></view>
     </view>
   </view> 
 
-  <view class="remark">
-    <view class="left"></view>
+  <!-- 备注 -->
+  <view class="remark editareashadow">
+    <!-- <view class="left"></view> -->
     <view class="right">
-    <view class='verticalleft'>
       <input type='text' class='remark_' placeholder='备注...'></input>
-    </view>
     </view>
   </view>
 </scroll-view>
@@ -259,20 +205,8 @@
 </block>
 
 <view class='pay_bottom' style='width:{{windowW}}px;'>
-      <view class='pay_temp'></view>
-      <view class='paybody'>
-        <view class='totalmoney'>￥{{totalmoney}}</view>
-        <view class='pricedetailbut'>
-          <view class='totalmoneyimg' catchtap='openpricedetail'>
-            <image class='pricedown' src='../../../images/pricedown.png'></image>
-          </view>
-        </view>
-        <view class='sure_ceaterorder' >确认</view>
-        </view>
-  </view>
-
-<!-- 价格选择 -->
-<include src="../pricedetail/pricedetail.wxml" />
+   <view class='sure_ceaterorder' >确认</view>
+</view>
 
 
 

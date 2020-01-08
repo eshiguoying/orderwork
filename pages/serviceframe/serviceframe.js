@@ -17,6 +17,8 @@ Page({
     accountInfo: {},
     // 点击三条杠是否打开左侧弹出框
     open: false,
+    menuswitchrotate: 0,
+
     // 默认登陆页面是 => 金牌配送
     servicename: 'specialservice',
     // 菜单序号
@@ -82,11 +84,13 @@ Page({
   navBack() {
     if (this.data.open) {
       this.setData({
-        open: false
+        open: false,
+        menuswitchrotate: 0
       });
     } else {
       this.setData({
-        open: true
+        open: true,
+        menuswitchrotate: 90
       });
     }
   },
@@ -94,7 +98,8 @@ Page({
   // 点击遮罩层listbar收回
   cancallistbar () {
     this.setData({
-      open: false
+      open: false,
+      menuswitchrotate: 0
     });
   },
 
@@ -102,6 +107,7 @@ Page({
   servicetap: function (param) {
     this.setData({
       open: false,
+      menuswitchrotate: 0,
       menuserial: param.currentTarget.dataset.index,
       servicename: param.currentTarget.dataset.service
     });

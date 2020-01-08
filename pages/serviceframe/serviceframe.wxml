@@ -2,7 +2,8 @@
   <view class='nav_head' style='height:{{navH}}px;'></view>
   <view class='nav bg-white' style='height: {{titlebarH}}px;'>
     <view class='nav_imagecontainer' bindtap='navBack'>
-      <image src='../../images/list.png' mode='aspectFit' class='back' ></image>
+      <image src='../../images/list.png' mode='aspectFit' class='back' 
+             style="transform: rotate({{menuswitchrotate}}deg);transition-duration:0.5s"></image>
     </view>
   </view>
 
