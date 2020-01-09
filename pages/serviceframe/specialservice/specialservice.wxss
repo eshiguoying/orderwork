@@ -378,7 +378,7 @@
 
 
 .brcode .right .viewbrbut {
-  width: 150rpx;
+  width: 220rpx;
   height: 60rpx;
 
   margin-left: 15rpx;
@@ -425,6 +425,7 @@
 .brcode .right  .viewbrbut .qrlist .list {
   width: 100%;
   font-size: 25rpx;
+
   display: flex;
   align-items: center;
   background-color: #EAB4BA;
@@ -440,7 +441,7 @@
 }
 
 .brcode .right  .viewbrbut .qrlist .list .deletebr {
-    width: 30rpx;
+    width: 50rpx;
     height: 80rpx;
     display: flex;
     justify-content: center;
@@ -473,37 +474,6 @@
   color: #FCFBF8;
 }
 
-/* 备注 */
-.remark {
-  margin-top: 15rpx;
-  margin-left: 15rpx;
-  margin-right: 15rpx;
-
-  border-radius: 10rpx;
-
-  height: 100rpx;
-  display: flex;
-
-  background-color: #FCFBF8;
-}
-
-.remark .left {
-  width: 10rpx;
-  height: 100%;
-  background-color:#FF9D6C;
-}
-
-.remark .right {
-  flex: 1;
-  margin-left: 20rpx;
-  height: 100rpx;
-  display: flex;
-  align-items: center;
-} 
-
-.remark .right .remark_ {
-  width: 100%;
-}
 
 /* 行李照片 */
 .lugphoto {
@@ -527,15 +497,14 @@
 
 .lugphoto .right {
   flex: 1;
-  height: 100rpx;
+  height: 100%;
+  margin-left: 20rpx;
   display: flex;
   align-items: center;
 } 
 
 .imageslist {
-  margin-left: 10rpx;
   display: flex;
-
 }
 
 .lugphonelist {
@@ -591,6 +560,67 @@
   width: 100%;
 }
 
+/* 行李价格 */
+.lugprice {
+  margin: 15rpx;
+
+  border-radius: 10rpx;
+
+  height: 100rpx;
+  display: flex;
+
+  background-color: #FCFBF8;
+}
+
+.lugprice .left {
+  width: 10rpx;
+  height: 100%;
+  background-color:#FF9D6C;
+}
+
+.lugprice .right {
+  flex: 1;
+  margin-left: 20rpx;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+} 
+
+.lugprice .right .remark_ {
+  width: 100%;
+}
+
+/* 备注 */
+.remark {
+  margin: 15rpx;
+
+  border-radius: 10rpx;
+
+  height: 100rpx;
+  display: flex;
+
+  background-color: #FCFBF8;
+}
+
+.remark .left {
+  width: 10rpx;
+  height: 100%;
+  background-color:#FF9D6C;
+}
+
+.remark .right {
+  flex: 1;
+  margin-left: 20rpx;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+} 
+
+.remark .right .remark_ {
+  width: 100%;
+}
+
+/* 确定 */
 .pay_bottom {
   background-color: #FCFBF8;
   height: 120rpx;
@@ -598,47 +628,6 @@
   bottom: 0;
   z-index: 996;
   display: flex;
-}
-
-.pay_bottom .pay_temp {
-  width: 25rpx;
-  height: 100%;
-}
-
-.pay_bottom .paybody {
-  flex: 1;
-  display: flex;
-}
-
-
-.pay_bottom .totalmoney {
-  display: flex;
-  align-items: center;
-  color: #EE656C;
-  font-size: 35rpx;
-  font-weight: bold;
-  width: 20%;
-}
-
-.pay_bottom .pricedetailbut {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.totalmoneyimg {
-  width: 50rpx;
-  height: 50rpx;
-  margin-left: 80%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pricedown {
-  width: 32rpx;
-  height: 32rpx;
 }
 
 .pay_bottom .sure_ceaterorder {

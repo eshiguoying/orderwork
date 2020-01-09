@@ -18,20 +18,7 @@ Component({
     accountInfo: {},
 
     // 企业用户列表
-    enterprise_list: [
-      {
-        "name": "厦航",
-        "channel": 'selfhope_xianghang'
-      },
-      {
-        "name": "长隆",
-        "channel": 'selfhope_changlong'
-      },
-      {
-        "name": "萧山机场",
-        "channel": 'selfhope_xiaoshanjihcang'
-      }
-    ],
+    enterprise_list: [],
 
     // 选择结果企业用户
     enterprise_result_name:'',
@@ -125,6 +112,10 @@ Component({
     lugbrlist: [],
     // 是否查看qr
     isviewbr: false,
+    
+    // 价格
+    lugprice: 0,
+    remark: '',
 
     // 下单地址模型
     ordermaininfo: {
@@ -177,7 +168,11 @@ Component({
             this_.setData({
               accountInfo: wx.getStorageSync('accountInfo')
             })
+            console.info("=======");
+            console.info(wx.getStorageSync('accountInfo'));
 
+            // 加载企业用户
+            this_.queryEnterp();
             // 寄件时间
             this_.sendDate();
             // 收件时间
@@ -194,13 +189,25 @@ Component({
       }, 10)
     },
 
-    // 加载企业用户 TODO
+    // 加载企业用户
+    queryEnterp() {
+      // let param =  {distributorId: this.data.accountInfo.distributor3rd};
+      let this_ = this;
+      request.HttpRequst('/v2/Enterp/enterpriseUserlist', 'POST', 175).then(function (res) {
+        console.info(res);
+        if(res.code == 0) {
+          this_.setData({
+            enterprise_list: res.enterplist
+          });
+        }
+      });
+    },
 
     // 选择企业用户
     bindChoiceEnterprise(e) {
       this.setData({
-        enterprise_result_name: this.data.enterprise_list[e.detail.value].name,
-        enterprise_result_channel: this.data.enterprise_list[e.detail.value].channel
+        enterprise_result_name: this.data.enterprise_list[e.detail.value].userName,
+        enterprise_result_channel: this.data.enterprise_list[e.detail.value].userCode
       })
     },
 
@@ -572,6 +579,24 @@ Component({
       this.setData(data)
     },
 
+    // 
+    inputcusname(e) {
+      this.setData({
+        cusname:  e.detail.value
+      });
+    },
+
+    inputcusiphone(e) {
+      this.setData({
+        cusphone:  e.detail.value
+      });
+    },
+
+    inputcusidno(e) {
+      this.setData({
+        cusidno:  e.detail.value
+      });
+    },
 
     // 减少
     reduce() {
@@ -745,6 +770,194 @@ Component({
       this.setData({
         lugbrlist: lugbrlist,
       });
+    },
+
+    // 行李价格
+    lugpriceinput(e) {
+      this.setData({
+        lugprice: e.detail.value
+      }); 
+    },
+
+    // 行李价格
+    remarkinput(e) {
+      this.setData({
+        remark: e.detail.value
+      }); 
+    },
+
+    // 下单
+    sure_createrorder() {
+     
+      if(this.data.accountInfo.distributor3rd == '') {
+        wx.showToast({
+          title: '未被分配到三级分销商',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+
+      if(this.data.enterprise_result_name == '') {
+        wx.showToast({
+          title: '选择企业用户',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+
+      if(this.data.ordermaininfo.sendaddrinfo.landmark == '') {
+        wx.showToast({
+          title: '填写寄件地址',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+
+      if(this.data.ordermaininfo.takeaddrinfo.landmark == '') {
+        wx.showToast({
+          title: '填写收件地址',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+     
+      if(this.data.ordermaininfo.sendaddrinfo.time == '') {
+        wx.showToast({
+          title: '填写寄件时间',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+
+      if(this.data.ordermaininfo.takeaddrinfo.time == '') {
+        wx.showToast({
+          title: '填写收件时间',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+
+      if(this.data.cusname.trim() == '') {
+        wx.showToast({
+          title: '填写客户姓名',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+
+      if(this.data.cusphone.trim() == '') {
+        wx.showToast({
+          title: '填写客户电话号码',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+
+      if(this.data.cusidno.trim() == '') {
+        wx.showToast({
+          title: '填写客户身份证号',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+
+      if(this.data.lugphotolist.length == 0) {
+        wx.showToast({
+          title: '请拍照',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+
+      // if(this.data.lugbrlist.length == 0) {
+      //   wx.showToast({
+      //     title: '添加br码',
+      //     icon: 'none',
+      //     duration: 2000
+      //   })
+      //   return;
+      // }
+      
+      if(this.data.lugprice.trim() != '' &&  !this.data.lugprice.trim().match(/^(:?(:?\d+.\d+)|(:?\d+))$/)) {
+        wx.showToast({
+          title: '价格不是数字',
+          icon: 'none',
+          duration: 2000
+        })  
+        return;
+      }
+
+      console.info(this.data.ordermaininfo);
+      let this_ = this;
+      wx.showModal({
+        title: '提示',
+        content: '是否确定下单？',
+        success (res) {
+          if (res.confirm) {
+            let reqparam = {
+              order: {
+                channel: this_.data.enterprise_result_channel,
+                srcType: this_.data.ordermaininfo.sendaddrinfo.srcType,
+                destType: this_.data.ordermaininfo.takeaddrinfo.destType,
+                srcTime: this_.data.ordermaininfo.sendaddrinfo.time,
+                destTime: this_.data.ordermaininfo.takeaddrinfo.time,
+                distributorId: this_.data.accountInfo.appUser.distributor3rd,
+                num: this_.data.num,
+                remark: this_.data.remark,
+                serviceType: config.serviceType.ABNL.value,
+                totalmoney: this_.data.lugprice,
+                cutmoney: 0,
+                actualmoney: this_.data.lugprice
+              },
+              address: {
+                srcprovid: this_.data.ordermaininfo.sendaddrinfo.srcprovid,
+                srcprovname: this_.data.ordermaininfo.sendaddrinfo.srcprovname,
+                srccityid: this_.data.ordermaininfo.sendaddrinfo.srccityid,
+                srccityname: this_.data.ordermaininfo.sendaddrinfo.srccityname,
+                scrlandmark: this_.data.ordermaininfo.sendaddrinfo.scrlandmark,
+                srcaddress:this_.data.ordermaininfo.sendaddrinfo.srcaddress + ' ' + this_.data.ordermaininfo.sendaddrinfo.doornum,  
+                srcgps: this_.data.ordermaininfo.sendaddrinfo.srcgps,
+
+                destprovid: this_.data.ordermaininfo.takeaddrinfo.destprovid,
+                destprovname: this_.data.ordermaininfo.takeaddrinfo.destprovname,
+                destcityid: this_.data.ordermaininfo.takeaddrinfo.destcityid,
+                destcityname: this_.data.ordermaininfo.takeaddrinfo.destcityname,
+                destlandmark: this_.data.ordermaininfo.takeaddrinfo.destlandmark,
+                destaddress: this_.data.ordermaininfo.takeaddrinfo.destaddress + ' ' + this_.data.ordermaininfo.takeaddrinfo.doornum,  
+                destgps: this_.data.ordermaininfo.takeaddrinfo.destgps,
+              },
+              contact: {
+                name: this_.data.cusname,
+                idno: this_.data.cusidno,
+                mobile: this_.data.cusphone
+              },
+              orderImgVO: {
+                imgUrls: this_.data.lugphotolist
+              },
+              orderQRVO: {
+                qrCode: this_.data.lugbrlist.toString()
+              }
+            }
+
+            // 确认按钮失效
+            console.info(reqparam);
+            request.HttpRequst('/v2/order/submitOrder_abnl', 'POST', reqparam).then(function (res) {
+              console.info(res);
+            }); 
+          } else if (res.cancel) {
+          }
+        }
+      })
     },
   }
 })

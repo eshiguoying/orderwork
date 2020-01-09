@@ -3,7 +3,7 @@
   <view class="enterprise editareashadow">
     <view class="left"></view>
     <view class="right">
-      <picker bindchange="bindChoiceEnterprise" range="{{enterprise_list}}" range-key="name">
+      <picker bindchange="bindChoiceEnterprise" range="{{enterprise_list}}" range-key="userName">
         <view class="picker">
             <input class="abc" type='text' placeholder='选择企业用户' disabled='true' value="{{enterprise_result_name}}"/>
         </view>
@@ -110,13 +110,13 @@
     <!-- <view class="left"></view> -->
     <view class="right">
       <view class='item'>
-          <input type='text' class='cusname' placeholder='客户姓名'/>
+          <input type='text' class='cusname' placeholder='客户姓名' bindinput="inputcusname"/>
       </view>
       <view class='item'>
-          <input type='text' class='cusipone' placeholder='客户手机号'/>
+          <input type='text' class='cusipone' placeholder='客户手机号' bindinput="inputcusiphone"/>
       </view>
       <view class='item'>
-          <input type='text' class='cusidno' placeholder='客户身份证号'/>
+          <input type='text' class='cusidno' placeholder='客户身份证号' bindinput="inputcusidno"/>
       </view>
     </view>
   </view>
@@ -186,11 +186,19 @@
     </view>
   </view> 
 
+ <!-- 备注 -->
+  <view class="lugprice editareashadow">
+    <!-- <view class="left"></view> -->
+    <view class="right">
+      <input type='text' class='remark_' placeholder='行李价格...' bindinput="lugpriceinput"></input>
+    </view>
+  </view>
+
   <!-- 备注 -->
   <view class="remark editareashadow">
     <!-- <view class="left"></view> -->
     <view class="right">
-      <input type='text' class='remark_' placeholder='备注...'></input>
+      <input type='text' class='remark_' placeholder='备注...' bindinput="remarkinput"></input>
     </view>
   </view>
 </scroll-view>
@@ -205,7 +213,7 @@
 </block>
 
 <view class='pay_bottom' style='width:{{windowW}}px;'>
-   <view class='sure_ceaterorder' >确认</view>
+   <view class='sure_ceaterorder' bindtap="sure_createrorder">确认</view>
 </view>
 
 
