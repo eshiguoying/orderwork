@@ -160,7 +160,7 @@ Component({
       var getToken = setInterval(function () {
         if (maxcirclu <= 100) {
           maxcirclu = maxcirclu + 1;
-
+          console.info("order" + maxcirclu);
           if (request.header.token) {
             // 获取当前登录用户信息
             this_.setData({

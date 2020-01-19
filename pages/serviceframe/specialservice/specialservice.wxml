@@ -52,14 +52,14 @@
     <view class="right">
       <view class="addrtypecontainer">
           <view class='addrtypecontainerchild'>
-            <view class='item' bindtap='selectaddrtype' data-addrtype='hotel'  data-addrnode='takeaddrinfo'>
-              <view class="hotel content {{ordermaininfo.takeaddrinfo.addrtype == 'hotel'? 'on': ''}}">酒店</view>
+            <view class='item' bindtap='selectaddrtype' data-addrtype='HOTEL'  data-addrnode='takeaddrinfo'>
+              <view class="hotel content {{ordermaininfo.takeaddrinfo.addrtype == 'HOTEL'? 'on': ''}}">酒店</view>
             </view>
-            <view class='item' bindtap='selectaddrtype' data-addrtype='residence'  data-addrnode='takeaddrinfo'>
-              <view class="residence content {{ ordermaininfo.takeaddrinfo.addrtype == 'residence'? 'on': ''}}">住宅</view>
+            <view class='item' bindtap='selectaddrtype' data-addrtype='HOUSE'  data-addrnode='takeaddrinfo'>
+              <view class="residence content {{ ordermaininfo.takeaddrinfo.addrtype == 'HOUSE'? 'on': ''}}">住宅</view>
             </view>
-            <view class='item' bindtap='selectaddrtype' data-addrtype='airport'  data-addrnode='takeaddrinfo'>
-              <view class="airport content {{ ordermaininfo.takeaddrinfo.addrtype =='airport'? 'on': ''}}">机场</view>
+            <view class='item' bindtap='selectaddrtype' data-addrtype='AIRPORTCOUNTER'  data-addrnode='takeaddrinfo'>
+              <view class="airport content {{ ordermaininfo.takeaddrinfo.addrtype =='AIRPORTCOUNTER'? 'on': ''}}">机场</view>
             </view>
           </view>
            <view class='slidingcontainer'>
@@ -110,13 +110,13 @@
     <!-- <view class="left"></view> -->
     <view class="right">
       <view class='item'>
-          <input type='text' class='cusname' placeholder='客户姓名' bindinput="inputcusname"/>
+          <input type='text' class='cusname' placeholder='客户姓名' bindinput="inputcusname" value="{{cusname}}"/>
       </view>
       <view class='item'>
-          <input type='text' class='cusipone' placeholder='客户手机号' bindinput="inputcusiphone"/>
+          <input type='text' class='cusipone' placeholder='客户手机号' bindinput="inputcusiphone" value="{{cusphone}}"/>
       </view>
       <view class='item'>
-          <input type='text' class='cusidno' placeholder='客户身份证号' bindinput="inputcusidno"/>
+          <input type='text' class='cusidno' placeholder='客户身份证号' bindinput="inputcusidno" value="{{cusidno}}"/>
       </view>
     </view>
   </view>
@@ -186,11 +186,11 @@
     </view>
   </view> 
 
- <!-- 备注 -->
+ <!-- 行李价格 -->
   <view class="lugprice editareashadow">
     <!-- <view class="left"></view> -->
     <view class="right">
-      <input type='text' class='remark_' placeholder='行李价格...' bindinput="lugpriceinput"></input>
+      <input type='text' class='remark_' placeholder='行李价格...' bindinput="lugpriceinput" value="{{lugprice}}"></input>
     </view>
   </view>
 
@@ -198,10 +198,12 @@
   <view class="remark editareashadow">
     <!-- <view class="left"></view> -->
     <view class="right">
-      <input type='text' class='remark_' placeholder='备注...' bindinput="remarkinput"></input>
+      <input type='text' class='remark_' placeholder='备注...' bindinput="remarkinput" value="{{remark}}"></input>
     </view>
   </view>
 </scroll-view>
+
+<view class='shadebar' bindtap='cancallistbar' style="height:{{windowH}}px;display:{{isallocdistributor3rd? '':'none'}}" ></view>
 
 <!-- 地址选择 -->
 <block wx:if="{{showNewaddrselectPanelflag}}">
@@ -213,7 +215,10 @@
 </block>
 
 <view class='pay_bottom' style='width:{{windowW}}px;'>
-   <view class='sure_ceaterorder' bindtap="sure_createrorder">确认</view>
+   <view class='sure_ceaterorder {{surebutisvaild? "surebutisvaildY": ""}}' bindtap="sure_createrorder">
+      <block wx:if="{{!surebutisvaild}}">确定</block>
+      <block wx:elif="{{surebutisvaild}}">下单中...</block>
+   </view>
 </view>
 
 

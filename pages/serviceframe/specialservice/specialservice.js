@@ -17,6 +17,9 @@ Component({
     // 登录用户信息
     accountInfo: {},
 
+    // 是否分配三级分销商
+    isallocdistributor3rd: false,
+
     // 企业用户列表
     enterprise_list: [],
 
@@ -26,7 +29,7 @@ Component({
 
     // 寄间类型滑块
     sliding: {
-      'takeaddrinfo': 'takeaddrinfo_hotel'
+      'takeaddrinfo': 'takeaddrinfo_HOTEL'
     },
 
     selectaddrpage: false,// 地址选择页面是否开启 true 开启 false不开启，默认不开启
@@ -35,15 +38,15 @@ Component({
 
     // 地址类型决定 时间范围
     sendtimebyaddrtype: {
-      'hotel': {
+      'HOTEL': {
         starttime: 7,
         endtime: 18
       },
-      'residence': {
+      'HOUSE': {
         starttime: 9,
         endtime: 18
       },
-      'airport': {
+      'AIRPORTCOUNTER': {
         starttime: 9,
         endtime: 22
       }
@@ -70,15 +73,15 @@ Component({
 
     // 地址类型决定 时间范围
     taketimebyaddrtype: {
-      'hotel': {
+      'HOTEL': {
         starttime: 7,
         endtime: 23
       },
-      'residence': {
+      'HOUSE': {
         starttime: 9,
         endtime: 23
       },
-      'airport': {
+      'AIRPORTCOUNTER': {
         starttime: 9,
         endtime: 22
       }
@@ -86,7 +89,7 @@ Component({
 
     // 收件时间内容
     multiArray_take: [],
-    // 默认收件收件时间下标
+    // 默认收件时间下标
     multiIndex_take: [0, 0, 0],
     firstdayhourslist_take: [],
     otherdayhourslist_take: [],
@@ -114,8 +117,10 @@ Component({
     isviewbr: false,
     
     // 价格
-    lugprice: 0,
+    lugprice: '',
     remark: '',
+
+    surebutisvaild: false,
 
     // 下单地址模型
     ordermaininfo: {
@@ -125,7 +130,7 @@ Component({
         cityname: '',
         citycode: '',
         //默认地址类型 => 机场
-        addrtype: 'airport',
+        addrtype: 'AIRPORTCOUNTER',
         landmark: '',
         address: '',
         location: '',
@@ -138,7 +143,7 @@ Component({
         cityname: '',
         citycode: '',
         //默认地址类型 => 酒店
-        addrtype: 'hotel',
+        addrtype: 'HOTEL',
         landmark: '',
         address: '',
         location: '',
@@ -150,11 +155,11 @@ Component({
 
   // 组件生命周期函数-在组件实例进入页面节点树时执行
   attached() {
-    this.init_specialservice();
+    this.init_abnlplaceanorder();
   },
 
   methods: {
-    init_specialservice() {
+    init_abnlplaceanorder() {
       var maxcirclu = 1;
       var this_ = this;
 
@@ -168,32 +173,45 @@ Component({
             this_.setData({
               accountInfo: wx.getStorageSync('accountInfo')
             })
-            console.info("=======");
-            console.info(wx.getStorageSync('accountInfo'));
 
-            // 加载企业用户
-            this_.queryEnterp();
-            // 寄件时间
-            this_.sendDate();
-            // 收件时间
-            this_.taketime();
+            this_.loadData();
 
             clearInterval(getToken);
           }
         } else {
           // 结束循环
           clearInterval(getToken);
-          return;
-
         }
       }, 10)
     },
 
+    // 加载数据
+    loadData() {
+      // 是否分配三级分销商
+      if(this.data.accountInfo.appUser.distributor3rd == null || this.data.accountInfo.appUser.distributor3rd == '') {
+        this.setData({
+          isallocdistributor3rd: true
+        });
+        wx.showToast({
+          title: '未被分配三级分销商',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+
+      // 加载企业用户
+      this.queryEnterp();
+      // 寄件时间
+      this.sendDate();
+      // 收件时间
+      this.taketime();
+    },
+
     // 加载企业用户
     queryEnterp() {
-      // let param =  {distributorId: this.data.accountInfo.distributor3rd};
       let this_ = this;
-      request.HttpRequst('/v2/Enterp/enterpriseUserlist', 'POST', 175).then(function (res) {
+      request.HttpRequst('/v2/Enterp/enterpriseUserlist', 'POST', this.data.accountInfo.appUser.distributor3rd).then(function (res) {
         console.info(res);
         if(res.code == 0) {
           this_.setData({
@@ -582,19 +600,19 @@ Component({
     // 
     inputcusname(e) {
       this.setData({
-        cusname:  e.detail.value
+        cusname:  e.detail.value.replace(/\s+/g, '')
       });
     },
 
     inputcusiphone(e) {
       this.setData({
-        cusphone:  e.detail.value
+        cusphone:  e.detail.value.replace(/\s+/g, '')
       });
     },
 
     inputcusidno(e) {
       this.setData({
-        cusidno:  e.detail.value
+        cusidno:  e.detail.value.replace(/\s+/g, '')
       });
     },
 
@@ -775,7 +793,7 @@ Component({
     // 行李价格
     lugpriceinput(e) {
       this.setData({
-        lugprice: e.detail.value
+        lugprice: e.detail.value.replace(/\s+/g, '')
       }); 
     },
 
@@ -788,7 +806,7 @@ Component({
 
     // 下单
     sure_createrorder() {
-     
+
       if(this.data.accountInfo.distributor3rd == '') {
         wx.showToast({
           title: '未被分配到三级分销商',
@@ -843,7 +861,7 @@ Component({
         return;
       }
 
-      if(this.data.cusname.trim() == '') {
+      if(this.data.cusname == '') {
         wx.showToast({
           title: '填写客户姓名',
           icon: 'none',
@@ -852,7 +870,7 @@ Component({
         return;
       }
 
-      if(this.data.cusphone.trim() == '') {
+      if(this.data.cusphone == '') {
         wx.showToast({
           title: '填写客户电话号码',
           icon: 'none',
@@ -861,7 +879,17 @@ Component({
         return;
       }
 
-      if(this.data.cusidno.trim() == '') {
+      let valid_rule = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;// 手机号码校验规则
+      if ( ! valid_rule.test(this.data.cusphone)) {
+        wx.showToast({
+          title: '检查电话格式',
+          icon: 'none',
+          duration: 2000
+        })
+        return;
+      }
+
+      if(this.data.cusidno == '') {
         wx.showToast({
           title: '填写客户身份证号',
           icon: 'none',
@@ -888,7 +916,7 @@ Component({
       //   return;
       // }
       
-      if(this.data.lugprice.trim() != '' &&  !this.data.lugprice.trim().match(/^(:?(:?\d+.\d+)|(:?\d+))$/)) {
+      if(this.data.lugprice != '' &&  !this.data.lugprice.match(/^(:?(:?\d+.\d+)|(:?\d+))$/)) {
         wx.showToast({
           title: '价格不是数字',
           icon: 'none',
@@ -897,44 +925,61 @@ Component({
         return;
       }
 
-      console.info(this.data.ordermaininfo);
       let this_ = this;
       wx.showModal({
         title: '提示',
         content: '是否确定下单？',
         success (res) {
           if (res.confirm) {
+
+            if(this_.data.surebutisvaild) {
+              wx.showToast({
+                title: '不可重复下单！',
+                icon: 'none',
+                duration: 2000
+              })
+              return;
+            }
+      
+            this_.setData({
+              surebutisvaild: true
+            });
+
             let reqparam = {
               order: {
                 channel: this_.data.enterprise_result_channel,
-                srcType: this_.data.ordermaininfo.sendaddrinfo.srcType,
-                destType: this_.data.ordermaininfo.takeaddrinfo.destType,
+                srcType: this_.data.ordermaininfo.sendaddrinfo.addrtype,
+                destType: this_.data.ordermaininfo.takeaddrinfo.addrtype,
                 srcTime: this_.data.ordermaininfo.sendaddrinfo.time,
                 destTime: this_.data.ordermaininfo.takeaddrinfo.time,
                 distributorId: this_.data.accountInfo.appUser.distributor3rd,
-                num: this_.data.num,
+                num: this_.data.lugnum,
                 remark: this_.data.remark,
                 serviceType: config.serviceType.ABNL.value,
-                totalmoney: this_.data.lugprice,
+                totalmoney: this_.data.lugprice == ''? 0:this_.data.lugprice,
                 cutmoney: 0,
-                actualmoney: this_.data.lugprice
+                actualmoney: this_.data.lugprice == ''? 0:this_.data.lugprice,
+                paytype: 2, // 月结
+                distributorName: this_.data.accountInfo.appUser.thirdname
               },
               address: {
-                srcprovid: this_.data.ordermaininfo.sendaddrinfo.srcprovid,
-                srcprovname: this_.data.ordermaininfo.sendaddrinfo.srcprovname,
-                srccityid: this_.data.ordermaininfo.sendaddrinfo.srccityid,
-                srccityname: this_.data.ordermaininfo.sendaddrinfo.srccityname,
-                scrlandmark: this_.data.ordermaininfo.sendaddrinfo.scrlandmark,
-                srcaddress:this_.data.ordermaininfo.sendaddrinfo.srcaddress + ' ' + this_.data.ordermaininfo.sendaddrinfo.doornum,  
-                srcgps: this_.data.ordermaininfo.sendaddrinfo.srcgps,
+                srcaddrtype: this_.data.ordermaininfo.sendaddrinfo.addrtype,
+                destaddrtype: this_.data.ordermaininfo.takeaddrinfo.addrtype,
+                srcprovid: this_.data.ordermaininfo.sendaddrinfo.provcode,
+                srcprovname: this_.data.ordermaininfo.sendaddrinfo.provname,
+                srccityid: this_.data.ordermaininfo.sendaddrinfo.citycode,
+                srccityname: this_.data.ordermaininfo.sendaddrinfo.cityname,
+                scrlandmark: this_.data.ordermaininfo.sendaddrinfo.landmark,
+                srcaddress:this_.data.ordermaininfo.sendaddrinfo.address + ' ' + this_.data.ordermaininfo.sendaddrinfo.doornum,  
+                srcgps: "{'lng':'" + this_.data.ordermaininfo.sendaddrinfo.location.split(",")[0] + "','lat':'" + this_.data.ordermaininfo.sendaddrinfo.location.split(",")[1] + "'}",
 
-                destprovid: this_.data.ordermaininfo.takeaddrinfo.destprovid,
-                destprovname: this_.data.ordermaininfo.takeaddrinfo.destprovname,
-                destcityid: this_.data.ordermaininfo.takeaddrinfo.destcityid,
-                destcityname: this_.data.ordermaininfo.takeaddrinfo.destcityname,
-                destlandmark: this_.data.ordermaininfo.takeaddrinfo.destlandmark,
-                destaddress: this_.data.ordermaininfo.takeaddrinfo.destaddress + ' ' + this_.data.ordermaininfo.takeaddrinfo.doornum,  
-                destgps: this_.data.ordermaininfo.takeaddrinfo.destgps,
+                destprovid: this_.data.ordermaininfo.takeaddrinfo.provcode,
+                destprovname: this_.data.ordermaininfo.takeaddrinfo.provname,
+                destcityid: this_.data.ordermaininfo.takeaddrinfo.citycode,
+                destcityname: this_.data.ordermaininfo.takeaddrinfo.cityname,
+                destlandmark: this_.data.ordermaininfo.takeaddrinfo.landmark,
+                destaddress: this_.data.ordermaininfo.takeaddrinfo.address + ' ' + this_.data.ordermaininfo.takeaddrinfo.doornum,  
+                destgps: "{'lng':'" + this_.data.ordermaininfo.takeaddrinfo.location.split(",")[0] + "','lat':'" + this_.data.ordermaininfo.takeaddrinfo.location.split(",")[1] + "'}",
               },
               contact: {
                 name: this_.data.cusname,
@@ -952,7 +997,35 @@ Component({
             // 确认按钮失效
             console.info(reqparam);
             request.HttpRequst('/v2/order/submitOrder_abnl', 'POST', reqparam).then(function (res) {
-              console.info(res);
+              this_.setData({
+                surebutisvaild: false
+              });
+
+              wx.showToast({
+                title: '下单成功',
+                icon: 'success',
+                duration: 2000
+              })
+
+              // 重置信息
+              this_.setData({
+                ['ordermaininfo.sendaddrinfo.time']: '',
+                ['ordermaininfo.takeaddrinfo.addrtype']: 'HOTEL',
+                ['ordermaininfo.takeaddrinfo.landmark']: '',
+                ['ordermaininfo.takeaddrinfo.address']: '',
+                ['ordermaininfo.takeaddrinfo.location']: '',
+                ['ordermaininfo.takeaddrinfo.doornum']: '',
+                ['ordermaininfo.takeaddrinfo.time']: '',
+                ['sliding.takeaddrinfo']: 'takeaddrinfo_HOTEL',
+                cusname: '',
+                cusphone: '',
+                cusidno: '',
+                lugnum: 1,
+                lugphotolist: [],
+                lugbrlist: [],
+                lugprice: '',
+                remark: ''
+              });
             }); 
           } else if (res.cancel) {
           }

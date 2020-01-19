@@ -20,7 +20,7 @@ Page({
     menuswitchrotate: 0,
 
     // 默认登陆页面是 => 金牌配送
-    servicename: 'specialservice',
+    servicename: 'order',
     // 菜单序号
     menuserial: 0,
     // 根据登陆人员登记确定菜单
@@ -57,6 +57,7 @@ Page({
   is_register() {
     var this_ = this;
     var getToken = setInterval(function () {
+
       if (request.header.token && wx.getStorageSync('userInfo')) {
         // 判断是否需要注册
         if (!wx.getStorageSync('userInfo').isReg) {
@@ -68,12 +69,12 @@ Page({
           return false
         }
 
+        
+
         // 获取当前登录用户信息
         this_.setData({
           accountInfo: wx.getStorageSync('accountInfo')
         })
-
-        console.info(this_.data.accountInfo);
         
         clearInterval(getToken);
       }

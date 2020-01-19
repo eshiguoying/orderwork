@@ -164,19 +164,19 @@
   border-radius: 30%;
 }
 
-.takeaddrinfo_hotel {
+.takeaddrinfo_HOTEL {
   transform: translate(112rpx, 0);
   -webkit-transform: translate(112rpx, 0);
   transition-duration:0.4s
 }
 
-.takeaddrinfo_residence {
+.takeaddrinfo_HOUSE {
   transform: translate(357rpx, 0);
   -webkit-transform: translate(357rpx, 0);
   transition-duration:0.4s
 }
 
-.takeaddrinfo_airport {
+.takeaddrinfo_AIRPORTCOUNTER {
   transform: translate(602rpx, 0);
   -webkit-transform: translate(602rpx, 0);
   transition-duration:0.4s
@@ -639,4 +639,16 @@
   color: #FCFBF8;
   background-color: #ED666C;
   font-weight: bold;
+}
+
+.shadebar {
+  width: 100%;
+  background-color: rgba(102, 101, 100, 0.7);
+  position: fixed;
+  bottom: 0;
+  z-index: 997;
+}
+
+.pay_bottom .surebutisvaildY {
+  background-color: rgba(102, 101, 100, 0.7);
 }
