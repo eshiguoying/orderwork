@@ -51,9 +51,9 @@ var SREVICETYPE = {
     value: 'SPECIAL',
     name: '专'
   },
-  ABNL: {
+  ABNORMAL_LUG: {
     value: 'ABNORMAL_LUG',
-    name: '不正常行李'
+    name: '不'
   }
 };
 

@@ -275,6 +275,10 @@
               bind:canlendar_cancal_but="canlendar_cancal_but"/>
         </block>
 
+        <view class='line timesortbody' style='width:{{windowW - 20}}px;' >
+           
+        </view>
+
     </view>
 </view>
 

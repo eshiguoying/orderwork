@@ -193,7 +193,7 @@ Component({
       wx.showLoading();
 
       var this_ = this
-      request.HttpRequst('/v2/order/list', 'POST', param).then(function (res) {
+      request.HttpRequst('/v2/order/queryOrderList', 'POST', param).then(function (res) {
         console.info(res);
         // 隐藏加载框
         wx.hideLoading();
@@ -242,10 +242,10 @@ Component({
               iscanceled: list[i].order.iscanceled,
             },
             orderAddress: {
-              srcaddrtypedesc: list[i].srcType,
+              srcaddrtypedesc: config.addrType[list[i].orderAddress.srcaddrtype].name,
               srcaddress: list[i].orderAddress.srcaddress,
               srcgps: list[i].orderAddress.srcgps,
-              destaddrtypedesc: list[i].destType,
+              destaddrtypedesc:  config.addrType[list[i].orderAddress.destaddrtype].name,
               destaddress: list[i].orderAddress.destaddress,
               destgps: list[i].orderAddress.destgps,
             },
@@ -1144,7 +1144,7 @@ Component({
     },
 
     // 筛选选择日期后回调
-    _selectDayEventselectDayEvent: function (e) {
+    _selectDayEvent: function (e) {
       var data = e.detail.currentTarget.dataset
 
       var month = data.month < 10 ? '0' + data.month : data.month
