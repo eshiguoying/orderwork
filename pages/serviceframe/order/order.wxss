@@ -490,3 +490,62 @@
   background-color: #07233F;
 }
 
+.screenpanal .query_body .line .timesortbody {
+  display: flex;
+}
+
+.screenpanal .query_body .line .itemclosesort {
+  flex: 2;
+
+  display: flex;
+  align-items: center;
+
+}
+
+.screenpanal .query_body .line .itemsendsort {
+  flex: 2;
+
+  display: flex;
+  align-items: center;
+}
+
+.screenpanal .query_body .line .itemtakesort {
+  flex: 2;
+
+  display: flex;
+  align-items: center;
+}
+
+.screenpanal .query_body .line .itemsortentity {
+  flex: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.screenpanal .query_body .line .itemsort .check{
+  width: 20rpx;
+  height: 20rpx;
+  border: 1rpx solid #07233F;
+}
+
+.screenpanal .query_body .line .itemsort .selected{
+  background-color: #07233F;
+}
+
+.sortentity {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.screenpanal .query_body .line .itemsortentity .ASC {
+  transform: rotate(0deg);
+  transition-duration:0.5s
+}
+
+.screenpanal .query_body .line .itemsortentity .DASC {
+  transform: rotate(-180deg);
+  transition-duration:0.5s
+}

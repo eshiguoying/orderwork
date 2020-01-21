@@ -170,6 +170,17 @@ var ACTION_TYPE = {
   }
 };
 
+var SORT_KIND = {
+  ASC: {
+    value: 'ASC',
+    name: '升序'
+  },
+  DESC: {
+    value: 'DESC',
+    name: '降序'
+  }
+};
+
 // 全局配置
 module.exports = {
   // TODO 高德地图
@@ -207,6 +218,8 @@ module.exports = {
   orderOperateType: ORDEROPERATETYPE,
   // 动作类型
   actionType: ACTION_TYPE,
+  // 升序降序
+  sort_kind: SORT_KIND
 };
 
 

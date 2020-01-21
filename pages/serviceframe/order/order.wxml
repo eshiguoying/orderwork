@@ -275,8 +275,29 @@
               bind:canlendar_cancal_but="canlendar_cancal_but"/>
         </block>
 
-        <view class='line timesortbody' style='width:{{windowW - 20}}px;' >
-           
+        <view class='line' style='width:{{windowW - 20}}px;' >
+           <view class="item timesortbody">
+              <view class="itemsort itemclosesort" data-code="" bindtap='sorttypechoice'>
+                  <view class="check {{queryorderlistReqPram.timeType == '' ? 'selected' : ''}}"></view>
+                  <view class='veri'>关闭排序</view>
+              </view>
+              <view class="itemsort itemsendsort"  data-code="sendtime" bindtap='sorttypechoice'>
+                  <view class="check {{queryorderlistReqPram.timeType == 'sendtime' ? 'selected' : ''}}"></view>
+                  <view class='veri'>寄件时间</view>
+              </view>
+              <view class="itemsort itemtakesort " data-code="taketime" bindtap='sorttypechoice'>
+                  <view class="check {{queryorderlistReqPram.timeType == 'taketime' ? 'selected' : ''}}"></view>
+                  <view class='veri'>收件时间</view>
+              </view>
+              <view class=" itemsortentity" bindtap="choiceAscAndDesc" data-code="{{queryorderlistReqPram.timeDesc}}">
+                <block wx:if="{{queryorderlistReqPram.timeType != ''}}">
+                  <image class="sortentity {{queryorderlistReqPram.timeDesc}}" 
+                         src='../../../images/sortentity.png'  
+                         mode='aspectFit' ></image>
+                  <view>{{queryorderlistReqPram.timeDescDesc}}</view>
+                </block>
+              </view> 
+           </view>
         </view>
 
     </view>
@@ -287,7 +308,7 @@
       <block wx:if="{{mulchoiceflag}}">
         取消全选
       </block>
-       <block wx:else>
+      <block wx:else>
           全选
       </block>
     </view>

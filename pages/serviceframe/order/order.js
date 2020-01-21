@@ -43,6 +43,9 @@ Component({
       e_day: '',
       beginDate: '',// 开始时间
       endDate: '',//结束时间
+      timeType: '', // sendtime or taketime or 空
+      timeDesc: 'ASC', // asc 升序 desc 降序
+      timeDescDesc: '升序',
       pageIndex: 1, // 默认第一页
       totalPage: 0,// 页面总数;
       totalCount: 0,// 订单总数
@@ -1254,6 +1257,26 @@ Component({
       })
     },
 
+    // 寄送时间 收件时间 排序
+    sorttypechoice(e) {
+      this.setData({
+        ['queryorderlistReqPram.timeType']: e.currentTarget.dataset.code
+      });
+    },
+
+    choiceAscAndDesc(e) {
+      if(e.currentTarget.dataset.code == config.sort_kind.ASC.value) {
+        this.setData({
+          ['queryorderlistReqPram.timeDesc']: config.sort_kind.DASC.value,
+          ['queryorderlistReqPram.timeDescDesc']: config.sort_kind.DASC.name
+        });
+      } else {
+        this.setData({
+          ['queryorderlistReqPram.timeDesc']: config.sort_kind.ASC.value,
+          ['queryorderlistReqPram.timeDescDesc']: config.sort_kind.ASC.name
+        });
+      }
+    }
     
   },
   
