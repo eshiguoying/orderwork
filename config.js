@@ -36,8 +36,8 @@ var ADDRTYPE = {
     value: 'HOTEL',
     name: '酒店'
   },
-  HOUSE: {
-    value: 'HOUSE',
+  RESIDENCE: {
+    value: 'RESIDENCE',
     name: '住宅'
   }
 };

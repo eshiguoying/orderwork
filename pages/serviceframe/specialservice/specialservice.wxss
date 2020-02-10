@@ -170,7 +170,7 @@
   transition-duration:0.4s
 }
 
-.takeaddrinfo_HOUSE {
+.takeaddrinfo_RESIDENCE {
   transform: translate(357rpx, 0);
   -webkit-transform: translate(357rpx, 0);
   transition-duration:0.4s

@@ -42,7 +42,7 @@ Component({
         starttime: 7,
         endtime: 18
       },
-      'HOUSE': {
+      'RESIDENCE': {
         starttime: 9,
         endtime: 18
       },
@@ -77,7 +77,7 @@ Component({
         starttime: 7,
         endtime: 23
       },
-      'HOUSE': {
+      'RESIDENCE': {
         starttime: 9,
         endtime: 23
       },

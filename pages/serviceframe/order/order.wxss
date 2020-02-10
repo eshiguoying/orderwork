@@ -545,7 +545,7 @@
   transition-duration:0.5s
 }
 
-.screenpanal .query_body .line .itemsortentity .DASC {
+.screenpanal .query_body .line .itemsortentity .DESC {
   transform: rotate(-180deg);
   transition-duration:0.5s
 }

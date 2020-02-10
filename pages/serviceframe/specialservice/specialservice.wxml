@@ -55,8 +55,8 @@
             <view class='item' bindtap='selectaddrtype' data-addrtype='HOTEL'  data-addrnode='takeaddrinfo'>
               <view class="hotel content {{ordermaininfo.takeaddrinfo.addrtype == 'HOTEL'? 'on': ''}}">酒店</view>
             </view>
-            <view class='item' bindtap='selectaddrtype' data-addrtype='HOUSE'  data-addrnode='takeaddrinfo'>
-              <view class="residence content {{ ordermaininfo.takeaddrinfo.addrtype == 'HOUSE'? 'on': ''}}">住宅</view>
+            <view class='item' bindtap='selectaddrtype' data-addrtype='RESIDENCE'  data-addrnode='takeaddrinfo'>
+              <view class="residence content {{ ordermaininfo.takeaddrinfo.addrtype == 'RESIDENCE'? 'on': ''}}">住宅</view>
             </view>
             <view class='item' bindtap='selectaddrtype' data-addrtype='AIRPORTCOUNTER'  data-addrnode='takeaddrinfo'>
               <view class="airport content {{ ordermaininfo.takeaddrinfo.addrtype =='AIRPORTCOUNTER'? 'on': ''}}">机场</view>

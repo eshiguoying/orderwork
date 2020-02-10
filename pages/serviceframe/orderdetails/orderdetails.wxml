@@ -157,7 +157,7 @@
         </block>
         <block wx:else>
           <!-- 3级改派可以需要满足一定条件 -->
-           <block wx:if="{{status == 'DELIVERYOVER' && !level3Clicked && (destaddrtype != 'HOUSE' ||destaddrtype != 'HOTEL')}}">
+           <block wx:if="{{status == 'DELIVERYOVER' && !level3Clicked && (destaddrtype != config.addrType.RESIDENCE.value ||destaddrtype != config.addrType.HOTEL.value)}}">
             <view class='details_but' catchtap ='showPopResign'>改派</view>
            </block>
         </block>

@@ -76,6 +76,9 @@ Component({
       e_day: '',
       beginDate: '',// 开始时间
       endDate: '',//结束时间
+      timeType: '', // sendtime or taketime or 空
+      timeDesc: 'ASC', // asc 升序 desc 降序
+      timeDescDesc: '升序',
       pageIndex: 1, // 默认第一页
       totalPage: 0,// 页面总数;
       totalCount: 0,// 订单总数
@@ -163,7 +166,7 @@ Component({
       var getToken = setInterval(function () {
         if (maxcirclu <= 100) {
           maxcirclu = maxcirclu + 1;
-          console.info("order" + maxcirclu);
+
           if (request.header.token) {
             // 获取当前登录用户信息
             this_.setData({
@@ -399,6 +402,10 @@ Component({
         ['queryorderlistReqPram.beginDate']: reqparam.beginDate,
         ['queryorderlistReqPram.endDate']: reqparam.endDate,
 
+        ['queryorderlistReqPram.timeType']: reqparam.timeType,
+        ['queryorderlistReqPram.timeDesc']: reqparam.timeDesc,
+        ['queryorderlistReqPram.timeDescDesc']: reqparam.timeDescDesc,
+
         ['queryorderlistReqPram.pageIndex']: reqparam.pageIndex,
         ['queryorderlistReqPram.totalPage']: reqparam.totalPage,
         ['queryorderlistReqPram.totalCount']: reqparam.totalCount,
@@ -432,6 +439,9 @@ Component({
         e_day: '',
         beginDate: '',// 开始时间
         endDate: '',//结束时间
+        timeType: '',
+        timeDesc: 'ASC',
+        timeDescDesc: '升序',
         pageIndex: 1, // 默认第一页
         totalPage: 0,// 订单总数 
         totalCount: 0 //订单总数
@@ -445,7 +455,45 @@ Component({
 
     // 根据筛选条件查询订单列表
     queryorderlist_but() {
-      var reqparam = this.data.queryorderlistReqPram;
+      let reqparam = this.data.queryorderlistReqPram;
+
+      // let queryorderlistReqPram_official = {
+      //   orderno: reqparam.orderno,// 订单号
+      //   distributorname: reqparam.distributorname, // 分销商name
+      //   distributorId: reqparam.distributorId,// 分销商id
+      //   countername: reqparam.countername,// 柜台name
+      //   counterId: reqparam.counterId,// 柜台id
+      //   username: reqparam.username,// 订单负责人名称
+      //   userId: reqparam.userId, // 用户id
+
+      //   PREPAID: reqparam.PREPAID,// 待分配是否选中
+      //   WAITPICK: reqparam.WAITPICK,// 待提取是否被选中
+      //   DELIVERYING: reqparam.DELIVERYING,// 配送中是否被选中
+      //   DELIVERYOVER: reqparam.DELIVERYOVER,// 已送达是否被选中
+      //   COMPLETED: reqparam.COMPLETED,// 已完成是否被选中
+      //   statuslist: reqparam.statuslist,// 订单状态列表
+      //   status: reqparam.status,// 订单状态
+
+      //   startTimeShow: reqparam.startTimeShow,
+      //   s_year: reqparam.s_year,
+      //   s_month: reqparam.s_month,
+      //   s_day: reqparam.s_day,
+      //   endTimeShow: reqparam.endTimeShow,
+      //   e_year: reqparam.e_year,
+      //   e_month: reqparam.e_month,
+      //   e_day: reqparam.e_day,
+      //   beginDate: reqparam.beginDate,// 开始时间
+      //   endDate: reqparam.endDate,//结束时间
+
+      //   timeType: reqparam.timeType, // sendtime or taketime or 空
+      //   timeDesc: reqparam.timeDesc, // asc 升序 desc 降序
+      //   timeDescDesc: reqparam.timeDescDesc,
+
+      //   pageIndex: 1, // 默认第一页
+      //   totalPage: 0,// 页面总数;
+      //   totalCount: 0,// 订单总数
+      // }
+
       this.setData({
         allloadflag: false,
         orderlist: [],
@@ -479,11 +527,18 @@ Component({
         ['queryorderlistReqPram_official.beginDate']: reqparam.beginDate,
         ['queryorderlistReqPram_official.endDate']: reqparam.endDate,
 
+        ['queryorderlistReqPram_official.timeType']: reqparam.timeType,
+        ['queryorderlistReqPram_official.timeDesc']: reqparam.timeDesc,
+        ['queryorderlistReqPram_official.timeDescDesc']: reqparam.timeDescDesc,
+
         ['queryorderlistReqPram_official.pageIndex']: 1,
         ['queryorderlistReqPram_official.totalPage']: 0,
         ['queryorderlistReqPram_official.totalCount']: 0,
-      });
 
+        ['queryorderlistReqPram.pageIndex']: 1,
+        ['queryorderlistReqPram.totalPage']: 0,
+        ['queryorderlistReqPram.totalCount']: 0,
+      });
 
       this.loadOrderlist(this.data.queryorderlistReqPram_official);
     },
@@ -641,8 +696,8 @@ Component({
           if (
             selectedorderlist[i].order.status == config.orderStatus.COMPLETED.value  
             || selectedorderlist[i].order.status != config.orderStatus.DELIVERYOVER.value
-            || selectedorderlist[i].orderAddress.destaddrtype == 'HOUSE'
-            || selectedorderlist[i].orderAddress.destaddrtype == 'HOTEL') {
+            || selectedorderlist[i].orderAddress.destaddrtype == config.addrType.RESIDENCE.value
+            || selectedorderlist[i].orderAddress.destaddrtype == config.addrType.HOTEL.value) {
             // 3级只能改派一次（TODO 订单列表只能）
             wx.showToast({
               title: '某些订单号不能改派',
@@ -709,7 +764,6 @@ Component({
           orderIds: non_appoint_orderid_list.substring(0, non_appoint_orderid_list.length - 1)
         }
         request.HttpRequst('/v2/order/appoint', 'POST', params).then(function (res) {
-          console.info(res);
           // 隐藏加载框
           wx.hideLoading();
 
@@ -744,7 +798,6 @@ Component({
           orderIds: appoint_orderid_list.substring(0, appoint_orderid_list.length - 1)
         }
         request.HttpRequst('/v2/order/anewAppoint', 'POST', new_params).then(function (res) {
-          console.info(res);
           // 隐藏加载框
           wx.hideLoading();
 
@@ -798,7 +851,6 @@ Component({
             request.HttpRequst('/v2/order/anewAppoint', 'POST', new_params).then(function (res) {
               if (res.code == 0) {
                 if (this_.data.accountInfo.appUser.level != 3) {
-                  console.info(res);
                   var selectedorderlist = this_.data.selectedorderlist;
                   var orderlist = this_.data.orderlist;
                   for (var i = 0; i < selectedorderlist.length; i++) {
@@ -1011,8 +1063,6 @@ Component({
       this.setData({
         ['queryorderlistReqPram.orderno']: e.detail.value
       });
-      console.info(this.data.queryorderlistReqPram);
-      console.info(this.data.queryorderlistReqPram_official);
     },
 
     // 取消选择改派人员列表
@@ -1267,8 +1317,8 @@ Component({
     choiceAscAndDesc(e) {
       if(e.currentTarget.dataset.code == config.sort_kind.ASC.value) {
         this.setData({
-          ['queryorderlistReqPram.timeDesc']: config.sort_kind.DASC.value,
-          ['queryorderlistReqPram.timeDescDesc']: config.sort_kind.DASC.name
+          ['queryorderlistReqPram.timeDesc']: config.sort_kind.DESC.value,
+          ['queryorderlistReqPram.timeDescDesc']: config.sort_kind.DESC.name
         });
       } else {
         this.setData({
