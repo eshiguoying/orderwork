@@ -35,7 +35,7 @@
 }
 
 .shadepanel .staffinfolist .head .item {
-  width: 90rpx;
+  width: 120rpx;
   height: 100%;
   display: flex;
   align-items: center;
@@ -60,6 +60,10 @@
   
   border-bottom: 1rpx dashed #CBCCCD;
   box-sizing: border-box;
+}
+
+.shadepanel .staffinfolist .body .stafflistscroll .staffinfo:last-child {
+  border-bottom: 0;
 }
 
 .shadepanel .staffinfolist .body .stafflistscroll .on{

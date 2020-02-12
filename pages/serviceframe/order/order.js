@@ -20,6 +20,7 @@ Component({
     // 零时组装请求参数
     queryorderlistReqPram: {
       orderno: '',// 订单号
+      customerName: '',// 客户姓名
       distributorname: '', // 分销商name
       distributorId: '',// 分销商id
       countername: '',// 柜台name
@@ -53,6 +54,7 @@ Component({
     // 最终组装请求参数
     queryorderlistReqPram_official: {
       orderno: '',// 订单号
+      customerName: '',// 客户姓名
       distributorname: '', // 分销商name
       distributorId: '',// 分销商id
       countername: '',// 柜台name
@@ -100,6 +102,8 @@ Component({
     multiplechoiceflag: false,// 多选
     mulchoiceflag: false,//多选
     openshadepanel: false,// 不打开遮罩
+
+    screenpanalmaskisopen: false,//筛选条件列表展示时，其背后得遮罩
   },
 
   // 组件生命周期函数-在组件实例进入页面节点树时执行
@@ -198,26 +202,19 @@ Component({
       // 弹出加载页面
       wx.showLoading();
 
+      console.info(param);
+
       var this_ = this
       request.HttpRequst('/v2/order/queryOrderList', 'POST', param).then(function (res) {
         console.info(res);
         // 隐藏加载框
         wx.hideLoading();
 
-        // 未成功加载
+        // 有错误
         if (res.code == 500) {
           this_.setData({ orderlist: [] })
           wx.showToast({
-            title: '未被分配到三级分销商',
-            icon: 'none',
-            duration: 2000,
-          });
-          return false
-        }
-   
-        if(res.code != 0) {
-          wx.showToast({
-            title: '加载订单失败，请刷新',
+            title: '未知异常,请联系管理员',
             icon: 'none',
             duration: 2000,
           });
@@ -376,6 +373,7 @@ Component({
         screenchoiceflag: false,
         showCanlendarPanelflag: false,
         ['queryorderlistReqPram.orderno']: reqparam.orderno,
+        ['queryorderlistReqPram.customerName']: reqparam.customerName,
         ['queryorderlistReqPram.distributorname']: reqparam.distributorname,
         ['queryorderlistReqPram.distributorId']: reqparam.distributorId,
         ['queryorderlistReqPram.countername']: reqparam.countername,
@@ -416,6 +414,7 @@ Component({
     resetorderparam() {
       var restvalue = {
         orderno: '',// 订单号
+        customerName: '', //客户姓名
         distributorname: '', // 分销商name
         distributorId: '',// 分销商id
         countername: '',// 柜台name
@@ -457,43 +456,6 @@ Component({
     queryorderlist_but() {
       let reqparam = this.data.queryorderlistReqPram;
 
-      // let queryorderlistReqPram_official = {
-      //   orderno: reqparam.orderno,// 订单号
-      //   distributorname: reqparam.distributorname, // 分销商name
-      //   distributorId: reqparam.distributorId,// 分销商id
-      //   countername: reqparam.countername,// 柜台name
-      //   counterId: reqparam.counterId,// 柜台id
-      //   username: reqparam.username,// 订单负责人名称
-      //   userId: reqparam.userId, // 用户id
-
-      //   PREPAID: reqparam.PREPAID,// 待分配是否选中
-      //   WAITPICK: reqparam.WAITPICK,// 待提取是否被选中
-      //   DELIVERYING: reqparam.DELIVERYING,// 配送中是否被选中
-      //   DELIVERYOVER: reqparam.DELIVERYOVER,// 已送达是否被选中
-      //   COMPLETED: reqparam.COMPLETED,// 已完成是否被选中
-      //   statuslist: reqparam.statuslist,// 订单状态列表
-      //   status: reqparam.status,// 订单状态
-
-      //   startTimeShow: reqparam.startTimeShow,
-      //   s_year: reqparam.s_year,
-      //   s_month: reqparam.s_month,
-      //   s_day: reqparam.s_day,
-      //   endTimeShow: reqparam.endTimeShow,
-      //   e_year: reqparam.e_year,
-      //   e_month: reqparam.e_month,
-      //   e_day: reqparam.e_day,
-      //   beginDate: reqparam.beginDate,// 开始时间
-      //   endDate: reqparam.endDate,//结束时间
-
-      //   timeType: reqparam.timeType, // sendtime or taketime or 空
-      //   timeDesc: reqparam.timeDesc, // asc 升序 desc 降序
-      //   timeDescDesc: reqparam.timeDescDesc,
-
-      //   pageIndex: 1, // 默认第一页
-      //   totalPage: 0,// 页面总数;
-      //   totalCount: 0,// 订单总数
-      // }
-
       this.setData({
         allloadflag: false,
         orderlist: [],
@@ -501,6 +463,7 @@ Component({
         showCanlendarPanelflag: false,
 
         ['queryorderlistReqPram_official.orderno']: reqparam.orderno,
+        ['queryorderlistReqPram_official.customerName']: reqparam.customerName,
         ['queryorderlistReqPram_official.distributorname']: reqparam.distributorname,
         ['queryorderlistReqPram_official.distributorId']: reqparam.distributorId,
         ['queryorderlistReqPram_official.countername']: reqparam.countername,
@@ -660,7 +623,10 @@ Component({
     // 点击批量改派
     batchchangesendtap() {
       var this_ = this;
-      if (this.data.selectedorderlist.length == 0) {
+
+      var selectedorderlist = this.data.selectedorderlist;
+
+      if (selectedorderlist.length == 0) {
         wx.showToast({
           title: '未选择订单',
           icon: 'none',
@@ -668,57 +634,57 @@ Component({
         });
         return;
       }
-
-      var selectedorderlist = this.data.selectedorderlist;
   
-      var selectedorder = undefined;
+      let selectedorder = undefined;
       for (var i = 0; i < selectedorderlist.length; ++i) {
         if (!selectedorderlist[i]) {
           continue;
         }
-        if (!selectedorder) {
-          selectedorder = selectedorderlist[i]
-        }
 
-        // 此校验属于一级二级批量指派或改派下的情况
-        if (selectedorder.order.distributorId != selectedorderlist[i].order.distributorId) {
-          wx.showModal({
-            content: '所选订单不属于同一分销商',
-            confirmText: '确定',
-            confirmColor: '#fbc400',
-            showCancel: false
-          })
-          return false
-        }
-
-        // 当级别是3级时，
-        if(this.data.accountInfo.appUser.level == 3) {
+        if (this.data.accountInfo.appUser.level == config.levelType.LOW.value) {
+          // 当级别是3级时，有以下情况不能改派，已经完成的订单、状态不是“已送达”、订单状态如果是“已送达”，则到住宅或酒店不能改派，一级和二级都有改派的权利
           if (
-            selectedorderlist[i].order.status == config.orderStatus.COMPLETED.value  
+            selectedorderlist[i].order.status == config.orderStatus.COMPLETED.value
             || selectedorderlist[i].order.status != config.orderStatus.DELIVERYOVER.value
             || selectedorderlist[i].orderAddress.destaddrtype == config.addrType.RESIDENCE.value
             || selectedorderlist[i].orderAddress.destaddrtype == config.addrType.HOTEL.value) {
             // 3级只能改派一次（TODO 订单列表只能）
             wx.showToast({
-              title: '某些订单号不能改派',
+              title: selectedorderlist[i].order.name + '的订单暂无须改派',
               icon: 'none',
               duration: 2000,
             });
             return;
           }
-        }
+        } else if (this.data.accountInfo.appUser.level == config.levelType.HIGH.value) {
+          // 此校验属于一级批量指派或改派下的情况,
+          if (!selectedorder) {
+            selectedorder = selectedorderlist[i]
+          }
+          if (selectedorder.order.distributorId != selectedorderlist[i].order.distributorId) {
+            wx.showToast({
+              title: '所选订单不属于同一分销商',
+              icon: 'none',
+              duration: 2000,
+            });
+            return false
+          }
+        } 
 
+        // 客户通过手机点击退款，退款成功后订单状态改为取消订单；（在后台申请退款，不影响订单状态）
+        if (selectedorderlist[i].order.iscanceled == '1' || selectedorderlist[i].order.status == config.orderStatus.REFUNDING.value) {
+          wx.showToast({
+            title: selectedorderlist[i].order.name + '的订单正在退单中，请稍后进行操作',
+            icon: 'none',
+            duration: 2000,
+          });
+          return false
+        }
       }
-     
-      // 未选择订单
-      if (!selectedorder) {
-        wx.showToast({
-          title: '未选择订单',
-          icon: 'none',
-          duration: 2000,
-        });
-        return;
-      }
+
+      console.info(selectedorderlist);
+
+      return;
 
       this.setData({
         distributor3rd: selectedorder.order.distributorId,
@@ -741,8 +707,8 @@ Component({
       var staffid = e.detail.id;
     
       var this_ = this
-      var non_appoint_orderid_list = ''
-      var appoint_orderid_list = ''
+      var non_appoint_orderid_list = '' // 还未指派的
+      var appoint_orderid_list = '' // 已指派过的
 
       // 选中待改派的订单
       var selectedorderlist = this.data.selectedorderlist;
@@ -1065,6 +1031,12 @@ Component({
       });
     },
 
+    cusname_input(e) {
+      this.setData({
+        ['queryorderlistReqPram.customerName']: e.detail.value
+      });
+    },
+
     // 取消选择改派人员列表
     cancal_changeorder() {
       // 取派人员框消失
@@ -1078,6 +1050,7 @@ Component({
     showtrileveldistribution() {
       this.setData({
         isviewtrileveldistri: true,
+        screenpanalmaskisopen:true
       });
     },
 
@@ -1091,7 +1064,7 @@ Component({
         ['queryorderlistReqPram.distributorId']: e.currentTarget.dataset.id,
         ['queryorderlistReqPram.countername']: '',
         ['queryorderlistReqPram.counterId']: '',
-        isviewtrileveldistri: false,
+        screenpanalmaskisopen: false
       })
 
       //柜台服务中心接口参数 高级
@@ -1113,6 +1086,7 @@ Component({
     showcounterbody() {
       this.setData({
         isviewcounter: true,
+        screenpanalmaskisopen:true,
       });
     },
 
@@ -1122,6 +1096,7 @@ Component({
         ['queryorderlistReqPram.countername']: e.currentTarget.dataset.name,
         ['queryorderlistReqPram.counterId']: e.currentTarget.dataset.id,
         isviewcounter: false,
+        screenpanalmaskisopen: false,
       })
     },
 
@@ -1137,6 +1112,7 @@ Component({
 
       this.setData({
         isviewofficerbody: true,
+        screenpanalmaskisopen: true,
       });
     },
 
@@ -1146,6 +1122,7 @@ Component({
         ['queryorderlistReqPram.username']: e.currentTarget.dataset.name,
         ['queryorderlistReqPram.userId']: e.currentTarget.dataset.id,
         isviewofficerbody: false,
+        screenpanalmaskisopen: false,
       })
     },
 
@@ -1326,6 +1303,16 @@ Component({
           ['queryorderlistReqPram.timeDescDesc']: config.sort_kind.ASC.name
         });
       }
+    },
+
+    // 关闭筛选界面得遮罩，并且关闭弹出得查询列表
+    closescreenpanalmask() {
+      this.setData({
+        screenpanalmaskisopen: false,
+        isviewtrileveldistri: false,
+        isviewcounter: false,
+        isviewofficerbody: false,
+      });
     }
     
   },

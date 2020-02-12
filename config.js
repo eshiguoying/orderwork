@@ -53,7 +53,7 @@ var SREVICETYPE = {
   },
   ABNORMAL_LUG: {
     value: 'ABNORMAL_LUG',
-    name: '不'
+    name: '嘚'
   }
 };
 
